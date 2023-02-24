@@ -1,0 +1,25 @@
+name: Issue watcher
+
+# Author: @minff
+# Issue : n/a
+# Desc  : This workflow reads issue with label add-api and then add API 
+
+# run this on push to main
+on:
+  issues:
+  issue_comment:
+
+jobs:
+
+  show_issue_event:
+    name: Show issue event
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo ${{ github.event.issue }}
+  show_issue_comment_event:
+    name: Show issue comment event
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo ${{ github.event.issue_comment }}
