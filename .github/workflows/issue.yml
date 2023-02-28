@@ -12,14 +12,22 @@ on:
 jobs:
 
   show_issue_event:
-    name: Show issue event
+    name: Show event
     runs-on: ubuntu-latest
     steps:
-      - run: |
-          echo ${{ github.event.issue }}
-  show_issue_comment_event:
-    name: Show issue comment event
-    runs-on: ubuntu-latest
-    steps:
-      - run: |
-          echo ${{ github.event.issue_comment }}
+      - name: show github
+        run: |
+          echo ${{ toJson(github.event.action) }}
+          echo $GITHUB_CONTEXT
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+      - name: show issue event
+        run: |
+          echo $GITHUB_CONTEXT
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github.event.issue) }}
+      - name: show issue comment event
+        run: |
+          echo $GITHUB_CONTEXT
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github.event.issue_comment) }}
