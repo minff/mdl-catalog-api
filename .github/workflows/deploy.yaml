@@ -14,5 +14,6 @@ jobs:
   deploy-mobidatalab:
     uses: mobidatalab/mdl-catalog-deployment/.github/workflows/base_deploy.yaml@main
     with:
-      api-repo: mobidatalab/mdl-catalog-api
+      api-repo: ${{ github.repository }}
+      api-repo-ref: ${{ github.ref }}
       cache-repo: APIs-guru/openapi-directory
