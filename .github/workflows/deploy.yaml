@@ -11,6 +11,6 @@ on:
 
 jobs:
   deploy-mobidatalab:
-    uses: mobidatalab/mdl-catalog-deployment/.github/workflows/base_deploy.yaml
+    uses: mobidatalab/mdl-catalog-deployment/.github/workflows/base_deploy.yaml@main
     with:
       cache-repo: APIs-guru/openapi-directory
