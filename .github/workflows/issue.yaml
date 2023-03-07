@@ -1,0 +1,14 @@
+name: Issue watcher
+
+# Author: @minff
+# Issue : n/a
+# Desc  : This workflow reads issue with label add-api and then add API 
+
+on:
+  issues:
+  issue_comment:
+
+jobs:
+  add_api:
+    uses: mobidatalab/mdl-catalog-deployment/.github/workflows/base_issue.yaml@main
+
