@@ -6,7 +6,8 @@ name: Issue watcher
 
 on:
   issues:
-  issue_comment:
+    types:
+      - labeled
 
 jobs:
   add_api:
