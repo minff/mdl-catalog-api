@@ -1,0 +1,20 @@
+name: Deploy API
+
+# Author: @minff
+# Issue : n/a
+# Desc  : This workflow deploy API to gh-pages
+
+# run this on push to main
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    uses: mobidatalab/mdl-catalog-deployment/.github/workflows/base_deploy.yaml@main
+    with:
+      api-repo: ${{ github.repository }}
+      api-repo-ref: ${{ github.ref }}
+      cache-repo: APIs-guru/openapi-directory
+      deploy-gh-pages: true

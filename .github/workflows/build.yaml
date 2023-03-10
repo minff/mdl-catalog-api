@@ -1,0 +1,21 @@
+name: Build
+
+# Author: @minff
+# Issue : n/a
+# Desc  : This workflow build artifacts
+
+# run this on PR
+on:
+  push:
+    branches-ignore: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    uses: mobidatalab/mdl-catalog-deployment/.github/workflows/base_deploy.yaml@main
+    with:
+      api-repo: ${{ github.repository }}
+      api-repo-ref: ${{ github.ref }}
+      cache-repo: APIs-guru/openapi-directory
