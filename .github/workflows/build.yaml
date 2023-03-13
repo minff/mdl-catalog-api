@@ -10,6 +10,10 @@ on:
     branches-ignore: [main]
   pull_request:
     branches: [main]
+  workflow_run:
+    workflows: [Issue watcher]
+    types:
+      - completed
   workflow_dispatch:
 
 jobs:
