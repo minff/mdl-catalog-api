@@ -1,0 +1,4493 @@
+openapi: 3.0.2
+servers:
+  - description: Intermodal Routing Service
+    url: 'https://intermodal.router.hereapi.com/v8'
+info:
+  description: |
+    Intermodal Routing is a REST API that offers an innovative and smart routing
+    experience in urban areas to navigate between a given pair of locations.
+    This is possible when the consolidated public transit offer is intertwined
+    with external mobility services dynamically scattered in urban areas.
+  license:
+    name: HERE Documentation License
+    url: 'https://legal.here.com/en-gb/terms/documentation-license'
+  termsOfService: 'http://developer.here.com/terms-conditions'
+  title: Intermodal Routing
+  version: 8.0.1
+  x-apisguru-categories:
+    - location
+  x-document-meta-data:
+    copyright: © 2022 HERE Europe B.V.
+    date-created: '2022-12-22T15:10:20+00:00'
+    document-id: df1124f9-1f8e-46d2-8298-d1a999a00e30
+  x-logo:
+    backgroundColor: '#FFFFFF'
+    url: 'https://mobidatalab.github.io/mdl-catalog-api/v2/cache/logo/https_avatars.githubusercontent.com_u_2835506.png'
+  x-origin:
+    - format: openapi
+      url: 'https://developer.here.com/documentation/intermodal-routing/swagger/intermodal_api.yaml'
+      version: '3.0'
+  x-preferred: true
+  x-providerName: here.com
+  x-serviceName: routing-intermodal
+security:
+  - Bearer: []
+  - ApiKey: []
+paths:
+  /health:
+    get:
+      description: Returns the health of the service
+      operationId: getHealth
+      responses:
+        '200':
+          $ref: '#/components/responses/HealthResponseOk'
+        default:
+          $ref: '#/components/responses/HealthResponseFail'
+      security: []
+      summary: Health
+      tags:
+        - Intermodal Routing
+  /routes:
+    get:
+      description: |
+        Lists intermodal routes.
+        All or a combination of the following services may be utilized by the
+        intermodal algorithm to generate intermodal routes:
+
+        * Vehicle routing.
+        * Intermodal routing with real-time and timetable departures.
+        * Pedestrian routing with pedestrian connectivity.
+        * Park and Ride service that combines vehicle and public transit routing.
+        * Real-time traffic and traffic incidents.
+        * Public transit service delays/disruptions information from transit authorities.
+        * Amenities available at transit stations or nearby (such as parking, EV charging stations, etc.).
+        * Sharing services available at transit stations or nearby (such as car sharing, taxi, bicycle, etc.).
+      operationId: getIntermodalRoutes
+      parameters:
+        - $ref: '#/components/parameters/origin'
+        - $ref: '#/components/parameters/destination'
+        - $ref: '#/components/parameters/intermodalVia'
+        - $ref: '#/components/parameters/lang'
+        - $ref: '#/components/parameters/units'
+        - $ref: '#/components/parameters/departureTime'
+        - $ref: '#/components/parameters/arrivalTime'
+        - $ref: '#/components/parameters/alternatives'
+        - $ref: '#/components/parameters/changes'
+        - $ref: '#/components/parameters/pedestrianSpeed'
+        - $ref: '#/components/parameters/pedestrianMaxDistance'
+        - $ref: '#/components/parameters/bicycleMinDistance'
+        - $ref: '#/components/parameters/bicycleMaxDistance'
+        - $ref: '#/components/parameters/kickScooterMinDistance'
+        - $ref: '#/components/parameters/kickScooterMaxDistance'
+        - $ref: '#/components/parameters/transitModes'
+        - $ref: '#/components/parameters/transitEnable'
+        - $ref: '#/components/parameters/vehicleModes'
+        - $ref: '#/components/parameters/vehicleEnable'
+        - $ref: '#/components/parameters/taxiModes'
+        - $ref: '#/components/parameters/taxiEnable'
+        - $ref: '#/components/parameters/rentedModes'
+        - $ref: '#/components/parameters/rentedEnable'
+        - $ref: '#/components/parameters/transitReturn'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IntermodalRouteResponse'
+          description: API response in case of success
+          headers:
+            X-Correlation-Id:
+              $ref: '#/components/headers/X-Correlation-Id'
+        '400':
+          $ref: '#/components/responses/400ErrorResponse'
+        '401':
+          $ref: '#/components/responses/401ErrorResponse'
+        '403':
+          $ref: '#/components/responses/403ErrorResponse'
+        '500':
+          $ref: '#/components/responses/500ErrorResponse'
+        '502':
+          $ref: '#/components/responses/502ErrorResponse'
+        '503':
+          $ref: '#/components/responses/503ErrorResponse'
+        '504':
+          $ref: '#/components/responses/504ErrorResponse'
+      summary: Routes
+      tags:
+        - Intermodal Routing
+  /version:
+    get:
+      description: Returns the version of the service
+      operationId: getVersion
+      responses:
+        '200':
+          $ref: '#/components/responses/VersionResponseOk'
+        '500':
+          $ref: '#/components/responses/500ErrorResponse'
+        '502':
+          $ref: '#/components/responses/502ErrorResponse'
+        '503':
+          $ref: '#/components/responses/503ErrorResponse'
+        '504':
+          $ref: '#/components/responses/504ErrorResponse'
+      security: []
+      summary: Version
+      tags:
+        - Intermodal Routing
+components:
+  examples:
+    400errorResponseExample:
+      value:
+        action: ''
+        cause: Bad request
+        code: E600000
+        correlationId: ''
+        status: 400
+        title: 'failed with reason: missing field `destination`'
+    401errorResponseExample:
+      value:
+        error: Unauthorized
+        error_description: No credentials found
+    403errorResponseExample:
+      value:
+        error: Forbidden
+        error_description: These credentials do not authorize access.
+    500errorResponseExample:
+      value:
+        action: ''
+        cause: Internal Server Error
+        code: E600103
+        correlationId: ''
+        status: 500
+        title: 'failed with reason: internal server error'
+    502errorResponseExample:
+      value:
+        action: ''
+        cause: Bad Gateway
+        code: E600002
+        correlationId: ''
+        status: 502
+        title: 'failed with reason: bad gateway'
+    503errorResponseExample:
+      value:
+        action: ''
+        cause: Service Unavailable
+        code: E600001
+        correlationId: ''
+        status: 503
+        title: 'failed with reason: service unavailable'
+    504errorResponseExample:
+      value:
+        action: ''
+        cause: Gateway Timeout
+        code: E600000
+        correlationId: ''
+        status: 504
+        title: 'failed with reason: gateway timeout'
+    noticeWithRestrictionsExample:
+      description: |
+        Example of a notice indicating violation of a restriction that applies to vehicles
+        over 12 tons and having between 2 and 4 axles (inclusive).
+      value:
+        code: violatedVehiceRestriction
+        details:
+          - axleCount:
+              from: 2
+              to: 4
+            cause: Route violates vehicle restriction
+            maxGrossWeight: 12000
+            type: restriction
+        severity: critical
+        title: Violated vehicle restriction.
+    restrictionExample:
+      description: |
+        Example modeling the following set of conditions which apply on one section of a road:
+        * 12t weight
+        * 3m height
+        * forbidden transportation of gas
+      value:
+        forbiddenHazardousGoods:
+          - gas
+        maxGrossWeight: 12000
+        maxHeight: 300
+        type: restriction
+  headers:
+    X-Correlation-Id:
+      description: Auto-generated id that univocally identifies the request.
+      example: 4199533b-6290-41db-8d79-edf4f4019a74
+      schema:
+        type: string
+  parameters:
+    alternatives:
+      description: Number of alternative routes to return aside from the optimal route.
+      in: query
+      name: alternatives
+      required: false
+      schema:
+        default: 0
+        maximum: 5
+        minimum: 0
+        type: integer
+    arrivalTime:
+      allowReserved: true
+      description: |
+        Specifies the time of arrival as defined by either `date-time` or `full-date` `T` `partial-time` in `RFC 3339`, section 5.6 (for example, `2019-06-24T01:23:45`).
+        The requested time is converted to the local time at destination. When the optional timezone offset is
+        not specified, time is assumed to be local.
+        All `Time` values in the response are returned in the timezone of each location.
+
+        Note : The following features do not support the arrivalTime parameter:
+        * EV Routing
+        * Route Handle
+        * Route Import
+      in: query
+      name: arrivalTime
+      required: false
+      schema:
+        $ref: '#/components/schemas/Time'
+    bicycleMaxDistance:
+      description: Maximum allowed cycling distance in meters (e.g. when looking for nearest stations).
+      in: query
+      name: 'bicycle[maxDistance]'
+      schema:
+        default: 5000
+        maximum: 10000
+        minimum: 1
+        type: integer
+    bicycleMinDistance:
+      description: 'Minimum allowed cycling distance in meters (e.g. when looking for nearest stations). Routes with cycling distance less than provided will be ignored. Default value is 750m when `transit[enable]` contains `entireRoute`, otherwise it is 1m.'
+      in: query
+      name: 'bicycle[minDistance]'
+      schema:
+        default: 750
+        maximum: 5000
+        minimum: 1
+        type: integer
+    changes:
+      description: |
+        Maximum number of changes or transfers allowed in a route. Unlimited number of changes is permitted when not set.
+      in: query
+      name: changes
+      schema:
+        maximum: 6
+        minimum: 0
+        type: integer
+    departureTime:
+      allowReserved: true
+      description: |
+        Specifies the time of departure as defined by either `date-time` or `full-date` `T` `partial-time` in `RFC 3339`, section 5.6 (for example, `2019-06-24T01:23:45`).
+        The requested time is converted to the local time at origin. When the optional timezone offset is
+        not specified, time is assumed to be local. If neither `departureTime` or `arrivalTime` are specified, current time at departure location will be used.
+        All `Time` values in the response are returned in the timezone of each location.
+      in: query
+      name: departureTime
+      required: false
+      schema:
+        $ref: '#/components/schemas/Time'
+    destination:
+      description: |+
+        Trip destination WGS-84 compliant coordinates.
+
+        Format: `{lat},{lng}[;placeName={name}]`
+
+        The optional `placeName` parameter can be used to customize the
+          name of the destination place and will affect the generated actions descriptions.
+
+      in: query
+      name: destination
+      required: true
+      schema:
+        $ref: '#/components/schemas/LocationString'
+    intermodalVia:
+      description: |
+        Defines an intermediate via waypoint.
+
+        At the moment via point is supported with the following syntax:
+
+        `via=place:parkingLot;strategy={strategy}`: Defines the change between modes in a parking lot.
+          The optional parameter `strategy` defines the search strategy for candidate parking lots.
+          Here is a list of possible strategies:
+          * `diverseChoices` (default): Parking lots close to the origin or close to the city border
+            will be considered.
+          * `parkLate`: switch from car to public transit as soon as possible after entering the
+            destination city's limits.
+          * `parkEarly`: try to switch from car to public transit as early as possible.
+      in: query
+      name: via
+      schema:
+        type: string
+    kickScooterMaxDistance:
+      description: Maximum allowed travel distance in meters (e.g. when looking for nearest stations).
+      in: query
+      name: 'kickScooter[maxDistance]'
+      schema:
+        default: 5000
+        maximum: 10000
+        minimum: 1
+        type: integer
+    kickScooterMinDistance:
+      description: 'Minimum allowed travel distance in meters (e.g. when looking for nearest stations). Routes with travel distance less than provided will be ignored. Default value is 750m when `transit[enable]` contains `entireRoute`, otherwise it is 1m.'
+      in: query
+      name: 'kickScooter[minDistance]'
+      schema:
+        default: 750
+        maximum: 5000
+        minimum: 1
+        type: integer
+    lang:
+      description: |
+        Specifies the preferred language of the response. The value should comply with the [IETF BCP 47](https://www.rfc-editor.org/rfc/bcp/bcp47.txt).
+      in: query
+      name: lang
+      schema:
+        default: en-US
+        type: string
+    origin:
+      description: |+
+        Trip origin WGS-84 compliant coordinates.
+
+        Format: `{lat},{lng}[;placeName={name}]`
+
+        The optional `placeName` parameter can be used to customize
+          the name of the origin place and will affect the generated actions descriptions.
+
+      in: query
+      name: origin
+      required: true
+      schema:
+        $ref: '#/components/schemas/LocationString'
+    pedestrianMaxDistance:
+      description: Maximum allowed walking distance in meters (e.g. when looking for nearest stations).
+      in: query
+      name: 'pedestrian[maxDistance]'
+      schema:
+        default: 2000
+        maximum: 6000
+        minimum: 0
+        type: integer
+    pedestrianSpeed:
+      description: |
+        Walking speed in meters per second. Influences the duration of walking segments from origin to a station, from a station to destination and in-between the stations (e.g. if transfer is needed).
+      in: query
+      name: 'pedestrian[speed]'
+      schema:
+        $ref: '#/components/schemas/PedestrianSpeed'
+    rentedEnable:
+      description: |
+        Route parts where the rented vehicle modes are allowed. By default, rented modes are allowed everywhere in the route.
+      explode: false
+      in: query
+      name: 'rented[enable]'
+      schema:
+        $ref: '#/components/schemas/EnableInRouteAll'
+      style: form
+    rentedModes:
+      description: |
+        Modes filter used to determine which rented modes to include in the response. By default, all supported rented modes are permitted.
+      explode: false
+      in: query
+      name: 'rented[modes]'
+      schema:
+        $ref: '#/components/schemas/RentedModesFilter'
+      style: form
+    taxiEnable:
+      description: |
+        Route parts where the taxi vehicle modes are allowed. By default, taxi modes are allowed everywhere in the route.
+      explode: false
+      in: query
+      name: 'taxi[enable]'
+      schema:
+        $ref: '#/components/schemas/EnableInRouteAll'
+      style: form
+    taxiModes:
+      description: |
+        Modes filter used to determine which taxi modes to include in the response. By default, all supported taxi modes are permitted.
+      explode: true
+      in: query
+      name: 'taxi[modes]'
+      schema:
+        $ref: '#/components/schemas/TaxiModesFilter'
+      style: deepObject
+    transitEnable:
+      description: |
+        Route parts where the transit modes are allowed. By default, transit modes are allowed everywhere in the route.
+      explode: false
+      in: query
+      name: 'transit[enable]'
+      schema:
+        $ref: '#/components/schemas/EnableInRouteAll'
+      style: form
+    transitModes:
+      description: |
+        Mode filter used to determine which transit modes to include in the response. By default, all supported transit modes are permitted.
+      explode: false
+      in: query
+      name: 'transit[modes]'
+      schema:
+        $ref: '#/components/schemas/TransitModesFilter'
+      style: form
+    transitReturn:
+      description: |
+        Defines which section attributes are included.
+
+         * `intermediate` - List of intermediate stops within a section of the route. If
+           enabled, the response includes `intermediateStops` attribute. Each intermediate stop includes
+           stop/station names, WGS-84 geocoordinates, and the departure times at the stops.
+         * `fares` - List of fares/tickets to cover a section of the route.
+         * `polyline` - Polyline for the route in
+           [Flexible Polyline](https://github.com/heremaps/flexible-polyline/blob/master/README.md)
+           Encoding.
+         * `actions` - Actions (such as maneuvers or tasks) that must be taken to complete the section.
+         * `travelSummary` - Include summary for the travel portion of the section.
+         * `incidents` - Include a list of all incidents applicable to each section.
+         * `bookingLinks` - Include a list of links to book a ride for a section of the route.
+      explode: false
+      in: query
+      name: return
+      schema:
+        items:
+          enum:
+            - intermediate
+            - fares
+            - polyline
+            - actions
+            - travelSummary
+            - incidents
+            - bookingLinks
+          type: string
+        type: array
+        uniqueItems: true
+      style: form
+    units:
+      description: 'Units of measurement used, for example, in guidance instructions. The default is `metric`.'
+      in: query
+      name: units
+      schema:
+        $ref: '#/components/schemas/Units'
+    vehicleEnable:
+      description: |
+        Route parts where the private vehicle modes are allowed. By default, vehicle modes are not allowed.
+      explode: false
+      in: query
+      name: 'vehicle[enable]'
+      schema:
+        $ref: '#/components/schemas/EnableInRouteNone'
+      style: form
+    vehicleModes:
+      description: |
+        Modes filter used to determine which vehicle modes to include in the response.
+      explode: false
+      in: query
+      name: 'vehicle[modes]'
+      schema:
+        $ref: '#/components/schemas/VehicleModesFilter'
+      style: form
+  responses:
+    400ErrorResponse:
+      content:
+        application/json:
+          examples:
+            errorResponseExample:
+              $ref: '#/components/examples/400errorResponseExample'
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorResponse'
+      description: API response in case of bad request.
+      headers:
+        X-Correlation-Id:
+          $ref: '#/components/headers/X-Correlation-Id'
+    401ErrorResponse:
+      content:
+        application/json:
+          examples:
+            errorResponseExample:
+              $ref: '#/components/examples/401errorResponseExample'
+          schema:
+            $ref: '#/components/schemas/AuthErrorResponseSchema'
+      description: API response in case of unauthorized access.
+    403ErrorResponse:
+      content:
+        application/json:
+          examples:
+            errorResponseExample:
+              $ref: '#/components/examples/403errorResponseExample'
+          schema:
+            $ref: '#/components/schemas/AuthErrorResponseSchema'
+      description: API response in case of forbidden access.
+    500ErrorResponse:
+      content:
+        application/json:
+          examples:
+            errorResponseExample:
+              $ref: '#/components/examples/500errorResponseExample'
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorResponse'
+      description: API response in case of internal server error.
+      headers:
+        X-Correlation-Id:
+          $ref: '#/components/headers/X-Correlation-Id'
+    502ErrorResponse:
+      content:
+        application/json:
+          examples:
+            errorResponseExample:
+              $ref: '#/components/examples/502errorResponseExample'
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorResponse'
+      description: API response in case of bad gateway.
+      headers:
+        X-Correlation-Id:
+          $ref: '#/components/headers/X-Correlation-Id'
+    503ErrorResponse:
+      content:
+        application/json:
+          examples:
+            errorResponseExample:
+              $ref: '#/components/examples/503errorResponseExample'
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorResponse'
+      description: API response in case of service unavailable.
+      headers:
+        X-Correlation-Id:
+          $ref: '#/components/headers/X-Correlation-Id'
+    504ErrorResponse:
+      content:
+        application/json:
+          examples:
+            errorResponseExample:
+              $ref: '#/components/examples/504errorResponseExample'
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorResponse'
+      description: API response in case of gateway timeout.
+      headers:
+        X-Correlation-Id:
+          $ref: '#/components/headers/X-Correlation-Id'
+    HealthResponseFail:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HealthResponseFailSchema'
+        text/plain: {}
+      description: API response in case of failure.
+    HealthResponseOk:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HealthResponseOKSchema'
+      description: API response in case of success.
+    VersionResponseOk:
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/VersionResponse'
+      description: API response in case of success.
+  schemas:
+    AccessAttributes:
+      description: |
+        Extensible enum: `open` `noThrough` `tollRoad` `...`  
+        `AccessAttributes` is applied to a span of a route section and describes access flags of a street.
+
+        * `open`: A part of the route that can be traversed.
+        * `noThrough`: A part of the route that can only be traversed if origin, destination or any via waypoint is located there.
+        * `tollRoad`: Access to this part of the route is restricted with a fee (or toll).
+
+        As it is possible that new access attributes are supported in the future, unknown access attributes should be ignored.
+      type: string
+      x-extensible-enum:
+        - open
+        - noThrough
+        - tollRoad
+    AccessPointPlace:
+      description: Access point to a venue/station
+      properties:
+        location:
+          allOf:
+            - $ref: '#/components/schemas/Location'
+          description: |
+            The position of this location
+
+            This position was used in route calculation. It may be different to the original position provided in the request.
+        name:
+          description: Location name
+          type: string
+        originalLocation:
+          allOf:
+            - $ref: '#/components/schemas/Location'
+          description: 'If present, the original position of this location provided in the request.'
+        type:
+          description: |
+            Place type. Each place type can have extra attributes.
+
+            **NOTE:** The list of possible place types could be extended in the future.
+            The client application is expected to handle such a case gracefully.
+          type: string
+        waypoint:
+          description: 'If present, this place corresponds to the waypoint in the request with the same index.'
+          type: integer
+        wheelchairAccessible:
+          allOf:
+            - $ref: '#/components/schemas/WheelchairAccessibility'
+          description: |
+            Information about accessibility for people with a disability and who use a wheelchair.
+
+            * `unknown` - Accessibility information is not available.
+            * `yes` - Access point is wheelchair accessible.
+            * `limited` - Accessibility is limited or assistance is required.
+            * `no` - No accessible path from the access point to platforms.
+      required:
+        - type
+        - location
+    Agency:
+      description: Contains information about a particular agency.
+      properties:
+        id:
+          description: Unique code of the agency. Specifies if the same agency is used on different sections of the same route.
+          type: string
+        name:
+          description: Human readable name of the owner of the transport service.
+          type: string
+        website:
+          allOf:
+            - $ref: '#/components/schemas/Uri'
+          description: Link to the agency's website.
+      required:
+        - id
+        - name
+    ArriveAction:
+      allOf:
+        - $ref: '#/components/schemas/OffsetAction'
+    Attribution:
+      description: The URL address to an external resource.
+      properties:
+        href:
+          $ref: '#/components/schemas/Uri'
+        hrefText:
+          description: |
+            The interactive (or clickable) portion of the text. If not present (default), the entire content of the text attribute will be considered.
+          type: string
+        id:
+          description: Unique identifier for the web link. It is used to deduplicate links defined in multiple sections.
+          type: string
+        text:
+          description: Text describing the url address (e.g. The example website).
+          type: string
+        type:
+          $ref: '#/components/schemas/AttributionLinkType'
+      required:
+        - id
+        - text
+    AttributionLinkType:
+      description: |
+        Attribution link type.
+
+        * `disclaimer` - Page with further legal information from the agency.
+        * `tariff` - Page with information on the tariff.
+      enum:
+        - disclaimer
+        - tariff
+      required:
+        - type
+      type: string
+    AuthErrorResponseSchema:
+      properties:
+        error:
+          description: Human-readable error
+          type: string
+        error_description:
+          description: Human-readable error description
+          type: string
+    BaseAction:
+      description: An action to be performed between sections or during a section.
+      properties:
+        action:
+          description: |
+            The type of the action.
+
+            **NOTE:** The list of possible actions may be extended in the future. The client application should handle such a case gracefully.
+          type: string
+        duration:
+          allOf:
+            - $ref: '#/components/schemas/Duration'
+          description: 'Estimated duration of this action (in seconds). Actions last until the next action, or the end of the route in case of the last one.'
+        instruction:
+          description: Description of the action (e.g. Turn left onto Minna St.).
+          type: string
+      required:
+        - action
+        - duration
+    BaseNoticeDetail:
+      properties:
+        cause:
+          description: Cause of the notice
+          type: string
+        title:
+          description: Detail title
+          type: string
+        type:
+          description: |
+            Detail type. Each type of detail might contain extra attributes.
+
+            **NOTE:** The list of possible detail types may be extended in the future.
+            The client application is expected to handle such a case gracefully.
+          type: string
+      required:
+        - type
+    BasePlace:
+      properties:
+        location:
+          allOf:
+            - $ref: '#/components/schemas/Location'
+          description: |
+            The position of this location
+
+            This position was used in route calculation. It may be different to the original position provided in the request.
+        name:
+          description: Location name
+          type: string
+        originalLocation:
+          allOf:
+            - $ref: '#/components/schemas/Location'
+          description: 'If present, the original position of this location provided in the request.'
+        type:
+          description: |
+            Place type. Each place type can have extra attributes.
+
+            **NOTE:** The list of possible place types could be extended in the future.
+            The client application is expected to handle such a case gracefully.
+          type: string
+        waypoint:
+          description: 'If present, this place corresponds to the waypoint in the request with the same index.'
+          type: integer
+      required:
+        - type
+        - location
+    BaseSummary:
+      description: Total value of key attributes for a route section.
+      properties:
+        duration:
+          $ref: '#/components/schemas/Duration'
+        length:
+          $ref: '#/components/schemas/Distance'
+      required:
+        - duration
+        - length
+    BoardAction:
+      allOf:
+        - $ref: '#/components/schemas/BaseAction'
+      description: An action to board a ferry.
+    ChargingConnectorAttributes:
+      description: Details of the connector that is suggested to be used in the section's `postAction` for charging.
+      properties:
+        connectorType:
+          allOf:
+            - $ref: '#/components/schemas/ChargingConnectorType'
+          description: Suggested connector for charging at this station
+        current:
+          description: Current of the suggested connector in Amperes.
+          type: number
+        power:
+          description: Power supplied by the suggested connector in kW.
+          type: number
+        supplyType:
+          allOf:
+            - $ref: '#/components/schemas/ChargingSupplyType'
+          description: |
+            Supply type of the suggested connector.
+        voltage:
+          description: Voltage of the suggested connector in Volts.
+          type: number
+      required:
+        - power
+        - supplyType
+        - connectorType
+    ChargingConnectorType:
+      description: |
+        Extensible enum: `iec62196Type1Combo` `iec62196Type2Combo` `chademo` `tesla` `...`  
+        Currently supported connector types are:
+        * `iec62196Type1Combo`:  Type 1 Combo connector, commonly called "SAE J1772"
+        * `iec62196Type2Combo`:  Type 2 Combo connector, commonly called "Mennekes"
+        * `chademo`: CHAdeMO connector
+        * `tesla`: Tesla connector
+      type: string
+      x-extensible-enum:
+        - iec62196Type1Combo
+        - iec62196Type2Combo
+        - chademo
+        - tesla
+    ChargingStationBrand:
+      description: Information regarding the charging station brand
+      properties:
+        hrn:
+          description: |
+            Charging station brand unique ID.
+            If specified in `ev[preferredBrands]` parameter
+            then it would apply preference to adding stations of the given brand.
+
+            **NOTE:** As of now it is generated as a brand name hash.
+            It will be changed to HRN (HERE Resource Name) in the future.
+          type: string
+        name:
+          description: Charging station brand name
+          type: string
+    ChargingStationPlace:
+      description: A charging station
+      properties:
+        brand:
+          $ref: '#/components/schemas/ChargingStationBrand'
+        connectorAttributes:
+          $ref: '#/components/schemas/ChargingConnectorAttributes'
+        id:
+          description: Identifier of this charging station
+          type: string
+        location:
+          allOf:
+            - $ref: '#/components/schemas/Location'
+          description: |
+            The position of this location
+
+            This position was used in route calculation. It may be different to the original position provided in the request.
+        name:
+          description: Human readable name of this charging station
+          type: string
+        originalLocation:
+          allOf:
+            - $ref: '#/components/schemas/Location'
+          description: 'If present, the original position of this location provided in the request.'
+        type:
+          description: |
+            Place type. Each place type can have extra attributes.
+
+            **NOTE:** The list of possible place types could be extended in the future.
+            The client application is expected to handle such a case gracefully.
+          type: string
+        waypoint:
+          description: 'If present, this place corresponds to the waypoint in the request with the same index.'
+          type: integer
+      required:
+        - type
+        - location
+    ChargingSupplyType:
+      description: |
+        Extensible enum: `acSingle` `acThree` `dc` `...`  
+        Currently possible values are:
+
+        * `acSingle` : Single phase Alternating Current supply
+        * `acThree`: Three phase Alternating Current supply
+        * `dc`: Direct Current supply
+      type: string
+      x-extensible-enum:
+        - acSingle
+        - acThree
+        - dc
+    Co2Emission:
+      description: Estimation of the carbon dioxide emission for the given route. Unit is kilograms with precision to three decimal places.
+      type: number
+    Color:
+      example: '#FF0000'
+      pattern: '#[0-9A-Fa-f]{6}'
+      type: string
+    ContinueAction:
+      description: |
+        An action to be performed at or during a specific portion of a section.
+
+        * `depart`: departure maneuver, such as "Start at"
+        * `arrive`: arrival maneuver, such as "Arrive at"
+        * `continue`: continue maneuver, such as "Continue on"
+      properties:
+        action:
+          description: |
+            The type of the action.
+
+            **NOTE:** The list of possible actions may be extended in the future. The client application should handle such a case gracefully.
+          type: string
+        currentRoad:
+          allOf:
+            - $ref: '#/components/schemas/RoadInfo'
+          description: Attributes of the current road
+        duration:
+          allOf:
+            - $ref: '#/components/schemas/Duration'
+          description: 'Estimated duration of this action (in seconds). Actions last until the next action, or the end of the route in case of the last one.'
+        exitSign:
+          allOf:
+            - $ref: '#/components/schemas/ExitInfo'
+          description: Attributes of the road exit
+        instruction:
+          description: Description of the action (e.g. Turn left onto Minna St.).
+          type: string
+        intersectionName:
+          description: 'Name of the intersection where the turn takes place, if available.'
+          items:
+            $ref: '#/components/schemas/LocalizedString'
+          type: array
+        length:
+          allOf:
+            - $ref: '#/components/schemas/Distance'
+          description: 'Estimated length of this action (in meters). Actions extend until the next action, or the end of the route in case of the last one.'
+        nextRoad:
+          allOf:
+            - $ref: '#/components/schemas/RoadInfo'
+          description: Attributes of the next road
+        offset:
+          description: Offset of a coordinate in the section's polyline.
+          type: integer
+      required:
+        - action
+        - duration
+    CountryCode:
+      description: ISO-3166-1 alpha-3 code
+      example: FRA
+      type: string
+    DataVersion:
+      description: Version of a specific data set
+      properties:
+        name:
+          description: 'Identifies a data set, for example, a HRN, or a service specific identifier'
+          type: string
+        version:
+          description: The current version of this data set
+          type: string
+      required:
+        - name
+        - version
+    DeboardAction:
+      allOf:
+        - $ref: '#/components/schemas/BaseAction'
+      description: An action to disembark a ferry.
+    DepartAction:
+      allOf:
+        - $ref: '#/components/schemas/OffsetAction'
+    DepartureDelay:
+      description: The accumulated delay in seconds from the scheduled time of the event.
+      type: integer
+    DepartureStatus:
+      default: scheduled
+      description: |
+        Extensible enum: `scheduled` `cancelled` `additional` `replaced` `...`  
+        Status of the departure
+
+        * `scheduled`: A trip that is running as planned in the schedule.
+        * `cancelled`: A trip that existed in the schedule but was removed.
+        * `additional`: An extra trip that was added in addition to a running schedule, for example, to respond to sudden passenger load.
+        * `replaced`: A trip that was in the schedule but is removed and replaced with `additional` trip, for example, to replace a broken vehicle or handle detour.
+      type: string
+      x-extensible-enum:
+        - scheduled
+        - cancelled
+        - additional
+        - replaced
+    Distance:
+      description: Distance in meters.
+      minimum: 0
+      type: integer
+    DockingStationPlace:
+      allOf:
+        - $ref: '#/components/schemas/BasePlace'
+      description: A place represents a docking station for rented vehicles.
+    Duration:
+      description: Duration in seconds.
+      type: integer
+    DynamicSpeedInfo:
+      description: |
+        Describes dynamic speed information, such as traffic speed, estimated speed without traffic, and turn time.
+      properties:
+        baseSpeed:
+          allOf:
+            - $ref: '#/components/schemas/Speed'
+          description: Estimated speed without considering any traffic-related constraints.
+        trafficSpeed:
+          allOf:
+            - $ref: '#/components/schemas/Speed'
+          description: |
+            Traffic-enabled speed, which is the estimated speed considering traffic-relevant constraints.
+        turnTime:
+          allOf:
+            - $ref: '#/components/schemas/Duration'
+          description: |
+            Turn time estimate considering traffic and transport mode needed for turning from this segment into the next.
+      required:
+        - trafficSpeed
+        - baseSpeed
+        - turnTime
+    EnableInRouteAll:
+      default:
+        - routeHead
+        - routeTail
+        - entireRoute
+      description: Comma-separated list of route parts to enable for this mode family
+      items:
+        enum:
+          - routeHead
+          - routeTail
+          - entireRoute
+        type: string
+      type: array
+    EnableInRouteNone:
+      default: []
+      description: Comma-separated list of route parts to enable for this mode family
+      items:
+        enum:
+          - routeHead
+          - routeTail
+          - entireRoute
+        type: string
+      type: array
+    Energy:
+      description: Energy in kilowatt hours (kWh).
+      type: number
+    ErrorResponse:
+      description: Response in case of error
+      properties:
+        action:
+          description: Human-readable description of the action that can be taken to correct the error
+          example: Request a valid id
+          type: string
+        cause:
+          description: Human-readable explanation for the error
+          example: The input data in question does not comply with validation rules
+          type: string
+        code:
+          description: |
+            Error code.
+
+            All error codes start with "`E60`".
+          example: E600101
+          type: string
+        correlationId:
+          description: Auto-generated id that univocally identifies the request
+          example: 4199533b-6290-41db-8d79-edf4f4019a74
+          type: string
+        status:
+          description: HTTP status code
+          example: 400
+          type: integer
+        title:
+          description: Human-readable error description
+          example: Input data failed validation
+          type: string
+      required:
+        - title
+        - status
+        - code
+        - cause
+        - action
+        - correlationId
+    ExitAction:
+      description: |
+        An action to leave a roundabout or highway.
+
+        * `exit`: exit maneuver, such as "Take the left exit to"
+        * `roundaboutExit`: roundabout exit maneuver, such as "Take the third exit of the roundabout onto"
+      properties:
+        action:
+          description: |
+            The type of the action.
+
+            **NOTE:** The list of possible actions may be extended in the future. The client application should handle such a case gracefully.
+          type: string
+        currentRoad:
+          allOf:
+            - $ref: '#/components/schemas/RoadInfo'
+          description: Attributes of the current road
+        direction:
+          $ref: '#/components/schemas/TurnActionDirection'
+        duration:
+          allOf:
+            - $ref: '#/components/schemas/Duration'
+          description: 'Estimated duration of this action (in seconds). Actions last until the next action, or the end of the route in case of the last one.'
+        exit:
+          default: 1
+          description: Which exit to take next.
+          maximum: 12
+          minimum: 1
+          type: integer
+        exitSign:
+          allOf:
+            - $ref: '#/components/schemas/ExitInfo'
+          description: Attributes of the road exit
+        instruction:
+          description: Description of the action (e.g. Turn left onto Minna St.).
+          type: string
+        intersectionName:
+          description: 'Name of the intersection where the turn takes place, if available.'
+          items:
+            $ref: '#/components/schemas/LocalizedString'
+          type: array
+        length:
+          allOf:
+            - $ref: '#/components/schemas/Distance'
+          description: 'Estimated length of this action (in meters). Actions extend until the next action, or the end of the route in case of the last one.'
+        nextRoad:
+          allOf:
+            - $ref: '#/components/schemas/RoadInfo'
+          description: Attributes of the next road
+        offset:
+          description: Offset of a coordinate in the section's polyline.
+          type: integer
+        severity:
+          $ref: '#/components/schemas/TurnActionSeverity'
+      required:
+        - action
+        - duration
+    ExitInfo:
+      description: Exit information attached to an offset action
+      example:
+        exit:
+          number:
+            - language: de
+              value: '15'
+      properties:
+        number:
+          description: Number of the exit (e.g. '18')
+          items:
+            $ref: '#/components/schemas/LocalizedString'
+          type: array
+    Fare:
+      description: '`Fare` type contains information about a single fare or ticket needed for this section of the route.'
+      properties:
+        convertedPrice:
+          $ref: '#/components/schemas/FarePrice'
+        id:
+          description: Unique Fare id. Used to deduplicate fares that apply to multiple sections
+          type: string
+        name:
+          description: Name of a fare
+          type: string
+        pass:
+          $ref: '#/components/schemas/FarePass'
+        paymentMethods:
+          description: |
+            Specifies the payment methods for which this fare is valid.
+          items:
+            $ref: '#/components/schemas/PaymentMethod'
+          minItems: 1
+          type: array
+          uniqueItems: true
+        price:
+          $ref: '#/components/schemas/FarePrice'
+        reason:
+          $ref: '#/components/schemas/FareReason'
+          default: ride
+      required:
+        - id
+        - name
+        - price
+    FarePass:
+      description: 'Specifies whether this `Fare` is a multi-travel pass, and its characteristics'
+      properties:
+        returnJourney:
+          description: This pass includes the fare for the return journey.
+          type: boolean
+        seniorPass:
+          description: This pass is valid only if presented by a senior person.
+          type: boolean
+        transfers:
+          description: 'Indicates if transfers are permitted with this pass, and if so, how many.'
+          type: integer
+        travels:
+          description: This pass allows for the specified number of travels.
+          type: integer
+        validityPeriod:
+          $ref: '#/components/schemas/FarePassValidityPeriod'
+    FarePassValidityPeriod:
+      description: Specifies a temporal validity period for a pass
+      properties:
+        count:
+          description: 'Required if period is `minutes`, days` or `months`, it specifies how many of these units are covered by the pass.'
+          type: integer
+        period:
+          description: |
+            Extensible enum: `annual` `extendedAnnual` `minutes` `days` `months` `...`  
+            Specifies one of the following validity periods:
+              - `annual`: pass is valid from Jan 1 to Dec 31
+              - `extendedAnnual`: pass is valid from Jan 1 to Jan 31 of the following year
+              - `minutes`: pass is valid for a specified number of minutes See `unit`.
+              - `days`: pass is valid for a specified number of days. See `unit`.
+              - `months`: pass is valid for a specified number of months. See `unit`.
+          type: string
+          x-extensible-enum:
+            - annual
+            - extendedAnnual
+            - minutes
+            - days
+            - months
+      required:
+        - period
+    FarePrice:
+      description: Price of a fare
+      discriminator:
+        mapping:
+          range: '#/components/schemas/RangePrice'
+          value: '#/components/schemas/SinglePrice'
+        propertyName: type
+      oneOf:
+        - $ref: '#/components/schemas/SinglePrice'
+        - $ref: '#/components/schemas/RangePrice'
+    FareReason:
+      description: |
+        Extensible enum: `ride` `parking` `...`  
+        Reason for the cost described in this `Fare` element.
+      type: string
+      x-extensible-enum:
+        - ride
+        - parking
+    FuelConsumption:
+      description: 'Liters (L) for diesel, petrol and LPG vehicles. Kilograms (kg) for CNG vehicles.'
+      type: number
+    FunctionalClass:
+      description: |
+        Functional class is used to classify roads depending on the speed, importance and
+        connectivity of the road.
+
+        * `1`: Roads allow for high volume, maximum speed traffic movement between and through major
+          metropolitan areas.
+        * `2`: Roads are used to channel traffic to functional class 1 roads for travel between and
+          through cities in the shortest amount of time.
+        * `3`: Roads that intersect functional class 2 roads and provide a high volume of traffic
+          movement at a lower level of mobility than functional class 2 roads.
+        * `4`: Roads that provide for a high volume of traffic movement at moderate speeds between
+          neighbourhoods.
+        * `5`: Roads with volume and traffic movement below the level of any other functional class.
+      format: int32
+      maximum: 5
+      minimum: 1
+      type: integer
+    HazardousGoodsRestriction:
+      description: |
+        Extensible enum: `explosive` `gas` `flammable` `combustible` `organic` `poison` `radioactive` `corrosive` `poisonousInhalation` `harmfulToWater` `other` `any` `...`  
+        Hazardous goods restriction applied during the trip.
+
+        * `explosive`: Explosive material
+        * `gas`: Gas
+        * `flammable`: Flammable material
+        * `combustible`: Combustible material
+        * `organic`: Organic material
+        * `poison`: Poison
+        * `radioactive`: Radioactive material
+        * `corrosive`: Corrosive material
+        * `poisonousInhalation`: Materials that are poisonous upon inhalation
+        * `harmfulToWater`: Materials that are harmful to water
+        * `other`: Other types of hazardous materials
+        * `any`: Any of the above types
+      type: string
+      x-extensible-enum:
+        - explosive
+        - gas
+        - flammable
+        - combustible
+        - organic
+        - poison
+        - radioactive
+        - corrosive
+        - poisonousInhalation
+        - harmfulToWater
+        - other
+        - any
+    HealthResponseFailSchema:
+      description: Returns the health of the service
+      properties:
+        status:
+          description: |
+            Health status of the service:
+
+            * `ok` - the service is operating normally
+            * `fail` - the service is currently encountering a failure
+          enum:
+            - fail
+          type: string
+    HealthResponseOKSchema:
+      description: Returns the health of the service
+      properties:
+        status:
+          description: |
+            Health status of the service:
+
+            * `ok` - the service is operating normally
+            * `fail` - the service is currently encountering a failure
+          enum:
+            - ok
+          type: string
+    IntermodalRoute:
+      description: Describes a full journey to reach a given destination.
+      properties:
+        id:
+          description: Unique identifier of the route
+          type: string
+        notices:
+          description: |
+            Contains a list of issues related to this route.
+
+            Follows a list of possible notice codes:
+
+            * `excessiveWaitingTime`: Commuter has to wait at a station much longer than usual.
+            * `changeOptionViolated`: This route contains more changes than specified by the `changes` parameter.
+            * `nonviableRoute`: Based on the real-time situation, one or more changes on the route
+              are not possible. This can happen if real-time re-routing is not available on this area.
+          items:
+            $ref: '#/components/schemas/Notice'
+          type: array
+        routeLabels:
+          description: |
+            Contains a list of the most important names and route numbers on this route that differentiate it from other alternatives.
+            These names are used to make labels for the main and alternative routes, like "route1 via A4,D10", "route2 via D11,5"
+            The generated list is expected to be unique for each route in response (but it's not guaranteed)
+          items:
+            $ref: '#/components/schemas/RouteLabel'
+          maxItems: 2
+          minItems: 0
+          type: array
+        sections:
+          description: A section of the intermodal route
+          items:
+            $ref: '#/components/schemas/IntermodalSection'
+          type: array
+      required:
+        - id
+        - sections
+    IntermodalRouteResponse:
+      description: Returns a list of routes.
+      properties:
+        notices:
+          description: |
+            Contains a list of issues related to this response.
+            Follows a list of possible notice codes:
+
+            * `noRouteFound`: Routing between origin and destination is not possible given current input parameters.
+            * `noRoutesFound`: (Deprecated) For more information, see noRouteFound.
+            * `noTransitRouteFound`: Transit routing between origin and destination is not possible given current input parameters (other types of routes are available).
+            * `noCoverage`: Routing is not possible due to missing transit information at this time.
+            * `noStationsFound`: Routing is not possible due to missing stations in a given range.
+            * `noAllowedTransitModes`: All transit modes are excluded in the request.
+            * `headTailNotMatch`: Cannot provide route with given `routeHead`/`routeTail`/`entireRoute` combination.
+          items:
+            $ref: '#/components/schemas/Notice'
+          type: array
+        routes:
+          description: List of possible intermodal routes
+          items:
+            $ref: '#/components/schemas/IntermodalRoute'
+          type: array
+      required:
+        - routes
+    IntermodalSection:
+      description: One of the possible sections that can appear in an intermodal route.
+      discriminator:
+        mapping:
+          pedestrian: '#/components/schemas/PedestrianSection'
+          rented: '#/components/schemas/RentedSection'
+          taxi: '#/components/schemas/TaxiSection'
+          transit: '#/components/schemas/TransitSection'
+          vehicle: '#/components/schemas/VehicleSection'
+        propertyName: type
+      oneOf:
+        - $ref: '#/components/schemas/PedestrianSection'
+        - $ref: '#/components/schemas/VehicleSection'
+        - $ref: '#/components/schemas/TransitSection'
+        - $ref: '#/components/schemas/TaxiSection'
+        - $ref: '#/components/schemas/RentedSection'
+    KeepAction:
+      allOf:
+        - $ref: '#/components/schemas/TurnAction'
+    LocalizedString:
+      description: String with optional language code.
+      example:
+        language: de
+        value: Invalidenstraße
+      properties:
+        language:
+          description: Language in BCP47 format
+          type: string
+        value:
+          description: String written in the language specified in the language property.
+          type: string
+      required:
+        - value
+    Location:
+      description: Location on the Earth
+      example:
+        lat: 52.531677
+        lng: 13.381777
+      properties:
+        elv:
+          description: |
+            Ellipsoid(geodetic) height in meters. Difference between the WGS84 ellipsoid and a point on the Earth’s surface.
+            Note: Similar elevation can be obtained from a GPS receiver.
+          example: 512.5
+          type: number
+        lat:
+          description: Location of a point on the Earth north or south of the equator in decimal degrees.
+          example: 52.531677
+          format: double
+          type: number
+        lng:
+          description: Location of a place on the Earth east or west of the prime meridian in decimal degrees.
+          example: 13.381777
+          format: double
+          type: number
+      required:
+        - lat
+        - lng
+    LocationString:
+      example: '52.5251,13.3694'
+      type: string
+    MaxSpeed:
+      description: 'Speed in meters per second, or "unlimited" indicating that the speed is unlimited, e.g., on a German autobahn'
+      oneOf:
+        - minimum: 0
+          type: number
+        - enum:
+            - unlimited
+          type: string
+    Notice:
+      description: A notice contains important notifications.
+      properties:
+        code:
+          description: Notice code.
+          example: noRouteFound
+          type: string
+        details:
+          description: Additional details about the notice
+          items:
+            $ref: '#/components/schemas/BaseNoticeDetail'
+          type: array
+        severity:
+          $ref: '#/components/schemas/NoticeSeverity'
+        title:
+          description: Human-readable notice description.
+          example: No route found
+          type: string
+      required:
+        - code
+    NoticeSeverity:
+      description: |
+        Describes the impact a notice has on the resource to which the notice is attached.
+        * critical - The notice must not be ignored, even if the type of notice is not known to the user. Any associated resource (e.g., route section) must not be used without further evaluation.
+        * info - The notice is for informative purposes, but does not affect usability of the route.
+      enum:
+        - critical
+        - info
+      type: string
+    OffsetAction:
+      description: |
+        An action to be performed at or during a specific portion of a section.
+
+        * `depart`: departure maneuver, such as "Start at"
+        * `arrive`: arrival maneuver, such as "Arrive at"
+        * `continue`: continue maneuver, such as "Continue on"
+      properties:
+        action:
+          description: |
+            The type of the action.
+
+            **NOTE:** The list of possible actions may be extended in the future. The client application should handle such a case gracefully.
+          type: string
+        currentRoad:
+          allOf:
+            - $ref: '#/components/schemas/RoadInfo'
+          description: Attributes of the current road
+        duration:
+          allOf:
+            - $ref: '#/components/schemas/Duration'
+          description: 'Estimated duration of this action (in seconds). Actions last until the next action, or the end of the route in case of the last one.'
+        exitSign:
+          allOf:
+            - $ref: '#/components/schemas/ExitInfo'
+          description: Attributes of the road exit
+        instruction:
+          description: Description of the action (e.g. Turn left onto Minna St.).
+          type: string
+        length:
+          allOf:
+            - $ref: '#/components/schemas/Distance'
+          description: 'Estimated length of this action (in meters). Actions extend until the next action, or the end of the route in case of the last one.'
+        nextRoad:
+          allOf:
+            - $ref: '#/components/schemas/RoadInfo'
+          description: Attributes of the next road
+        offset:
+          description: Offset of a coordinate in the section's polyline.
+          type: integer
+      required:
+        - action
+        - duration
+    ParkingLotPlace:
+      description: A parking lot
+      properties:
+        attributes:
+          description: Attributes of a parking lot.
+          items:
+            $ref: '#/components/schemas/ParkingLotPlaceType'
+          type: array
+        id:
+          description: Identifier of this parking lot
+          type: string
+        location:
+          allOf:
+            - $ref: '#/components/schemas/Location'
+          description: |
+            The position of this location
+
+            This position was used in route calculation. It may be different to the original position provided in the request.
+        name:
+          description: Location name
+          type: string
+        originalLocation:
+          allOf:
+            - $ref: '#/components/schemas/Location'
+          description: 'If present, the original position of this location provided in the request.'
+        rates:
+          description: |
+            List of possible parking rates for this facility. Different rates can apply depending on the day, time of the day or parking duration.
+          items:
+            $ref: '#/components/schemas/TimeRestrictedPrice'
+          type: array
+        type:
+          description: |
+            Place type. Each place type can have extra attributes.
+
+            **NOTE:** The list of possible place types could be extended in the future.
+            The client application is expected to handle such a case gracefully.
+          type: string
+        waypoint:
+          description: 'If present, this place corresponds to the waypoint in the request with the same index.'
+          type: integer
+      required:
+        - type
+        - location
+    ParkingLotPlaceType:
+      description: |
+        Extensible enum: `parkAndRide` `...`  
+        Currently possible values are:
+
+        * `parkAndRide` - this parking lot is of type "Park and Ride",
+          such as it is a parking specifically designed to allow transition between car and transit.
+      type: string
+      x-extensible-enum:
+        - parkAndRide
+    PartialTime:
+      description: '**RFC 3339**, section 5.6 as defined by `partial-time`.'
+      example: 30600
+      pattern: '^[012]\d:[0-5]\d:[0-6]\d(\.\d+)?$'
+      type: string
+    Passthrough:
+      description: Describes a location and time the section is passing through.
+      properties:
+        offset:
+          description: Passthrough offsets are the coordinate index in the polyline.
+          type: number
+        place:
+          $ref: '#/components/schemas/Place'
+      required:
+        - place
+    PaymentMethod:
+      description: |
+        Extensible enum: `cash` `bankCard` `creditCard` `passSubscription` `transponder` `videoToll` `cashExact` `travelCard` `...`  
+        Recognized methods of payment.
+      type: string
+      x-extensible-enum:
+        - cash
+        - bankCard
+        - creditCard
+        - passSubscription
+        - transponder
+        - videoToll
+        - cashExact
+        - travelCard
+    PedestrianAction:
+      description: Action attached to a pedestrian section.
+      discriminator:
+        mapping:
+          arrive: '#/components/schemas/ArriveAction'
+          continue: '#/components/schemas/ContinueAction'
+          depart: '#/components/schemas/DepartAction'
+          exit: '#/components/schemas/ExitAction'
+          keep: '#/components/schemas/KeepAction'
+          ramp: '#/components/schemas/RampAction'
+          roundaboutEnter: '#/components/schemas/RoundaboutEnterAction'
+          roundaboutExit: '#/components/schemas/RoundaboutExitAction'
+          roundaboutPass: '#/components/schemas/RoundaboutPassAction'
+          turn: '#/components/schemas/TurnAction'
+          uTurn: '#/components/schemas/UTurnAction'
+        propertyName: action
+      oneOf:
+        - $ref: '#/components/schemas/DepartAction'
+        - $ref: '#/components/schemas/ArriveAction'
+        - $ref: '#/components/schemas/ContinueAction'
+        - $ref: '#/components/schemas/RampAction'
+        - $ref: '#/components/schemas/ExitAction'
+        - $ref: '#/components/schemas/RoundaboutPassAction'
+        - $ref: '#/components/schemas/RoundaboutEnterAction'
+        - $ref: '#/components/schemas/RoundaboutExitAction'
+        - $ref: '#/components/schemas/UTurnAction'
+        - $ref: '#/components/schemas/TurnAction'
+        - $ref: '#/components/schemas/KeepAction'
+    PedestrianDeparture:
+      description: Departure of pedestrian
+      properties:
+        place:
+          $ref: '#/components/schemas/PedestrianPlace'
+        time:
+          allOf:
+            - $ref: '#/components/schemas/Time'
+          description: 'Expected time of departure of the event. Format is **RFC 3339**, section 5.6 as defined by `date-time`.'
+      required:
+        - place
+    PedestrianMode:
+      default: pedestrian
+      description: |
+        Extensible enum: `pedestrian` `...`  
+        Pedestrian mode of transport.
+
+        Since the supported pedestrian modes may be extended in the future, the pedestrian mode should be hidden when an unknown mode is encountered.
+      type: string
+      x-extensible-enum:
+        - pedestrian
+    PedestrianNotice:
+      description: A notice contains important notifications.
+      properties:
+        code:
+          description: |
+            Extensible enum: `simplePolyline` `pedestrianOptionViolated` `violatedAvoidTunnel` `violatedAvoidDirtRoad` `...`  
+            Currently known codes (non-exhaustive: this list could be extended for new situations):
+
+            | Code      | Description  | Severity |
+            | --------- | ------- | ----            |
+            | simplePolyline | An accurate polyline is not available for this section. The returned polyline has been generated from departure and arrival places | info |
+            | pedestrianOptionViolated | This section violates the parameter `pedestrian[speed]` or `pedestrian[maxDistance]` | critical |
+            | violatedAvoidTunnel | Route did not manage to avoid user preference | critical |
+            | violatedAvoidDirtRoad | Route did not manage to avoid user preference | critical |
+          example: violatedAvoidTunnel
+          type: string
+          x-extensible-enum:
+            - simplePolyline
+            - pedestrianOptionViolated
+            - violatedAvoidTunnel
+            - violatedAvoidDirtRoad
+        details:
+          description: Additional details about the notice
+          items:
+            $ref: '#/components/schemas/BaseNoticeDetail'
+          type: array
+        severity:
+          $ref: '#/components/schemas/NoticeSeverity'
+        title:
+          description: Human-readable notice description.
+          example: Violated avoid tunnel
+          type: string
+      required:
+        - code
+    PedestrianPlace:
+      description: Place used in pedestrian routing
+      discriminator:
+        mapping:
+          accessPoint: '#/components/schemas/AccessPointPlace'
+          chargingStation: '#/components/schemas/ChargingStationPlace'
+          dockingStation: '#/components/schemas/DockingStationPlace'
+          parkingLot: '#/components/schemas/ParkingLotPlace'
+          place: '#/components/schemas/Place'
+          station: '#/components/schemas/StationPlace'
+        propertyName: type
+      oneOf:
+        - $ref: '#/components/schemas/Place'
+        - $ref: '#/components/schemas/StationPlace'
+        - $ref: '#/components/schemas/AccessPointPlace'
+        - $ref: '#/components/schemas/ParkingLotPlace'
+        - $ref: '#/components/schemas/ChargingStationPlace'
+        - $ref: '#/components/schemas/DockingStationPlace'
+    PedestrianPostAction:
+      discriminator:
+        mapping:
+          wait: '#/components/schemas/OffsetAction'
+        propertyName: action
+      oneOf:
+        - $ref: '#/components/schemas/OffsetAction'
+    PedestrianSection:
+      description: Represent a section of a route
+      properties:
+        actions:
+          description: |
+            Actions to be performed at or during a specific portion of a section.
+
+            Action offsets are the coordinate index in the polyline.
+
+            *NOTE:* currentRoad and nextRoad are not populated for actions.
+          items:
+            $ref: '#/components/schemas/PedestrianAction'
+          type: array
+        arrival:
+          $ref: '#/components/schemas/PedestrianDeparture'
+        departure:
+          $ref: '#/components/schemas/PedestrianDeparture'
+        id:
+          description: Unique identifier of the section
+          type: string
+        language:
+          description: 'Language of the localized strings in the section, if any, in BCP47 format.'
+          type: string
+        notices:
+          description: |
+            Contains a list of issues related to this section of the route.
+          items:
+            $ref: '#/components/schemas/PedestrianNotice'
+          type: array
+        passthrough:
+          description: |
+            List of via waypoints this section is passing through.
+
+            Each via waypoint of the request that is a `passThrough=true` waypoint, appears as a
+            `Passthrough` in the response. It appears in the section that starts with the closest
+            non-passthrough via specified before it or origin.
+
+            The passthrough vias appear in this list in the order they are traversed. They are
+            traversed in the order they are specified in the request.
+          items:
+            $ref: '#/components/schemas/Passthrough'
+          type: array
+        polyline:
+          $ref: '#/components/schemas/Polyline'
+        postActions:
+          description: Actions that must be done after `arrival`.
+          items:
+            $ref: '#/components/schemas/PedestrianPostAction'
+          type: array
+        preActions:
+          description: Actions that must be done prior to `departure`.
+          items:
+            $ref: '#/components/schemas/BaseAction'
+          type: array
+        refReplacements:
+          additionalProperties:
+            type: string
+          description: |
+            Dictionary of placeholders to replacement strings for the compact representation of map entity references.
+          type: object
+        spans:
+          description: |
+            Spans attached to a `Section` describing pedestrian content.
+          items:
+            $ref: '#/components/schemas/PedestrianSpan'
+          type: array
+        summary:
+          allOf:
+            - $ref: '#/components/schemas/PedestrianSummary'
+          description: |
+            Total value of key attributes (e.g. duration, length) summed up for the entire section, including `preActions`, `postActions`,
+            and the travel portion of the section.
+        transport:
+          $ref: '#/components/schemas/PedestrianTransport'
+        travelSummary:
+          allOf:
+            - $ref: '#/components/schemas/BaseSummary'
+          description: |
+            Total value of key attributes (e.g., duration, length) summed up for just the travel portion of the section,
+            between `departure` and `arrival`. `preActions` and `postActions` are excluded.
+        turnByTurnActions:
+          description: 'Actions for turn by turn guidance during the travel portion of the section, i.e., between `departure` and `arrival`.'
+          items:
+            $ref: '#/components/schemas/OffsetAction'
+          type: array
+        type:
+          description: Section type used by the client to identify what extension to the BaseSection are available.
+          type: string
+      required:
+        - id
+        - type
+        - departure
+        - arrival
+        - transport
+    PedestrianSpan:
+      description: |
+        Span attached to a `Section` describing pedestrian content.
+      properties:
+        baseDuration:
+          $ref: '#/components/schemas/Duration'
+          description: |
+            Duration of this span (in seconds) ignoring time-aware information.
+
+            For pedestrian mode, the reported time is currently equal to that in `duration`.
+        carAttributes:
+          description: |
+            Car specific `AccessAttributes`.
+
+            `AccessAttributes` is applied to a span of a route section and describes access flags of a street.
+            * `open`:  A part of the route that is open to cars.
+            * `noThrough`:  A part of the route that can only be traversed if origin, destination or any via waypoint is located there.
+            * `tollRoad`: Access to this part of the route is restricted with a fee (or toll).
+
+            As it is possible that new access attributes are supported in the future, unknown access attributes should be ignored.
+          items:
+            $ref: '#/components/schemas/AccessAttributes'
+          type: array
+        countryCode:
+          $ref: '#/components/schemas/CountryCode'
+        duration:
+          $ref: '#/components/schemas/Duration'
+          description: Duration of the span.
+        dynamicSpeedInfo:
+          $ref: '#/components/schemas/DynamicSpeedInfo'
+        functionalClass:
+          $ref: '#/components/schemas/FunctionalClass'
+        incidents:
+          description: |
+            A list of indices into the incident array of the parent section.
+            References all incidents that apply to the span.
+          items:
+            type: integer
+          type: array
+        length:
+          $ref: '#/components/schemas/Distance'
+          description: |
+            Length of the span.
+        maxSpeed:
+          $ref: '#/components/schemas/MaxSpeed'
+        names:
+          description: Designated name for the span (e.g. a street name or a transport name)
+          items:
+            $ref: '#/components/schemas/LocalizedString'
+          type: array
+        offset:
+          description: |
+            Offset of a coordinate in the section's polyline.
+          format: int32
+          minimum: 0
+          type: integer
+        routeNumbers:
+          description: Designated route name or number of the span (e.g. 'M25')
+          items:
+            $ref: '#/components/schemas/LocalizedString'
+          type: array
+        scooterAttributes:
+          description: |
+            Scooter specific `AccessAttributes`.
+
+            `AccessAttributes` is applied to a span of a route section and describes access flags of a street.
+            * `open`: This part of the route is open to scooters.
+
+            As it is possible that new access attributes are supported in the future, unknown access attributes should be ignored.
+          items:
+            $ref: '#/components/schemas/AccessAttributes'
+          type: array
+        segmentId:
+          deprecated: true
+          description: |
+            **NOTE:** Attribute segmentId is deprecated. Use segmentRef instead.
+
+            The directed topology segment id including prefix (e.g '+here:cm:segment:').
+
+            The id consists of two parts.
+            * The direction ('+' or '-')
+            * followed by the topology segment id (a unique identifier within the HERE platform catalogs).
+
+            The direction specifies whether the route is using the segment in its canonical direction ('+' aka traveling along the geometry's direction), or against it ('-' aka traveling against the geometry's direction).
+          type: string
+        segmentRef:
+          description: |
+            A reference to the HMC topology segment used in this span.
+
+            The standard representation of a segment reference has the following structure:
+            {catalogHrn}:{catalogVersion}:({layerId})?:{tileId}:{segmentId}(#{direction}({startOffset}..{endOffset})?)?
+
+            The individual parts are:
+            * catalogHrn: The HERE Resource Name that identifies the source catalog of the segment, example: hrn:here:data::olp-here:rib-2
+            * catalogVersion: The catalog version
+            * layerId (optional): The layer inside the catalog where the segment can be found, example: topology-geometry
+            * tileId: The HERE tile key of the partition/tile where the segment is located in the given version of the catalog. This can be on a lower level than the actual segment is stored at (for example, the provided tile ID can be on level 14, despite topology-geometry partitions being tiled at level 12). The level of a HERE tile key is indicated by the position of the highest set bit in binary representation. Since the HERE tile key represents a morton code of the x and y portion of the Tile ID, the level 12 tile ID can be retrieved from the level 14 tile ID by removing the 4 least significant bits (or 2 bits per level) or 1 hexadecimal digit. For example, the level 14 tile 377894441 is included in the level 12 tile 23618402 (377894441<sub>10</sub> = 16863629<sub>16</sub> &rightarrow; 1686362<sub>16</sub> = 23618402<sub>10</sub>)
+            * segmentId: The identifier of the referenced topology segment inside the catalog, example: here:cm:segment:84905195
+            * direction (optional): Either '*' for undirected or bidirectional, '+' for positive direction, '-' for negative direction, or '?' for unknown direction (not used by the routing service)
+            * startOffset/endOffset (optional): The start- and end offset are non-negative numbers between 0 and 1, representing the start and end of the referenced range using a proportion of the length of the segment. 0 represents the start and 1 the end of the segment, relative to the indicated direction (or positive direction in case of undirected segments). Example: 0.7..1
+
+            Example of a segment reference in standard representation:
+            hrn:here:data::olp-here:rib-2:1363::377894441:here:cm:segment:84905195#+0.7..1
+
+            The segment references can also be provided in a compact representation, to reduce the response size. In the compact representation, some parts are replaced by placeholders, which can be resolved using the refReplacements dictionary in the parent section.
+            The placeholder format is ```\$\d+``` and needs to be surrounded by colons or string start/end. It can be captured with the following regular expression: ```(^|:)\$\d+(:|$)/``` .
+
+            Example of the segment reference previously mentioned in compact representation:
+            $0:377894441:$1:84905195#+0.7..1
+            With the corresponding refReplacements:
+            "refReplacements": {
+              "0": "hrn:here:data::olp-here:rib-2:1363:",
+              "1": "here:cm:segment"
+            }
+          type: string
+        speedLimit:
+          $ref: '#/components/schemas/Speed'
+          description: |
+            **NOTE:** Attribute speedLimit is deprecated. Use maxSpeed instead.
+        stateCode:
+          $ref: '#/components/schemas/StateCode'
+        streetAttributes:
+          description: |
+            `StreetAttributes` is applied to a span of a route section and describes attribute flags of a street.
+            * `rightDrivingSide`: Do vehicles have to drive on the right-hand side of the road or the left-hand side.
+            * `dirtRoad`: This part of the route has an un-paved surface.
+            * `tunnel`: This part of the route is a tunnel.
+            * `bridge`: This part of the route is a bridge.
+            * `ramp`: This part of the route is a ramp (usually connecting to/from/between highways).
+            * `motorway`: This part of the route is a controlled access road (usually highways with motorway sign).
+            * `roundabout`: This part of the route is a roundabout.
+            * `underConstruction`: This part of the route is under construction.
+            * `dividedRoad`: This part of the route uses a road with a physical or legal divider in the middle.
+            * `privateRoad`: This part of the route uses a privately owned road.
+            * `controlledAccessHighway`: This part of the route is a either controlled access or limited access road or both.
+
+            As it is possible that new street attributes are supported in the future, unknown street attributes should be ignored.
+          items:
+            $ref: '#/components/schemas/StreetAttributes'
+          type: array
+        truckAttributes:
+          description: |
+            Truck specific `AccessAttributes`.
+
+            `AccessAttributes` is applied to a span of a route section and describes access flags of a street.
+            * `open`: This part of the route is open to trucks.
+            * `noThrough`: This part of the route can only be traversed if origin, destination or any via waypoint is located there.
+            * `tollRoad`: This part of the route is restricted with a fee (or toll).
+
+            As it is possible that new access attributes are supported in the future, unknown access attributes should be ignored.
+          items:
+            $ref: '#/components/schemas/AccessAttributes'
+          type: array
+        typicalDuration:
+          $ref: '#/components/schemas/Duration'
+          description: |
+            Duration of this span (in seconds) under typical traffic conditions.
+
+            For pedestrian mode, the reported time is currently equal to that in `duration`.
+        walkAttributes:
+          description: |
+            Accessibility and walk-related attribute flags.
+
+            * `stairs`: This part of the route is a staircase.
+            * `park`: This part of the route is in a park.
+            * `indoor`: This part of the route is inside a venue.
+            * `open`: This part of the route is open to walking.
+            * `noThrough`: This part of the route can only be traversed if origin, destination or any via waypoint is located there.
+            * `tollRoad`: Access to this part of the route is restricted with a fee (or toll).
+
+            As it is possible that new attributes are supported in the future, unknown attributes should be ignored.
+          items:
+            $ref: '#/components/schemas/WalkAttributes'
+          type: array
+    PedestrianSpeed:
+      default: 1
+      description: Pedestrian speed in meters per second
+      maximum: 2
+      minimum: 0.5
+      type: number
+    PedestrianSummary:
+      description: Total value of key attributes for a route section.
+      properties:
+        baseDuration:
+          allOf:
+            - $ref: '#/components/schemas/Duration'
+          description: |
+            Duration (in seconds) ignoring time-aware information.
+
+            For pedestrian mode, the reported time is currently equal to that in `duration`.
+        duration:
+          $ref: '#/components/schemas/Duration'
+        length:
+          $ref: '#/components/schemas/Distance'
+      required:
+        - duration
+        - length
+    PedestrianTransport:
+      description: Information about a transport
+      properties:
+        mode:
+          $ref: '#/components/schemas/PedestrianMode'
+      required:
+        - mode
+    Place:
+      allOf:
+        - $ref: '#/components/schemas/BasePlace'
+      description: A place represents a generic location relevant for the route.
+    Polyline:
+      description: 'Line string in [Flexible Polyline](https://github.com/heremaps/flexible-polyline) format.'
+      example: A05xgKuy2xCx9B7vUl0OhnR54EqSzpEl-HxjD3pBiGnyGi2CvwFsgD3nD4vB6e
+      type: string
+    RampAction:
+      allOf:
+        - $ref: '#/components/schemas/TurnAction'
+    RangePrice:
+      properties:
+        currency:
+          description: Local currency of the price compliant to ISO 4217
+          type: string
+        estimated:
+          default: false
+          description: 'Attribute value is `true` if the fare price is estimated, `false` if it is an exact value.'
+          type: boolean
+        maximum:
+          description: Maximum price
+          type: number
+        minimum:
+          description: Minimum price
+          type: number
+        type:
+          description: |
+            Type of price represented by this object. The API customer is responsible for correctly visualizing
+            the pricing model. As it is possible to extend the supported price types in the future,
+            the price information should be hidden when an unknown type is encountered.
+
+            Available price types are:
+
+              * `value` - A single value.
+              * `range` - A range value that includes a minimum and maximum price.
+          type: string
+        unit:
+          allOf:
+            - $ref: '#/components/schemas/Duration'
+          description: |
+            When set, the price is paid for a specific duration.
+
+            Examples:
+              * `"unit": 3600` - price for one hour
+              * `"unit": 28800` - price for 8 hours
+              * `"unit": 86400` - price for one day
+      required:
+        - type
+        - currency
+        - minimum
+        - maximum
+    RentedMode:
+      description: |
+        Extensible enum: `car` `bicycle` `kickScooter` `...`  
+        Rented mode of transport
+      title: Modes
+      type: string
+      x-extensible-enum:
+        - car
+        - bicycle
+        - kickScooter
+    RentedModeExcluded:
+      description: |
+        Extensible enum: `-car` `-bicycle` `-kickScooter` `...`  
+        Rented mode to be excluded from the route
+      title: Excluded modes
+      type: string
+      x-extensible-enum:
+        - '-car'
+        - '-bicycle'
+        - '-kickScooter'
+    RentedModesFilter:
+      oneOf:
+        - description: Enables specified rented types and disable everything else
+          items:
+            $ref: '#/components/schemas/RentedMode'
+          type: array
+          uniqueItems: true
+        - description: Use to disable specified rented types and enabled everything else
+          items:
+            $ref: '#/components/schemas/RentedModeExcluded'
+          type: array
+          uniqueItems: true
+    RentedPostAction:
+      discriminator:
+        mapping:
+          park: '#/components/schemas/OffsetAction'
+        propertyName: action
+      oneOf:
+        - $ref: '#/components/schemas/OffsetAction'
+    RentedPreAction:
+      discriminator:
+        mapping:
+          setup: '#/components/schemas/OffsetAction'
+        propertyName: action
+      oneOf:
+        - $ref: '#/components/schemas/OffsetAction'
+    RentedSection:
+      description: A vehicle section extended with extra information in the case is rented
+      properties:
+        actions:
+          description: |
+            Actions to be performed at or during a specific portion of a section.
+
+            Action offsets are the coordinate index in the polyline.
+
+            *NOTE:* currentRoad and nextRoad are not populated for actions.
+          items:
+            $ref: '#/components/schemas/VehicleAction'
+          type: array
+        agency:
+          $ref: '#/components/schemas/Agency'
+        arrival:
+          $ref: '#/components/schemas/VehicleDeparture'
+        attributions:
+          description: List of required provider attributions to display.
+          items:
+            $ref: '#/components/schemas/Attribution'
+          type: array
+        bookingLinks:
+          description: Links to external ticket booking services
+          items:
+            $ref: '#/components/schemas/WebLinkWithDeviceType'
+          type: array
+        departure:
+          $ref: '#/components/schemas/VehicleDeparture'
+        fares:
+          description: List of fares for this section of the route
+          items:
+            $ref: '#/components/schemas/Fare'
+          type: array
+        id:
+          description: Unique identifier of the section
+          type: string
+        incidents:
+          description: A list of all incidents that apply to the section.
+          items:
+            $ref: '#/components/schemas/TrafficIncident'
+          type: array
+        language:
+          description: 'Language of the localized strings in the section, if any, in BCP47 format.'
+          type: string
+        notices:
+          description: |
+            Contains a list of issues related to this section of the route.
+
+            Notices must be carefully evaluated and the route section should be discarded
+            if appropriate.
+            In particular, the user should be aware that new notice codes may be added at any time. If an unrecognized
+            notice code appears with a `critical` severity level, the route section must be discarded.
+            Please refer to the `code` attribute for possible values.
+          items:
+            $ref: '#/components/schemas/VehicleNotice'
+          type: array
+        passthrough:
+          description: |
+            List of via waypoints this section is passing through.
+
+            Each via waypoint of the request that is a `passThrough=true` waypoint, appears as a
+            `Passthrough` in the response. It appears in the section that starts with the closest
+            non-passthrough via specified before it or origin.
+
+            The passthrough vias appear in this list in the order they are traversed. They are
+            traversed in the order they are specified in the request.
+          items:
+            $ref: '#/components/schemas/Passthrough'
+          type: array
+        polyline:
+          $ref: '#/components/schemas/Polyline'
+        postActions:
+          description: Actions that must be done after `arrival`.
+          items:
+            $ref: '#/components/schemas/RentedPostAction'
+          type: array
+        preActions:
+          description: Actions that must be done prior to `departure`.
+          items:
+            $ref: '#/components/schemas/RentedPreAction'
+          type: array
+        refReplacements:
+          additionalProperties:
+            type: string
+          description: |
+            Dictionary of placeholders to replacement strings for the compact representation of map entity references.
+          type: object
+        routingZones:
+          description: |
+            A list of routing zones that are applicable to the section.
+
+            Elements of this list will be referenced by indices within the `span` attribute of the section.
+          items:
+            $ref: '#/components/schemas/RoutingZone'
+          type: array
+        spans:
+          description: |
+            Spans attached to a `Section` describing vehicle content.
+          items:
+            $ref: '#/components/schemas/VehicleSpan'
+          type: array
+        summary:
+          allOf:
+            - $ref: '#/components/schemas/VehicleSummary'
+          description: |
+            Total value of key attributes (e.g., duration, length, consumption) summed up for the entire section, including `preActions`, `postActions`,
+            and the travel portion of the section.
+            **Note:** Based on vehicle type either `consumption` (for EV) or `iceConsumption` (for ICE) is returned. `co2Emission` is only
+            returned with 'iceConsumption'.
+        tollSystems:
+          description: |
+            An array of toll authorities that collect payments for the use of (part of) this section of the route.
+          items:
+            $ref: '#/components/schemas/TollSystem'
+          type: array
+        tolls:
+          description: |
+            Detail of tolls to be paid for traversing this section.
+          items:
+            $ref: '#/components/schemas/TollCost'
+          type: array
+        transport:
+          $ref: '#/components/schemas/RentedTransport'
+        travelSummary:
+          allOf:
+            - $ref: '#/components/schemas/VehicleTravelSummary'
+          description: |
+            Total value of key attributes (e.g., duration, length, consumption) summed up for just the travel portion of the section,
+            between `departure` and `arrival`. `preActions` and `postActions` are excluded.
+            **Note:** Based on vehicle type either `consumption` (for EV) or `iceConsumption` (for ICE) is returned. `co2Emission` is only
+            returned with 'iceConsumption'.
+        truckRoadTypes:
+          description: |
+            A list of truck road types that are applicable to the section.
+
+            Elements of this list will be referenced by indices within the `span` attribute of the section.
+
+            A truck road type is an identifier associated with roads that have additional regulations applied by local administration for
+            traversal by heavy vehicles like trucks. For example, the BK Bearing Class regulations in Sweden, and ET categories in Mexico.
+            The identifiers of supported truck road types are specified at HERE Map Content
+            [TruckRoadType](https://developer.here.com/documentation/here-map-content/dev_guide/topics_schema/truckroadtypeattribute.truckroadtype.html).
+
+            These names should be provided when avoiding a certain truck road type.
+          items:
+            type: string
+          type: array
+        turnByTurnActions:
+          description: |
+            Actions for turn by turn guidance.
+
+            Action offsets are the coordinate index in the polyline.
+          items:
+            $ref: '#/components/schemas/VehicleAction'
+          type: array
+        type:
+          description: Section type used by the client to identify what extension to the BaseSection are available.
+          type: string
+      required:
+        - id
+        - type
+        - departure
+        - arrival
+        - transport
+        - agency
+    RentedTransport:
+      description: Information about a transport
+      properties:
+        category:
+          description: 'Human readable transport category (e.g. BikeShare, CarShare, Taxi, ...)'
+          type: string
+        color:
+          allOf:
+            - $ref: '#/components/schemas/Color'
+          description: Color of the transport polyline and background for the transport name.
+        engine:
+          description: Vehicle engine type.
+          enum:
+            - combustion
+            - electric
+          type: string
+        exterior:
+          type: integer
+        fares:
+          description: List of fares/tickets to be paid for this section of the route
+          items:
+            $ref: '#/components/schemas/Fare'
+          type: array
+        fuel:
+          type: integer
+        interior:
+          type: integer
+        licensePlate:
+          description: Vehicle license plate number.
+          type: string
+        mode:
+          $ref: '#/components/schemas/VehicleMode'
+        model:
+          description: Vehicle model.
+          type: string
+        name:
+          description: Vehicle name or mobility provider name
+          example: RadioTaxi
+          type: string
+        seats:
+          description: Number of free seats on the vehicle.
+          type: integer
+        textColor:
+          allOf:
+            - $ref: '#/components/schemas/Color'
+          description: Color of the transport name.
+      required:
+        - mode
+    RoadInfo:
+      description: Road information attached to an offset action
+      example:
+        fennstrasse:
+          name:
+            - language: de
+              value: Fennstraße
+          number:
+            - language: de
+              value: B96
+          toward:
+            - language: de
+              value: Reinickendorf
+          type: street
+      properties:
+        name:
+          description: |
+            Name of the road
+
+            If the road has multiple names, each name will be a separate entry in the array.
+            The road names can be in multiple languages. If a preferred language was provided,
+            and names in that language are available, they will be prioritized in the array.
+            Otherwise the default name of the street is prioritized.
+          items:
+            $ref: '#/components/schemas/LocalizedString'
+          type: array
+        number:
+          description: Route name or number (e.g. 'M25')
+          items:
+            $ref: '#/components/schemas/LocalizedString'
+          type: array
+        toward:
+          description: Names of destinations on sign which can be reached when going in that direction
+          items:
+            $ref: '#/components/schemas/LocalizedString'
+          type: array
+        type:
+          $ref: '#/components/schemas/RoadInfoType'
+    RoadInfoType:
+      default: urban
+      description: 'Type of the road (rural, urban, highway)'
+      enum:
+        - rural
+        - urban
+        - highway
+      type: string
+    RoundaboutEnterAction:
+      allOf:
+        - $ref: '#/components/schemas/TurnAction'
+    RoundaboutExitAction:
+      allOf:
+        - $ref: '#/components/schemas/ExitAction'
+    RoundaboutPassAction:
+      allOf:
+        - $ref: '#/components/schemas/TurnAction'
+    RouteLabel:
+      oneOf:
+        - description: Designated name of the road (e.g. a street name or a transport name)
+          properties:
+            name:
+              $ref: '#/components/schemas/LocalizedString'
+        - description: Designated route name or number of the road (e.g. 'M25')
+          properties:
+            routeNumber:
+              $ref: '#/components/schemas/LocalizedString'
+    RoutingZone:
+      description: Information about a routing zone.
+      properties:
+        name:
+          description: The routing zone's name.
+          type: string
+        ref:
+          description: |
+            A reference to a routing zone in HMC.
+
+            The standard representation of a routing zone reference has the following structure:
+            `{catalogHrn}:{catalogVersion}:({layerId})?:{tileId}:{zoneId}`
+
+            The individual parts are:
+            * `catalogHrn`: The HERE Resource Name that identifies the source catalog of the routing zone, example: `hrn:here:data::olp-here:rib-2`
+            * `catalogVersion`: The catalog version
+            * `layerId` (optional): The layer inside the catalog where the routing zone is located, example: `environmental-zones`
+            * `tileId`: The HERE tile key of the partition/tile where the routing zone is located in the given version of the catalog
+            * `zoneId`: The identifier of the referenced routing zone within the catalog, example: `here:cm:envzone:3455277`
+
+            Example of a reference to an environmental zone in standard form:
+            `hrn:here:data::olp-here:rib-2:1557:environmental-zones:all:here:cm:envzone:3455277`
+
+            In order to reduce reponse size, routing zone references can also be provided in a compact representation.
+            In compact form, parts of a reference are replaced by placeholders, which can be resolved using the `refReplacements` dictionary in the parent section.
+            The placeholder format is ```\$\d+``` and needs to be surrounded by colons or string start/end. It can be captured with the following regular expression: ```(^|:)\$\d+(:|$)``` .
+
+            Example of the aforementioned environmental zone reference in compact form: `$0:$1:3455277`
+            With the corresponding `refReplacements`:
+            ```
+            "refReplacements": {
+              "0": "hrn:here:data::olp-here:rib-2:1557",
+              "1": "environmental-zones:all:here:cm:envzone"
+            }
+            ```
+          type: string
+        type:
+          description: |
+            Extensible enum: `environmental` `vignette` `...`  
+            The type of a routing zone.
+          type: string
+          x-extensible-enum:
+            - environmental
+            - vignette
+    SinglePrice:
+      properties:
+        currency:
+          description: Local currency of the price compliant to ISO 4217
+          type: string
+        estimated:
+          default: false
+          description: 'Attribute value is `true` if the fare price is estimated, `false` if it is an exact value.'
+          type: boolean
+        type:
+          description: |
+            Type of price represented by this object. The API customer is responsible for correctly visualizing
+            the pricing model. As it is possible to extend the supported price types in the future,
+            the price information should be hidden when an unknown type is encountered.
+
+            Available price types are:
+
+              * `value` - A single value.
+              * `range` - A range value that includes a minimum and maximum price.
+          type: string
+        unit:
+          allOf:
+            - $ref: '#/components/schemas/Duration'
+          description: |
+            When set, the price is paid for a specific duration.
+
+            Examples:
+              * `"unit": 3600` - price for one hour
+              * `"unit": 28800` - price for 8 hours
+              * `"unit": 86400` - price for one day
+        value:
+          description: The price value
+          type: number
+      required:
+        - type
+        - currency
+        - value
+    Speed:
+      description: Speed in meters per second
+      minimum: 0
+      type: number
+    StateCode:
+      description: |
+        ISO-3166-2 code.
+        Used for identifying the principal subdivisions (e.g., provinces or states) of a country with some `CountryCode`.
+        Made of up to three alphanumeric characters.
+
+        Preferably used in conjunction with the `CountryCode`.
+        State code is available in the following countries:
+          - USA
+          - Canada
+          - Australia
+          - China
+          - India
+      type: string
+    StationPlace:
+      description: A station
+      properties:
+        code:
+          description: Short text or a number that identifies the place for riders.
+          type: string
+        id:
+          description: Identifier of this station
+          type: string
+        location:
+          allOf:
+            - $ref: '#/components/schemas/Location'
+          description: |
+            The position of this location
+
+            This position was used in route calculation. It may be different to the original position provided in the request.
+        name:
+          description: Location name
+          type: string
+        originalLocation:
+          allOf:
+            - $ref: '#/components/schemas/Location'
+          description: 'If present, the original position of this location provided in the request.'
+        platform:
+          description: Platform name or number for the departure.
+          type: string
+        type:
+          description: |
+            Place type. Each place type can have extra attributes.
+
+            **NOTE:** The list of possible place types could be extended in the future.
+            The client application is expected to handle such a case gracefully.
+          type: string
+        waypoint:
+          description: 'If present, this place corresponds to the waypoint in the request with the same index.'
+          type: integer
+        wheelchairAccessible:
+          allOf:
+            - $ref: '#/components/schemas/WheelchairAccessibility'
+          description: |
+            Information about accessibility for people with a disability and who use a wheelchair.
+
+            * `unknown` - Accessibility information is not available.
+            * `yes` - There exists some accessible path from outside the station to the specific stop/platform.
+            * `limited` - Accessibility is limited or assistance is required.
+            * `no` - There exists no accessible path from outside the station to the specific stop/platform.
+      required:
+        - type
+        - location
+    StreetAttributes:
+      description: |
+        Extensible enum: `rightDrivingSide` `dirtRoad` `tunnel` `bridge` `ramp` `controlledAccess` `roundabout` `underConstruction` `dividedRoad` `privateRoad` `...`  
+        `StreetAttributes` is applied to a span of a route section and describes attribute flags of a street.
+        * `rightDrivingSide`: Do vehicles have to drive on the right-hand side of the road or the left-hand side.
+        * `dirtRoad`: This part of the route has an un-paved surface.
+        * `tunnel`: This part of the route is a tunnel.
+        * `bridge`: This part of the route is a bridge.
+        * `ramp`: This part of the route is a ramp (usually connecting to/from/between highways).
+        * `motorway`: This part of the route is a controlled access road (usually highways with motorway sign).
+        * `roundabout`: This part of the route is a roundabout.
+        * `underConstruction`: This part of the route is under construction.
+        * `dividedRoad`: This part of the route uses a road with a physical or legal divider in the middle.
+        * `privateRoad`: This part of the route uses a privately owned road.
+        * `controlledAccessHighway`: This part of the route is a either controlled access or limited access road or both.
+
+        As it is possible that new street attributes are supported in the future, unknown street attributes should be ignored.
+      type: string
+      x-extensible-enum:
+        - rightDrivingSide
+        - dirtRoad
+        - tunnel
+        - bridge
+        - ramp
+        - controlledAccess
+        - roundabout
+        - underConstruction
+        - dividedRoad
+        - privateRoad
+    TaxiDeparture:
+      description: Departure
+      properties:
+        place:
+          $ref: '#/components/schemas/TaxiPlace'
+        time:
+          allOf:
+            - $ref: '#/components/schemas/Time'
+          description: 'Expected time of departure of the event. Format is **RFC 3339**, section 5.6 as defined by `date-time`.'
+      required:
+        - place
+    TaxiMode:
+      description: |
+        Extensible enum: `car` `...`  
+        Taxicab mode of transport
+      type: string
+      x-extensible-enum:
+        - car
+    TaxiModeExcluded:
+      description: |
+        Extensible enum: `-car` `...`  
+        Taxicab mode to be excluded from the route
+      type: string
+      x-extensible-enum:
+        - '-car'
+    TaxiModesFilter:
+      oneOf:
+        - description: Enables specified vehicle types and disable everything else
+          items:
+            $ref: '#/components/schemas/TaxiMode'
+          type: array
+          uniqueItems: true
+        - description: Use to disable specified vehicle types and enabled everything else
+          items:
+            $ref: '#/components/schemas/TaxiModeExcluded'
+          type: array
+          uniqueItems: true
+    TaxiPlace:
+      description: Place used in taxi mode
+      discriminator:
+        mapping:
+          accessPoint: '#/components/schemas/AccessPointPlace'
+          chargingStation: '#/components/schemas/ChargingStationPlace'
+          dockingStation: '#/components/schemas/DockingStationPlace'
+          parkingLot: '#/components/schemas/ParkingLotPlace'
+          place: '#/components/schemas/Place'
+          station: '#/components/schemas/StationPlace'
+        propertyName: type
+      oneOf:
+        - $ref: '#/components/schemas/Place'
+        - $ref: '#/components/schemas/StationPlace'
+        - $ref: '#/components/schemas/AccessPointPlace'
+        - $ref: '#/components/schemas/ParkingLotPlace'
+        - $ref: '#/components/schemas/ChargingStationPlace'
+        - $ref: '#/components/schemas/DockingStationPlace'
+    TaxiPreAction:
+      discriminator:
+        mapping:
+          wait: '#/components/schemas/OffsetAction'
+        propertyName: action
+      oneOf:
+        - $ref: '#/components/schemas/OffsetAction'
+    TaxiSection:
+      description: Represent a section of a route
+      properties:
+        actions:
+          description: |
+            Actions that must be done during the travel portion of the section, i.e., between `departure` and `arrival`.
+
+            *NOTE:* currentRoad and nextRoad are not populated for actions.
+          items:
+            $ref: '#/components/schemas/OffsetAction'
+          type: array
+        agency:
+          $ref: '#/components/schemas/Agency'
+        arrival:
+          $ref: '#/components/schemas/TaxiDeparture'
+        attributions:
+          description: List of required provider attributions to display.
+          items:
+            $ref: '#/components/schemas/Attribution'
+          type: array
+        bookingLinks:
+          description: Links to external ticket booking services
+          items:
+            $ref: '#/components/schemas/WebLinkWithDeviceType'
+          type: array
+        departure:
+          $ref: '#/components/schemas/TaxiDeparture'
+        fares:
+          description: List of fares/tickets to be paid for this section of the route
+          items:
+            $ref: '#/components/schemas/Fare'
+          type: array
+        id:
+          description: Unique identifier of the section
+          type: string
+        language:
+          description: 'Language of the localized strings in the section, if any, in BCP47 format.'
+          type: string
+        notices:
+          description: Contains a list of issues encountered during the processing of this response.
+          items:
+            $ref: '#/components/schemas/VehicleNotice'
+          type: array
+        passthrough:
+          description: |
+            List of via waypoints this section is passing through.
+
+            Each via waypoint of the request that is a `passThrough=true` waypoint, appears as a
+            `Passthrough` in the response. It appears in the section that starts with the closest
+            non-passthrough via specified before it or origin.
+
+            The passthrough vias appear in this list in the order they are traversed. They are
+            traversed in the order they are specified in the request.
+          items:
+            $ref: '#/components/schemas/Passthrough'
+          type: array
+        polyline:
+          $ref: '#/components/schemas/Polyline'
+        postActions:
+          description: Actions that must be done after `arrival`.
+          items:
+            $ref: '#/components/schemas/BaseAction'
+          type: array
+        preActions:
+          description: Actions that must be done prior to `departure`.
+          items:
+            $ref: '#/components/schemas/TaxiPreAction'
+          type: array
+        summary:
+          allOf:
+            - $ref: '#/components/schemas/BaseSummary'
+          description: |
+            Total value of key attributes (e.g., duration, length) summed up for the entire section, including `preActions`, `postActions`,
+            and the travel portion of the section.
+        transport:
+          $ref: '#/components/schemas/TaxiTransport'
+        travelSummary:
+          allOf:
+            - $ref: '#/components/schemas/BaseSummary'
+          description: |
+            Total value of key attributes (e.g., duration, length) summed up for just the travel portion of the section,
+            between `departure` and `arrival`. `preActions` and `postActions` are excluded.
+        turnByTurnActions:
+          description: 'Actions for turn by turn guidance during the travel portion of the section, i.e., between `departure` and `arrival`.'
+          items:
+            $ref: '#/components/schemas/OffsetAction'
+          type: array
+        type:
+          description: Section type used by the client to identify what extension to the BaseSection are available.
+          type: string
+      required:
+        - id
+        - type
+        - departure
+        - arrival
+        - transport
+        - agency
+    TaxiTransport:
+      description: Information about a transport
+      properties:
+        category:
+          description: 'Human readable transport category (e.g. BikeShare, CarShare, Taxi, ...)'
+          type: string
+        color:
+          allOf:
+            - $ref: '#/components/schemas/Color'
+          description: Color of the transport polyline and background for the transport name.
+        engine:
+          description: Vehicle engine type.
+          enum:
+            - combustion
+            - electric
+          type: string
+        licensePlate:
+          description: Vehicle license plate number.
+          type: string
+        mode:
+          $ref: '#/components/schemas/TaxiMode'
+        model:
+          description: Vehicle model.
+          type: string
+        name:
+          description: Vehicle name or mobility provider name
+          example: RadioTaxi
+          type: string
+        seats:
+          description: Number of free seats on the vehicle.
+          type: integer
+        textColor:
+          allOf:
+            - $ref: '#/components/schemas/Color'
+          description: Color of the transport name.
+      required:
+        - mode
+    Time:
+      description: '**RFC 3339**, section 5.6 as defined by either `date-time` or `date-only` ''T'' `partial-time` (ie no time-offset).'
+      format: date-time
+      type: string
+    TimeRestrictedPrice:
+      properties:
+        currency:
+          description: Local currency of the price compliant to ISO 4217
+          type: string
+        days:
+          description: This price applies only for the selected days
+          example:
+            - sa
+            - su
+          items:
+            $ref: '#/components/schemas/TimeRestrictedWeekdays'
+          type: array
+        estimated:
+          default: false
+          description: 'Attribute value is `true` if the fare price is estimated, `false` if it is an exact value.'
+          type: boolean
+        fromTime:
+          allOf:
+            - $ref: '#/components/schemas/PartialTime'
+          description: The price applies from this time of the day
+        maxDuration:
+          allOf:
+            - $ref: '#/components/schemas/Duration'
+          description: The price applies if the duration is less or equal to `maxDuration`
+          example: 3600
+        minDuration:
+          allOf:
+            - $ref: '#/components/schemas/Duration'
+          description: The price applies if the duration is more or equal to `minDuration`
+          example: 1801
+        toTime:
+          allOf:
+            - $ref: '#/components/schemas/PartialTime'
+          description: The price applies until this time of the day
+        type:
+          description: |
+            Type of price represented by this object. The API customer is responsible for correctly visualizing
+            the pricing model. As it is possible to extend the supported price types in the future,
+            the price information should be hidden when an unknown type is encountered.
+
+            Available price types are:
+
+              * `restricted` - A single price value valid for a specific time or duration
+          type: string
+        unit:
+          allOf:
+            - $ref: '#/components/schemas/Duration'
+          description: |
+            When set, the price is paid for a specific duration.
+
+            Examples:
+              * `"unit": 3600` - price for one hour
+              * `"unit": 28800` - price for 8 hours
+              * `"unit": 86400` - price for one day
+        value:
+          description: The price value
+          type: number
+      required:
+        - type
+        - currency
+        - value
+    TimeRestrictedWeekdays:
+      enum:
+        - mo
+        - tu
+        - we
+        - th
+        - fr
+        - sa
+        - su
+      type: string
+    TollCollectionLocation:
+      description: |
+        Location of the physical toll structure used for the toll collection.
+        Typically, this would be a toll booth, but it may also be a transponder reader or a number-plate camera.
+        Tolls that are paid via a vignette, for example, do not have toll collection locations, and therefore this element
+        would not be present at all.
+
+        The value of this property is a `Location` specifying the coordinates of the payment location.
+      properties:
+        location:
+          $ref: '#/components/schemas/Location'
+        name:
+          description: |
+            Descriptive name of the location.
+          type: string
+      required:
+        - location
+    TollCost:
+      description: |
+        Information for a single toll payment.
+      properties:
+        countryCode:
+          $ref: '#/components/schemas/CountryCode'
+        fares:
+          description: |
+            List of possible `Fare`s to pay, which may depend on time of day, payment method, vehicle characteristics, etc.
+
+            **Note**: The router presents only options relevant to the original query, on a best effort basis.
+            Note that a `Fare` for tolls is always a `SinglePrice`.
+          items:
+            $ref: '#/components/schemas/Fare'
+          type: array
+        tollCollectionLocations:
+          description: |
+            Information about the location(s) of the toll places where the fare is collected. In case of entry/exit tolls
+            measured by distance, both entry and exit toll locations are returned. Note that since payment is at only one of
+            these places (normally the exit), the other place *may* be in an unrelated section.
+          items:
+            $ref: '#/components/schemas/TollCollectionLocation'
+          type: array
+        tollSystem:
+          deprecated: true
+          description: |
+            Name of the toll system collecting the toll.
+          type: string
+        tollSystemRef:
+          description: |
+            Reference index of the affected toll system in the `tollSystems` array.
+          type: integer
+      required:
+        - tollSystem
+        - tollSystemRef
+        - fares
+    TollCountrySummary:
+      properties:
+        countryCode:
+          $ref: '#/components/schemas/CountryCode'
+        price:
+          $ref: '#/components/schemas/FarePrice'
+    TollSummary:
+      description: |
+        Summary of the tolls grouped by criteria (total, per system, per country)
+      properties:
+        total:
+          $ref: '#/components/schemas/FarePrice'
+          description: |
+            Total toll to be paid for the section, in the requested currency.
+        totalByCountry:
+          description: |
+            Total tolls to be paid in the section, grouped per country.
+          items:
+            $ref: '#/components/schemas/TollCountrySummary'
+          type: array
+        totalBySystem:
+          description: |
+            Total tolls to be paid in the section, grouped per toll system.
+          items:
+            $ref: '#/components/schemas/TollSystemSummary'
+          type: array
+    TollSystem:
+      description: |
+        Information about a toll system collecting payments on the route.
+      properties:
+        name:
+          description: |
+            Name of this toll system
+          type: string
+        ref:
+          description: |
+            Internal identification of this toll system. Will be replaced in the future by an hrn identifier.
+          type: string
+    TollSystemSummary:
+      properties:
+        price:
+          $ref: '#/components/schemas/FarePrice'
+        tollSystem:
+          description: |
+            Reference index into the `tollSystems` array of the containing section.
+          type: integer
+    TrafficIncident:
+      description: |
+        An incident describes a temporary event on the road network.
+        It typically refers to a real world incident (accident, road construction, weather condition, etc.)
+        on a street or street segment
+      properties:
+        criticality:
+          $ref: '#/components/schemas/TrafficIncidentCriticality'
+        description:
+          description: A human readable description of the incident
+          example: closed due to roadworks
+          type: string
+        id:
+          description: |
+            Traffic Incident unique identifier,
+
+            Example of a incident identifier in standard representation:
+            here:traffic:incident:1000155780078589348
+
+            Id usage:
+            An incident details can be queried from traffic service later, see
+            https://developer.here.com/documentation/traffic-api/dev_guide/topics/use-cases/incidents-by-id.html
+
+            **Notice**:
+            In most cases, the ID comes from a third party incident supplier.
+            This means that once an incident has expired, the ID might be reused
+          type: string
+        type:
+          $ref: '#/components/schemas/TrafficIncidentType'
+        validFrom:
+          $ref: '#/components/schemas/Time'
+        validUntil:
+          $ref: '#/components/schemas/Time'
+    TrafficIncidentCriticality:
+      description: |
+        Describes the impact an incident has on the route.
+        * critical - The part of the route the incident affects is not usable.
+        * major - Major impact on duration, e.g. stop and go
+        * minor - Minor impact on duration, e.g. traffic jam
+        * low - Very little impact on duration, e.g. slightly increased traffic
+      enum:
+        - critical
+        - major
+        - minor
+        - low
+      type: string
+    TrafficIncidentType:
+      description: |
+        Extensible enum: `accident` `congestion` `construction` `disabledVehicle` `massTransit` `plannedEvent` `roadHazard` `roadClosure` `weather` `laneRestriction` `other` `...`  
+        An open list of possible incident causes / types.
+        Note: Since new types are expected to appear, it is important to check for unknown types when parsing this value.
+      type: string
+      x-extensible-enum:
+        - accident
+        - congestion
+        - construction
+        - disabledVehicle
+        - massTransit
+        - plannedEvent
+        - roadHazard
+        - roadClosure
+        - weather
+        - laneRestriction
+        - other
+    TrailerCountRange:
+      description: Constrains the restriction to vehicles with number of trailers within specified range.
+      properties:
+        from:
+          description: Inclusive minimum of trailer count.
+          format: int32
+          minimum: 0
+          type: integer
+        to:
+          description: 'Inclusive maximum of trailer count. If not set, maximum trailer count is unbounded.'
+          format: int32
+          minimum: 0
+          type: integer
+    TransitDeparture:
+      description: Transit departure
+      properties:
+        delay:
+          allOf:
+            - $ref: '#/components/schemas/DepartureDelay'
+          description: The accumulated delay in seconds from the scheduled time of the event.
+        place:
+          allOf:
+            - $ref: '#/components/schemas/StationPlace'
+          description: Departure/arrival location
+        status:
+          $ref: '#/components/schemas/DepartureStatus'
+        time:
+          allOf:
+            - $ref: '#/components/schemas/Time'
+          description: 'Expected time of departure of the event. Format is **RFC 3339**, section 5.6 as defined by `date-time`.'
+      required:
+        - place
+    TransitIncident:
+      description: |
+        An incident describes disruptions on the transit network.
+        Disruptions scale from delays to service cancellations.
+      properties:
+        description:
+          description: A human readable description of the incident
+          example: The subway is closed each night between 1 AM and 5 AM while we clean our trains and stations. We are running extra bus service overnight.
+          type: string
+        effect:
+          $ref: '#/components/schemas/TransitIncidentEffect'
+        summary:
+          description: A human readable summary of the incident
+          example: The subway is closed each night between 1 AM and 5 AM.
+          type: string
+        type:
+          $ref: '#/components/schemas/TransitIncidentType'
+        url:
+          allOf:
+            - $ref: '#/components/schemas/Uri'
+          description: Link to the original incident published at the agency website
+        validFrom:
+          $ref: '#/components/schemas/Time'
+        validUntil:
+          $ref: '#/components/schemas/Time'
+      required:
+        - type
+        - effect
+    TransitIncidentEffect:
+      description: |
+        Extensible enum: `cancelledService` `reducedService` `additionalService` `modifiedService` `delays` `detour` `stopMoved` `other` `...`  
+        An open list of possible incident effects.
+        Note: Since new types are expected to appear, it is important to check for unknown types when parsing this value.
+      type: string
+      x-extensible-enum:
+        - cancelledService
+        - reducedService
+        - additionalService
+        - modifiedService
+        - delays
+        - detour
+        - stopMoved
+        - other
+    TransitIncidentType:
+      description: |
+        Extensible enum: `technicalProblem` `strike` `demonstration` `accident` `holiday` `weather` `maintenance` `construction` `policeActivity` `medicalEmergency` `other` `...`  
+        An open list of possible incident causes / types.
+        Note: Since new types are expected to appear, it is important to check for unknown types when parsing this value.
+      type: string
+      x-extensible-enum:
+        - technicalProblem
+        - strike
+        - demonstration
+        - accident
+        - holiday
+        - weather
+        - maintenance
+        - construction
+        - policeActivity
+        - medicalEmergency
+        - other
+    TransitModeFlags:
+      description: |
+        Extensible enum: `highSpeedTrain` `intercityTrain` `interRegionalTrain` `regionalTrain` `cityTrain` `bus` `ferry` `subway` `lightRail` `privateBus` `inclined` `aerial` `busRapid` `monorail` `flight` `spaceship` `-highSpeedTrain` `-intercityTrain` `-interRegionalTrain` `-regionalTrain` `-cityTrain` `-bus` `-ferry` `-subway` `-lightRail` `-privateBus` `-inclined` `-aerial` `-busRapid` `-monorail` `-flight` `-spaceship` `...`  
+        Transit mode and excluded modes of transport
+      title: Modes and excluded modes
+      type: string
+      x-extensible-enum:
+        - highSpeedTrain
+        - intercityTrain
+        - interRegionalTrain
+        - regionalTrain
+        - cityTrain
+        - bus
+        - ferry
+        - subway
+        - lightRail
+        - privateBus
+        - inclined
+        - aerial
+        - busRapid
+        - monorail
+        - flight
+        - spaceship
+        - '-highSpeedTrain'
+        - '-intercityTrain'
+        - '-interRegionalTrain'
+        - '-regionalTrain'
+        - '-cityTrain'
+        - '-bus'
+        - '-ferry'
+        - '-subway'
+        - '-lightRail'
+        - '-privateBus'
+        - '-inclined'
+        - '-aerial'
+        - '-busRapid'
+        - '-monorail'
+        - '-flight'
+        - '-spaceship'
+    TransitModeOutput:
+      description: |
+        Extensible enum: `highSpeedTrain` `intercityTrain` `interRegionalTrain` `regionalTrain` `cityTrain` `bus` `ferry` `subway` `lightRail` `privateBus` `inclined` `aerial` `busRapid` `monorail` `carShuttleTrain` `flight` `spaceship` `...`  
+        Transit mode of transport in the route response
+      title: Modes
+      type: string
+      x-extensible-enum:
+        - highSpeedTrain
+        - intercityTrain
+        - interRegionalTrain
+        - regionalTrain
+        - cityTrain
+        - bus
+        - ferry
+        - subway
+        - lightRail
+        - privateBus
+        - inclined
+        - aerial
+        - busRapid
+        - monorail
+        - carShuttleTrain
+        - flight
+        - spaceship
+    TransitModesFilter:
+      description: |
+        Transit type filter used to determine which types of transit to include in the response. By default, all supported transit types are permitted. Mixing of inclusive and exclusive transit types is not allowed.
+      items:
+        $ref: '#/components/schemas/TransitModeFlags'
+      type: array
+      uniqueItems: true
+    TransitNotice:
+      description: A notice contains important notifications.
+      properties:
+        code:
+          description: |
+            Extensible enum: `noSchedule` `noIntermediate` `unwantedMode` `scheduledTimes` `simplePolyline` `violatedAvoidFerry` `violatedAvoidTrainFerry` `...`  
+            Currently known codes (non-exhaustive: this list could be extended for new situations):
+
+            | Code      | Description  | Severity |
+            | ------            | ------- | ------- |
+            | noSchedule | A timetable schedule is not available for the transit line in this section, and only the run frequency is available. As a result, departure/arrival times are approximated | info |
+            | noIntermediate | Information about intermediate stops is not available for this transit line | info |
+            | unwantedMode | This section contains a transport mode that was explicitly disabled. Mode filtering is not available in this area | info |
+            | scheduledTimes | The times returned on this section are the scheduled times even though delay information are available | info |
+            | simplePolyline | An accurate polyline is not available for this section. The returned polyline has been generated from departure and arrival places | info |
+            | violatedAvoidFerry | Route did not manage to avoid user preference | critical |
+            | violatedAvoidTrainFerry | Route did not manage to avoid user preference | critical |
+          example: noSchedule
+          type: string
+          x-extensible-enum:
+            - noSchedule
+            - noIntermediate
+            - unwantedMode
+            - scheduledTimes
+            - simplePolyline
+            - violatedAvoidFerry
+            - violatedAvoidTrainFerry
+        details:
+          description: Additional details about the notice
+          items:
+            $ref: '#/components/schemas/BaseNoticeDetail'
+          type: array
+        severity:
+          $ref: '#/components/schemas/NoticeSeverity'
+        title:
+          description: Human-readable notice description.
+          example: No schedule
+          type: string
+      required:
+        - code
+    TransitPostAction:
+      discriminator:
+        mapping:
+          deboard: '#/components/schemas/DeboardAction'
+        propertyName: action
+      oneOf:
+        - $ref: '#/components/schemas/DeboardAction'
+    TransitPreAction:
+      description: An action that must be done prior to `departure`.
+      discriminator:
+        mapping:
+          board: '#/components/schemas/BoardAction'
+        propertyName: action
+      oneOf:
+        - $ref: '#/components/schemas/BoardAction'
+    TransitSection:
+      description: 'A section of the route. It contains departure, arrival, and route information.'
+      properties:
+        actions:
+          description: |
+            Actions that must be done during the travel portion of the section, i.e., between `departure` and `arrival`.
+
+            *NOTE:* currentRoad and nextRoad are not populated for actions.
+          items:
+            $ref: '#/components/schemas/OffsetAction'
+          type: array
+        agency:
+          $ref: '#/components/schemas/Agency'
+        arrival:
+          $ref: '#/components/schemas/TransitDeparture'
+        attributions:
+          description: List of required attributions to display.
+          items:
+            $ref: '#/components/schemas/Attribution'
+          type: array
+        booking:
+          $ref: '#/components/schemas/WebLink'
+          deprecated: true
+          description: |
+            **NOTE:** Attribute booking is deprecated. Please, use bookingLinks instead of it.
+        bookingLinks:
+          description: Links to external ticket booking services
+          items:
+            $ref: '#/components/schemas/WebLinkWithDeviceType'
+          type: array
+        departure:
+          $ref: '#/components/schemas/TransitDeparture'
+        fares:
+          description: List of tickets to pay for this section of the route
+          items:
+            $ref: '#/components/schemas/Fare'
+          type: array
+        id:
+          description: Unique identifier of the section
+          type: string
+        incidents:
+          description: A list of all incidents that apply to the section.
+          items:
+            $ref: '#/components/schemas/TransitIncident'
+          type: array
+        intermediateStops:
+          description: |
+            Intermediate stops between departure and destination of the transit line. It can be missing if this information is not available or not requested.
+          items:
+            $ref: '#/components/schemas/TransitStop'
+          type: array
+        language:
+          description: 'Language of the localized strings in the section, if any, in BCP47 format.'
+          type: string
+        notices:
+          description: |
+            Contains a list of issues related to this section of the route.
+          items:
+            $ref: '#/components/schemas/TransitNotice'
+          type: array
+        passthrough:
+          description: |
+            List of via waypoints this section is passing through.
+
+            Each via waypoint of the request that is a `passThrough=true` waypoint, appears as a
+            `Passthrough` in the response. It appears in the section that starts with the closest
+            non-passthrough via specified before it or origin.
+
+            The passthrough vias appear in this list in the order they are traversed. They are
+            traversed in the order they are specified in the request.
+          items:
+            $ref: '#/components/schemas/Passthrough'
+          type: array
+        polyline:
+          $ref: '#/components/schemas/Polyline'
+        postActions:
+          description: Actions that must be done after `arrival`.
+          items:
+            $ref: '#/components/schemas/TransitPostAction'
+          type: array
+        preActions:
+          description: Actions that must be done prior to `departure`.
+          items:
+            $ref: '#/components/schemas/TransitPreAction'
+          type: array
+        spans:
+          description: |
+            Span attached to a `Section` describing transit content.
+          items:
+            $ref: '#/components/schemas/TransitSpan'
+          type: array
+        summary:
+          allOf:
+            - $ref: '#/components/schemas/BaseSummary'
+          description: |
+            Total value of key attributes (e.g., duration, length) summed up for the entire section, including `preActions`, `postActions`,
+            and the travel portion of the section.
+        transport:
+          $ref: '#/components/schemas/TransitTransport'
+        travelSummary:
+          allOf:
+            - $ref: '#/components/schemas/BaseSummary'
+          description: |
+            Total value of key attributes (e.g., duration, length) summed up for just the travel portion of the section,
+            between `departure` and `arrival`. `preActions` and `postActions` are excluded.
+        turnByTurnActions:
+          description: 'Actions for turn by turn guidance during the travel portion of the section, i.e., between `departure` and `arrival`.'
+          items:
+            $ref: '#/components/schemas/OffsetAction'
+          type: array
+        type:
+          description: Section type used by the client to identify what extension to the BaseSection are available.
+          type: string
+      required:
+        - id
+        - type
+        - departure
+        - arrival
+    TransitSpan:
+      description: |
+        Contains information attached to a contiguous part of a `Section`. The information may be
+        attached along different dimensions of a section which are geometry (spatial), distance or
+        time.
+
+        A section, if it uses spans, has an optional attribute `spans` which is an array of
+        extended `Span` types.
+
+        The attributes of a span which should be returned in the response are
+        configured by a request parameter.
+
+        Use this type as a base for any span extension for sections that provide spans.
+      properties:
+        countryCode:
+          $ref: '#/components/schemas/CountryCode'
+        duration:
+          $ref: '#/components/schemas/Duration'
+          description: Duration of the span.
+        length:
+          $ref: '#/components/schemas/Distance'
+          description: |
+            Length of the span.
+        names:
+          description: Designated name for the span (e.g. a street name or a transport name)
+          items:
+            $ref: '#/components/schemas/LocalizedString'
+          type: array
+        offset:
+          description: |
+            Offset of a coordinate in the section's polyline.
+          format: int32
+          minimum: 0
+          type: integer
+        refReplacements:
+          additionalProperties:
+            type: string
+          description: |
+            Dictionary of placeholders to replacement strings for the compact representation of map entity references.
+
+            This attribute will not appear for HERE Public Transit v8 and HERE Intermodal Routing v8 requests
+          type: object
+        segmentId:
+          deprecated: true
+          description: |
+            **NOTE:** Attribute segmentId is deprecated. Use segmentRef instead.
+
+            The directed topology segment id including prefix (e.g '+here:cm:segment:').
+
+            The id consists of two parts.
+            * The direction ('+' or '-')
+            * followed by the topology segment id (a unique identifier within the HERE platform catalogs).
+
+            The direction specifies whether the route is using the segment in its canonical direction ('+' aka traveling along the geometry's direction), or against it ('-' aka traveling against the geometry's direction).
+
+            This attribute will not appear for HERE Public Transit v8 and HERE Intermodal Routing v8 requests
+          type: string
+        segmentRef:
+          description: |
+            A reference to the HMC topology segment used in this span.
+
+            The standard representation of a segment reference has the following structure:
+            {catalogHrn}:{catalogVersion}:({layerId})?:{tileId}:{segmentId}(#{direction}({startOffset}..{endOffset})?)?
+
+            The individual parts are:
+            * catalogHrn: The HERE Resource Name that identifies the source catalog of the segment, example: hrn:here:data::olp-here:rib-2
+            * catalogVersion: The catalog version
+            * layerId (optional): The layer inside the catalog where the segment can be found, example: topology-geometry
+            * tileId: The HERE tile key of the partition/tile where the segment is located in the given version of the catalog. This can be on a lower level than the actual segment is stored at (for example, the provided tile ID can be on level 14, despite topology-geometry partitions being tiled at level 12). The level of a HERE tile key is indicated by the position of the highest set bit in binary representation. Since the HERE tile key represents a morton code of the x and y portion of the Tile ID, the level 12 tile ID can be retrieved from the level 14 tile ID by removing the 4 least significant bits (or 2 bits per level) or 1 hexadecimal digit. For example, the level 14 tile 377894441 is included in the level 12 tile 23618402 (377894441<sub>10</sub> = 16863629<sub>16</sub> &rightarrow; 1686362<sub>16</sub> = 23618402<sub>10</sub>)
+            * segmentId: The identifier of the referenced topology segment inside the catalog, example: here:cm:segment:84905195
+            * direction (optional): Either '*' for undirected or bidirectional, '+' for positive direction, '-' for negative direction, or '?' for unknown direction (not used by the routing service)
+            * startOffset/endOffset (optional): The start- and end offset are non-negative numbers between 0 and 1, representing the start and end of the referenced range using a proportion of the length of the segment. 0 represents the start and 1 the end of the segment, relative to the indicated direction (or positive direction in case of undirected segments). Example: 0.7..1
+
+            This attribute will not appear for HERE Public Transit v8 and HERE Intermodal Routing v8 requests
+
+            Example of a segment reference in standard representation:
+            hrn:here:data::olp-here:rib-2:1363::377894441:here:cm:segment:84905195#+0.7..1
+
+            The segment references can also be provided in a compact representation, to reduce the response size. In the compact representation, some parts are replaced by placeholders, which can be resolved using the refReplacements dictionary in the parent section.
+            The placeholder format is ```\$\d+``` and needs to be surrounded by colons or string start/end. It can be captured with the following regular expression: ```(^|:)\$\d+(:|$)/``` .
+
+            Example of the segment reference previously mentioned in compact representation:
+            $0:377894441:$1:84905195#+0.7..1
+            With the corresponding refReplacements:
+            "refReplacements": {
+              "0": "hrn:here:data::olp-here:rib-2:1363:",
+              "1": "here:cm:segment"
+            }
+          type: string
+        stateCode:
+          $ref: '#/components/schemas/StateCode'
+    TransitStop:
+      description: A transit stop of the route
+      properties:
+        attributes:
+          description: |
+            **NOTE:** As it is possible that new attributes are supported in the future, unknown attributes should be ignored.
+          items:
+            $ref: '#/components/schemas/TransitStopAttributes'
+          type: array
+        departure:
+          $ref: '#/components/schemas/TransitDeparture'
+        duration:
+          default: 0
+          description: Stop duration. If not set the vehicle departs as soon as people are on board.
+          type: integer
+      required:
+        - departure
+    TransitStopAttributes:
+      description: |
+        Extensible enum: `noEntry` `noExit` `...`  
+        Attributes of a stop.
+
+        * `noEntry`: The transport cannot be entered at the stop.
+        * `noExit`: The transport cannot be exited at the stop.
+      type: string
+      x-extensible-enum:
+        - noEntry
+        - noExit
+    TransitTransport:
+      description: Transit transport information.
+      properties:
+        category:
+          description: 'Human readable transport category (such as Bus, Gondola, Tram, Train, ...)'
+          type: string
+        color:
+          allOf:
+            - $ref: '#/components/schemas/Color'
+          description: Color of the transport polyline and background for the transport name.
+        headsign:
+          description: Transit line headsign
+          type: string
+        longName:
+          description: Long name of a transit line.
+          example: Pankow - Ruhleben
+          type: string
+        mode:
+          $ref: '#/components/schemas/TransitModeOutput'
+        name:
+          description: Transit line name
+          example: U2
+          type: string
+        shortName:
+          description: Short name of a transit line.
+          example: U2
+          type: string
+        textColor:
+          allOf:
+            - $ref: '#/components/schemas/Color'
+          description: Color of the transport name.
+      required:
+        - mode
+    TruckAxleCountRange:
+      description: Constrains the restriction to trucks with number of axles within specified range.
+      properties:
+        from:
+          description: Inclusive minimum of axle count.
+          format: int32
+          minimum: 2
+          type: integer
+        to:
+          description: 'Inclusive maximum of axle count. If not set, maximum axle count is unbounded.'
+          format: int32
+          minimum: 2
+          type: integer
+    TruckType:
+      deprecated: true
+      description: |
+        Specifies the type of truck
+
+        * `straight`: a truck on a single frame with a permanently attached cargo area
+        * `tractor`: a towing vehicle that can pull one or more semi-trailers (aka semi-truck)
+      enum:
+        - straight
+        - tractor
+      type: string
+    TunnelCategory:
+      description: |
+        Specifies the tunnel category used to restrict transport of specific goods.
+
+        **Limitations:** only valid for `transportMode=truck`.
+      enum:
+        - B
+        - C
+        - D
+        - E
+      type: string
+    TurnAction:
+      description: |
+        An action in which a direction change is made.
+
+        * `ramp`: ramp maneuver, such as "Take the left ramp onto"
+        * `roundaboutPass`: Going straight on a roundabout maneuver
+        * `roundaboutEnter`: Arriving at a destination roundabout maneuver
+        * `uTurn`: u-turn maneuver, such as "Make a right U-turn at"
+        * `turn`: turn maneuver, such as "Make a sharp right turn at"
+        * `keep`: a maneuver following a fork, such as "Take the middle fork onto"
+        * `enterHighway`: a maneuver to enter a highway, used for turn-by-turn guidance only
+      properties:
+        action:
+          description: |
+            The type of the action.
+
+            **NOTE:** The list of possible actions may be extended in the future. The client application should handle such a case gracefully.
+          type: string
+        currentRoad:
+          allOf:
+            - $ref: '#/components/schemas/RoadInfo'
+          description: Attributes of the current road
+        direction:
+          $ref: '#/components/schemas/TurnActionDirection'
+        duration:
+          allOf:
+            - $ref: '#/components/schemas/Duration'
+          description: 'Estimated duration of this action (in seconds). Actions last until the next action, or the end of the route in case of the last one.'
+        exitSign:
+          allOf:
+            - $ref: '#/components/schemas/ExitInfo'
+          description: Attributes of the road exit
+        instruction:
+          description: Description of the action (e.g. Turn left onto Minna St.).
+          type: string
+        intersectionName:
+          description: 'Name of the intersection where the turn takes place, if available.'
+          items:
+            $ref: '#/components/schemas/LocalizedString'
+          type: array
+        length:
+          allOf:
+            - $ref: '#/components/schemas/Distance'
+          description: 'Estimated length of this action (in meters). Actions extend until the next action, or the end of the route in case of the last one.'
+        nextRoad:
+          allOf:
+            - $ref: '#/components/schemas/RoadInfo'
+          description: Attributes of the next road
+        offset:
+          description: Offset of a coordinate in the section's polyline.
+          type: integer
+        severity:
+          $ref: '#/components/schemas/TurnActionSeverity'
+      required:
+        - action
+        - duration
+    TurnActionDirection:
+      description: Direction of the turn. `middle` is only used by the `keep` action.
+      enum:
+        - middle
+        - right
+        - left
+      type: string
+    TurnActionSeverity:
+      description: |
+        Tightness of the turn. Optional in the `turn` action, unused by other actions.
+
+        * `light`: indicates making a light turn
+        * `quite`: indicates making a regular turn
+        * `heavy`: indicates making a heavy turn
+      enum:
+        - light
+        - quite
+        - heavy
+      type: string
+    UTurnAction:
+      allOf:
+        - $ref: '#/components/schemas/TurnAction'
+    Units:
+      description: 'Units of measurement used, for example, in guidance instructions. The default is `metric`.'
+      enum:
+        - metric
+        - imperial
+      type: string
+    Uri:
+      description: An URL address that links to a particular resource.
+      format: uri
+      type: string
+    VehicleAction:
+      description: Action attached to a vehicle section.
+      discriminator:
+        mapping:
+          arrive: '#/components/schemas/ArriveAction'
+          continue: '#/components/schemas/ContinueAction'
+          depart: '#/components/schemas/DepartAction'
+          exit: '#/components/schemas/ExitAction'
+          keep: '#/components/schemas/KeepAction'
+          ramp: '#/components/schemas/RampAction'
+          roundaboutEnter: '#/components/schemas/RoundaboutEnterAction'
+          roundaboutExit: '#/components/schemas/RoundaboutExitAction'
+          roundaboutPass: '#/components/schemas/RoundaboutPassAction'
+          turn: '#/components/schemas/TurnAction'
+          uTurn: '#/components/schemas/UTurnAction'
+        propertyName: action
+      oneOf:
+        - $ref: '#/components/schemas/DepartAction'
+        - $ref: '#/components/schemas/ArriveAction'
+        - $ref: '#/components/schemas/ContinueAction'
+        - $ref: '#/components/schemas/RampAction'
+        - $ref: '#/components/schemas/ExitAction'
+        - $ref: '#/components/schemas/RoundaboutPassAction'
+        - $ref: '#/components/schemas/RoundaboutEnterAction'
+        - $ref: '#/components/schemas/RoundaboutExitAction'
+        - $ref: '#/components/schemas/UTurnAction'
+        - $ref: '#/components/schemas/TurnAction'
+        - $ref: '#/components/schemas/KeepAction'
+    VehicleDeparture:
+      description: Describe a departure or arrival location and time.
+      properties:
+        charge:
+          description: Vehicle battery charge (in kWh).
+          type: number
+        place:
+          $ref: '#/components/schemas/VehiclePlace'
+        time:
+          allOf:
+            - $ref: '#/components/schemas/Time'
+          description: 'Expected time of departure of the event. Format is **RFC 3339**, section 5.6 as defined by `date-time`.'
+      required:
+        - place
+    VehicleMode:
+      default: car
+      description: |
+        Extensible enum: `car` `bicycle` `kickScooter` `...`  
+        Vehicle mode of transport
+      title: Modes
+      type: string
+      x-extensible-enum:
+        - car
+        - bicycle
+        - kickScooter
+    VehicleModeExcluded:
+      description: |
+        Extensible enum: `-car` `-bicycle` `-kickScooter` `...`  
+        Vehicle mode to be excluded from the route
+      title: Excluded modes
+      type: string
+      x-extensible-enum:
+        - '-car'
+        - '-bicycle'
+        - '-kickScooter'
+    VehicleModesFilter:
+      oneOf:
+        - description: Enables specified vehicle types and disable everything else
+          items:
+            $ref: '#/components/schemas/VehicleMode'
+          type: array
+          uniqueItems: true
+        - description: Use to disable specified vehicle types and enabled everything else
+          items:
+            $ref: '#/components/schemas/VehicleModeExcluded'
+          type: array
+          uniqueItems: true
+    VehicleNotice:
+      description: A notice contains important notifications.
+      example:
+        $ref: '#/components/examples/noticeWithRestrictionsExample'
+      properties:
+        code:
+          description: |
+            Extensible enum: `violatedAvoidControlledAccessHighway` `violatedAvoidTollRoad` `violatedAvoidTunnel` `violatedAvoidDirtRoad` `violatedBlockedRoad` `violatedStartDirection` `violatedCarpool` `violatedTurnRestriction` `violatedVehicleRestriction` `violatedZoneRestriction` `violatedAvoidDifficultTurns` `violatedAvoidUTurns` `violatedEmergencyGate` `violatedAvoidSeasonalClosure` `violatedAvoidTollTransponder` `seasonalClosure` `tollTransponder` `mlDurationUnavailable` `simplePolyline` `tollsDataUnavailable` `chargingStopNotNeeded` `...`  
+            Currently known codes (non-exhaustive: this list could be extended for new situations):
+
+            | Code      | Description  | Severity |
+            | --------- | ------- | ----            |
+            | violatedAvoidControlledAccessHighway | Route did not manage to avoid user preference | critical |
+            | violatedAvoidTollRoad | Route did not manage to avoid user preference | critical |
+            | violatedAvoidTunnel | Route did not manage to avoid user preference | critical |
+            | violatedAvoidDirtRoad | Route did not manage to avoid user preference | critical |
+            | violatedBlockedRoad | Route uses roads blocked by traffic events | critical |
+            | violatedStartDirection | Start direction of the route is not as requested | critical |
+            | violatedCarpool | Route did not manage to avoid user preference | critical |
+            | violatedTurnRestriction | Route uses a time-restricted turn | critical |
+            | violatedVehicleRestriction | Route uses a road which is forbidden for the given vehicle profile | critical |
+            | violatedZoneRestriction | Route uses a road which is part of restricted routing zones | critical |
+            | violatedAvoidDifficultTurns | Route did not manage to avoid user preference | critical |
+            | violatedAvoidUTurns | Route did not manage to avoid user preference | critical |
+            | violatedEmergencyGate | Route goes through an emergency gate | critical |
+            | violatedAvoidSeasonalClosure | Route did not manage to avoid seasonal closure | critical |
+            | violatedAvoidTollTransponder | Route did not manage to avoid toll booth that requires transponder | critical |
+            | seasonalClosure | Route goes through seasonal closure | info |
+            | tollTransponder | Route goes through toll booth that requires transponder | info |
+            | mlDurationUnavailable | Machine learning duration was requested but is not available for this section | info |
+            | simplePolyline | An accurate polyline is not available for this section. The returned polyline has been generated from departure and arrival places. | info |
+            | tollsDataUnavailable | Tolls data was requested but could not be calculated for this section | info |
+            | chargingStopNotNeeded | A charging stop was planned at the destination of this section, but it is no longer needed (getRoutesByHandle requests only) | info |
+          example: violatedAvoidTollRoad
+          type: string
+          x-extensible-enum:
+            - violatedAvoidControlledAccessHighway
+            - violatedAvoidTollRoad
+            - violatedAvoidTunnel
+            - violatedAvoidDirtRoad
+            - violatedBlockedRoad
+            - violatedStartDirection
+            - violatedCarpool
+            - violatedTurnRestriction
+            - violatedVehicleRestriction
+            - violatedZoneRestriction
+            - violatedAvoidDifficultTurns
+            - violatedAvoidUTurns
+            - violatedEmergencyGate
+            - violatedAvoidSeasonalClosure
+            - violatedAvoidTollTransponder
+            - seasonalClosure
+            - tollTransponder
+            - mlDurationUnavailable
+            - simplePolyline
+            - tollsDataUnavailable
+            - chargingStopNotNeeded
+        details:
+          description: Additional details about the notice
+          items:
+            $ref: '#/components/schemas/VehicleNoticeDetail'
+          type: array
+        severity:
+          $ref: '#/components/schemas/NoticeSeverity'
+        title:
+          description: Human-readable notice description.
+          example: Violated avoid toll road
+          type: string
+      required:
+        - code
+    VehicleNoticeDetail:
+      description: Details attached to notices in vehicle section.
+      discriminator:
+        mapping:
+          restriction: '#/components/schemas/VehicleRestriction'
+          violatedTransportMode: '#/components/schemas/ViolatedTransportMode'
+        propertyName: type
+      oneOf:
+        - $ref: '#/components/schemas/VehicleRestriction'
+        - $ref: '#/components/schemas/ViolatedTransportMode'
+    VehiclePlace:
+      description: Place used in vehicle routing.
+      discriminator:
+        mapping:
+          accessPoint: '#/components/schemas/AccessPointPlace'
+          chargingStation: '#/components/schemas/ChargingStationPlace'
+          dockingStation: '#/components/schemas/DockingStationPlace'
+          parkingLot: '#/components/schemas/ParkingLotPlace'
+          place: '#/components/schemas/Place'
+          station: '#/components/schemas/StationPlace'
+        propertyName: type
+      oneOf:
+        - $ref: '#/components/schemas/Place'
+        - $ref: '#/components/schemas/StationPlace'
+        - $ref: '#/components/schemas/AccessPointPlace'
+        - $ref: '#/components/schemas/ParkingLotPlace'
+        - $ref: '#/components/schemas/ChargingStationPlace'
+        - $ref: '#/components/schemas/DockingStationPlace'
+    VehicleRestriction:
+      description: |
+        Contains details about violated restrictions.
+
+        Certain properties represent conditions to be evaluated, e.g., according to vehicle properties.
+        The restriction is violated if and only if all of the conditions present are met.
+      example:
+        $ref: '#/components/examples/restrictionExample'
+      properties:
+        axleCount:
+          allOf:
+            - $ref: '#/components/schemas/TruckAxleCountRange'
+          description: |
+            Constrains the restriction to trucks with number of axles within specified range.
+
+            This condition is met when the vehicle's `axleCount` is within the range specified.
+        cause:
+          description: Cause of the notice
+          type: string
+        forbiddenHazardousGoods:
+          description: |
+            Hazardous goods restrictions applied during the trip.
+
+            This condition is met when the vehicle's shippedHazardousGoods
+            contains any of the items in this array.
+          items:
+            $ref: '#/components/schemas/HazardousGoodsRestriction'
+          type: array
+        maxGrossWeight:
+          description: |
+            Contains max permitted gross weight, in kilograms.
+
+            This condition is met when the vehicle's `grossWeight` exceeds this value.
+          format: int32
+          minimum: 0
+          type: integer
+        maxHeight:
+          description: |
+            Contains max permitted height, in centimeters.
+
+            This condition is met when the vehicle's `height` exceeds this value.
+          format: int32
+          minimum: 0
+          type: integer
+        maxLength:
+          description: |
+            Contains max permitted length, in centimeters.
+
+            This condition is met when the vehicle's `length` exceeds this value.
+          format: int32
+          minimum: 0
+          type: integer
+        maxWeightPerAxle:
+          description: |
+            Contains max permitted weight per axle, in kilograms.
+
+            This condition is met when the vehicle's `weightPerAxle` exceeds this value.
+          format: int32
+          minimum: 0
+          type: integer
+        maxWidth:
+          description: |
+            Contains max permitted width, in centimeters.
+
+            This condition is met when the vehicle's `width` exceeds this value.
+          format: int32
+          minimum: 0
+          type: integer
+        timeDependent:
+          description: |
+            Indicates that restriction depends on time.
+          type: boolean
+        title:
+          description: Detail title
+          type: string
+        trailerCount:
+          allOf:
+            - $ref: '#/components/schemas/TrailerCountRange'
+          description: |
+            Constrains the restriction to trucks with number of axles within specified range.
+
+            This condition is met when the vehicle's `trailerCount` is within the range specified.
+        truckType:
+          allOf:
+            - $ref: '#/components/schemas/TruckType'
+          deprecated: true
+          description: |
+            Constrains the restriction to a specific type of vehicle.
+
+            This condition is met if the `vehicle[type]` request parameter matches this value.
+        tunnelCategory:
+          allOf:
+            - $ref: '#/components/schemas/TunnelCategory'
+          description: |
+            Specifies the tunnel category used to restrict transport of specific goods.
+
+            This condition is met when the value exceeds the tunnel category specified
+            by the vehicle's `tunnelCategory`
+        type:
+          description: |
+            Detail type. Each type of detail might contain extra attributes.
+
+            **NOTE:** The list of possible detail types may be extended in the future.
+            The client application is expected to handle such a case gracefully.
+          type: string
+        vehicleType:
+          allOf:
+            - $ref: '#/components/schemas/VehicleType'
+          description: |
+            Constrains the restriction to a specific type of vehicle.
+
+            This condition is met if the `vehicle[type]` request parameter matches this value.
+      required:
+        - type
+    VehicleSection:
+      description: Represent a section of a route
+      properties:
+        actions:
+          description: |
+            Actions to be performed at or during a specific portion of a section.
+
+            Action offsets are the coordinate index in the polyline.
+
+            *NOTE:* currentRoad and nextRoad are not populated for actions.
+          items:
+            $ref: '#/components/schemas/VehicleAction'
+          type: array
+        arrival:
+          $ref: '#/components/schemas/VehicleDeparture'
+        departure:
+          $ref: '#/components/schemas/VehicleDeparture'
+        fares:
+          description: List of fares for this section of the route
+          items:
+            $ref: '#/components/schemas/Fare'
+          type: array
+        id:
+          description: Unique identifier of the section
+          type: string
+        incidents:
+          description: A list of all incidents that apply to the section.
+          items:
+            $ref: '#/components/schemas/TrafficIncident'
+          type: array
+        language:
+          description: 'Language of the localized strings in the section, if any, in BCP47 format.'
+          type: string
+        notices:
+          description: |
+            Contains a list of issues related to this section of the route.
+
+            Notices must be carefully evaluated and the route section should be discarded
+            if appropriate.
+            In particular, the user should be aware that new notice codes may be added at any time. If an unrecognized
+            notice code appears with a `critical` severity level, the route section must be discarded.
+            Please refer to the `code` attribute for possible values.
+          items:
+            $ref: '#/components/schemas/VehicleNotice'
+          type: array
+        passthrough:
+          description: |
+            List of via waypoints this section is passing through.
+
+            Each via waypoint of the request that is a `passThrough=true` waypoint, appears as a
+            `Passthrough` in the response. It appears in the section that starts with the closest
+            non-passthrough via specified before it or origin.
+
+            The passthrough vias appear in this list in the order they are traversed. They are
+            traversed in the order they are specified in the request.
+          items:
+            $ref: '#/components/schemas/Passthrough'
+          type: array
+        polyline:
+          $ref: '#/components/schemas/Polyline'
+        postActions:
+          description: Actions that must be done after `arrival`.
+          items:
+            $ref: '#/components/schemas/BaseAction'
+          type: array
+        preActions:
+          description: Actions that must be done prior to `departure`.
+          items:
+            $ref: '#/components/schemas/BaseAction'
+          type: array
+        refReplacements:
+          additionalProperties:
+            type: string
+          description: |
+            Dictionary of placeholders to replacement strings for the compact representation of map entity references.
+          type: object
+        routingZones:
+          description: |
+            A list of routing zones that are applicable to the section.
+
+            Elements of this list will be referenced by indices within the `span` attribute of the section.
+          items:
+            $ref: '#/components/schemas/RoutingZone'
+          type: array
+        spans:
+          description: |
+            Spans attached to a `Section` describing vehicle content.
+          items:
+            $ref: '#/components/schemas/VehicleSpan'
+          type: array
+        summary:
+          allOf:
+            - $ref: '#/components/schemas/VehicleSummary'
+          description: |
+            Total value of key attributes (e.g., duration, length, consumption) summed up for the entire section, including `preActions`, `postActions`,
+            and the travel portion of the section.
+            **Note:** Based on vehicle type either `consumption` (for EV) or `iceConsumption` (for ICE) is returned. `co2Emission` is only
+            returned with 'iceConsumption'.
+        tollSystems:
+          description: |
+            An array of toll authorities that collect payments for the use of (part of) this section of the route.
+          items:
+            $ref: '#/components/schemas/TollSystem'
+          type: array
+        tolls:
+          description: |
+            Detail of tolls to be paid for traversing this section.
+          items:
+            $ref: '#/components/schemas/TollCost'
+          type: array
+        transport:
+          $ref: '#/components/schemas/VehicleTransport'
+        travelSummary:
+          allOf:
+            - $ref: '#/components/schemas/VehicleTravelSummary'
+          description: |
+            Total value of key attributes (e.g., duration, length, consumption) summed up for just the travel portion of the section,
+            between `departure` and `arrival`. `preActions` and `postActions` are excluded.
+            **Note:** Based on vehicle type either `consumption` (for EV) or `iceConsumption` (for ICE) is returned. `co2Emission` is only
+            returned with 'iceConsumption'.
+        truckRoadTypes:
+          description: |
+            A list of truck road types that are applicable to the section.
+
+            Elements of this list will be referenced by indices within the `span` attribute of the section.
+
+            A truck road type is an identifier associated with roads that have additional regulations applied by local administration for
+            traversal by heavy vehicles like trucks. For example, the BK Bearing Class regulations in Sweden, and ET categories in Mexico.
+            The identifiers of supported truck road types are specified at HERE Map Content
+            [TruckRoadType](https://developer.here.com/documentation/here-map-content/dev_guide/topics_schema/truckroadtypeattribute.truckroadtype.html).
+
+            These names should be provided when avoiding a certain truck road type.
+          items:
+            type: string
+          type: array
+        turnByTurnActions:
+          description: |
+            Actions for turn by turn guidance.
+
+            Action offsets are the coordinate index in the polyline.
+          items:
+            $ref: '#/components/schemas/VehicleAction'
+          type: array
+        type:
+          description: Section type used by the client to identify what extension to the BaseSection are available.
+          type: string
+      required:
+        - id
+        - type
+        - departure
+        - arrival
+        - transport
+    VehicleSpan:
+      description: |
+        Span attached to a `Section` describing vehicle content.
+      properties:
+        baseDuration:
+          $ref: '#/components/schemas/Duration'
+          description: |
+            Duration of this span (in seconds) ignoring time-aware information.
+
+            In particular, dynamic traffic information is not taken into account. Only average
+            free-flow speeds based on historical traffic are used to calculate this duration.
+
+            The `baseDuration` can also be understood as the best possible duration.
+        carAttributes:
+          description: |
+            Car specific `AccessAttributes`.
+
+            `AccessAttributes` is applied to a span of a route section and describes access flags of a street.
+            * `open`: This part of the route is open to cars.
+            * `noThrough`: This part of the route can only be traversed if origin, destination or any via waypoint is located there.
+            * `tollRoad`: This part of the route is restricted with a fee (or toll).
+
+            As it is possible that new access attributes are supported in the future, unknown access attributes should be ignored.
+          items:
+            $ref: '#/components/schemas/AccessAttributes'
+          type: array
+        consumption:
+          $ref: '#/components/schemas/Energy'
+          description: Estimated net energy consumption along this span (in kWh).
+        countryCode:
+          $ref: '#/components/schemas/CountryCode'
+        duration:
+          $ref: '#/components/schemas/Duration'
+          description: Duration of the span.
+        dynamicSpeedInfo:
+          $ref: '#/components/schemas/DynamicSpeedInfo'
+        functionalClass:
+          $ref: '#/components/schemas/FunctionalClass'
+        iceConsumption:
+          $ref: '#/components/schemas/FuelConsumption'
+          description: 'Estimated fuel consumption (in liters for diesel, petrol, LPG, in kilograms for CNG)  along this span by internal-combustion-engine (ICE) vehicles.'
+        incidents:
+          description: |
+            A list of indices into the incident array of the parent section.
+            References all incidents that apply to the span.
+            This requires `incidents` to be specified as part of the `return` parameter.
+          items:
+            type: integer
+          type: array
+        length:
+          $ref: '#/components/schemas/Distance'
+          description: |
+            Length of the span.
+        maxSpeed:
+          $ref: '#/components/schemas/MaxSpeed'
+        names:
+          description: Designated name for the span (e.g. a street name or a transport name)
+          items:
+            $ref: '#/components/schemas/LocalizedString'
+          type: array
+        notices:
+          description: |
+            A list of indices into the notices array of the parent section.
+            References all notices that apply to the span.
+          items:
+            type: integer
+          type: array
+        offset:
+          description: |
+            Offset of a coordinate in the section's polyline.
+          format: int32
+          minimum: 0
+          type: integer
+        routeNumbers:
+          description: Designated route name or number of the span (e.g. 'M25')
+          items:
+            $ref: '#/components/schemas/LocalizedString'
+          type: array
+        routingZones:
+          description: |
+            A list of indices into the routing zone array of the parent section.
+            References all applicable routing zones to the span.
+          items:
+            type: integer
+          type: array
+        scooterAttributes:
+          description: |
+            Scooter specific `AccessAttributes`.
+
+            `AccessAttributes` is applied to a span of a route section and describes access flags of a street.
+            * `open`: This part of the route is open to scooters.
+
+            As it is possible that new access attributes are supported in the future, unknown access attributes should be ignored.
+          items:
+            $ref: '#/components/schemas/AccessAttributes'
+          type: array
+        segmentId:
+          deprecated: true
+          description: |
+
+            **NOTE:** Attribute segmentId is deprecated. Use segmentRef instead.
+
+            The directed topology segment id including prefix (e.g '+here:cm:segment:').
+
+            The id consists of two parts.
+            * The direction ('+' or '-')
+            * followed by the topology segment id (a unique identifier within the HERE platform catalogs).
+
+            The direction specifies whether the route is using the segment in its canonical direction ('+' aka traveling along the geometry's direction), or against it ('-' aka traveling against the geometry's direction).
+          type: string
+        segmentRef:
+          description: |
+            A reference to the HMC topology segment used in this span.
+
+            The standard representation of a segment reference has the following structure:
+            {catalogHrn}:{catalogVersion}:({layerId})?:{tileId}:{segmentId}(#{direction}({startOffset}..{endOffset})?)?
+
+            The individual parts are:
+            * catalogHrn: The HERE Resource Name that identifies the source catalog of the segment, example: hrn:here:data::olp-here:rib-2
+            * catalogVersion: The catalog version
+            * layerId (optional): The layer inside the catalog where the segment can be found, example: topology-geometry
+            * tileId: The HERE tile key of the partition/tile where the segment is located in the given version of the catalog. This can be on a lower level than the actual segment is stored at (for example, the provided tile ID can be on level 14, despite topology-geometry partitions being tiled at level 12). The level of a HERE tile key is indicated by the position of the highest set bit in binary representation. Since the HERE tile key represents a morton code of the x and y portion of the Tile ID, the level 12 tile ID can be retrieved from the level 14 tile ID by removing the 4 least significant bits (or 2 bits per level) or 1 hexadecimal digit. For example, the level 14 tile 377894441 is included in the level 12 tile 23618402 (377894441<sub>10</sub> = 16863629<sub>16</sub> &rightarrow; 1686362<sub>16</sub> = 23618402<sub>10</sub>)
+            * segmentId: The identifier of the referenced topology segment inside the catalog, example: here:cm:segment:84905195
+            * direction (optional): Either '*' for undirected or bidirectional, '+' for positive direction, '-' for negative direction, or '?' for unknown direction (not used by the routing service)
+            * startOffset/endOffset (optional): The start- and end offset are non-negative numbers between 0 and 1, representing the start and end of the referenced range using a proportion of the length of the segment. 0 represents the start and 1 the end of the segment, relative to the indicated direction (or positive direction in case of undirected segments). Example: 0.7..1
+
+            Example of a segment reference in standard representation:
+            hrn:here:data::olp-here:rib-2:1363::377894441:here:cm:segment:84905195#+0.7..1
+
+            The segment references can also be provided in a compact representation, to reduce the response size. In the compact representation, some parts are replaced by placeholders, which can be resolved using the refReplacements dictionary in the parent section.
+            The placeholder format is ```\$\d+``` and needs to be surrounded by colons or string start/end. It can be captured with the following regular expression: ```(^|:)\$\d+(:|$)/``` .
+
+            Example of the segment reference previously mentioned in compact representation:
+            $0:377894441:$1:84905195#+0.7..1
+            With the corresponding refReplacements:
+            "refReplacements": {
+              "0": "hrn:here:data::olp-here:rib-2:1363:",
+              "1": "here:cm:segment"
+            }
+          type: string
+        speedLimit:
+          $ref: '#/components/schemas/Speed'
+          description: |
+            **NOTE:** Attribute speedLimit is deprecated. Use maxSpeed instead.
+        stateCode:
+          $ref: '#/components/schemas/StateCode'
+        streetAttributes:
+          description: |
+            `StreetAttributes` is applied to a span of a route section and describes attribute flags of a street.
+            * `rightDrivingSide`: Vehicles have to drive on the right-hand side of the road.
+            * `dirtRoad`: This part of the route has an un-paved surface.
+            * `tunnel`: This part of the route is a tunnel.
+            * `bridge`: This part of the route is a bridge.
+            * `ramp`: This part of the route is a ramp (usually connecting to/from/between highways).
+            * `motorway`: This part of the route is a controlled access road (usually highways with motorway sign).
+            * `roundabout`: This part of the route is a roundabout.
+            * `underConstruction`: This part of the route is under construction.
+            * `dividedRoad`: This part of the route uses a road with a physical or legal divider in the middle.
+            * `privateRoad`: This part of the route uses a privately owned road.
+            * `controlledAccessHighway`: This part of the route is a either controlled access or limited access road or both.
+
+            As it is possible that new street attributes are supported in the future, unknown street attributes should be ignored.
+          items:
+            $ref: '#/components/schemas/StreetAttributes'
+          type: array
+        tollSystems:
+          description: |
+            Specifies the toll systems of a toll (if any) applicable for this specific span.
+            Since tolls are not static information, the tolls may or may not be applicable to the same span in different requests,
+            depending on factors like transport mode, time of day, etc.
+
+            The contents of the array are reference indexes into the `tollSystems` array in the enclosing section.
+          items:
+            type: integer
+          type: array
+        truckAttributes:
+          description: |
+            Truck specific `AccessAttributes`.
+
+            `AccessAttributes` is applied to a span of a route section and describes access flags of a street.
+            * `open`: This part of the route is open to trucks.
+            * `noThrough`: This part of the route can only be traversed if origin, destination or any via waypoint is located there.
+            * `tollRoad`: This part of the route is restricted with a fee (or toll).
+
+            As it is possible that new access attributes are supported in the future, unknown access attributes should be ignored.
+          items:
+            $ref: '#/components/schemas/AccessAttributes'
+          type: array
+        truckRoadTypes:
+          description: A list of indices into the truck road types array of the parent section. References all applicable truck road types to the span.
+          items:
+            type: integer
+          type: array
+        typicalDuration:
+          $ref: '#/components/schemas/Duration'
+          description: |
+            Duration of this span (in seconds) under typical traffic conditions.
+
+            In particular, dynamic traffic information is not taken into account. Instead,
+            speeds that are typical for the given time of day/day of week based on historical
+            traffic are used to calculate this duration.
+        walkAttributes:
+          description: |
+            Accessibility and walk-related attribute flags.
+
+            * `stairs`: This part of the route is a staircase.
+            * `park`: This part of the route is in a park.
+            * `indoor`: This part of the route is inside a venue.
+            * `open`: This part of the route is open to walking.
+            * `noThrough`: This part of the route can only be traversed if origin, destination or any via waypoint is located there.
+            * `tollRoad`: Access to this part of the route is restricted with a fee (or toll).
+
+            As it is possible that new attributes are supported in the future, unknown attributes should be ignored.
+          items:
+            $ref: '#/components/schemas/WalkAttributes'
+          type: array
+    VehicleSummary:
+      description: Total value of key attributes for a route section.
+      properties:
+        baseDuration:
+          allOf:
+            - $ref: '#/components/schemas/Duration'
+          description: |
+            Duration (in seconds) ignoring time-aware information.
+
+            In particular, dynamic traffic information is not taken into account. Only average
+            free-flow speeds based on historical traffic are used to calculate this duration.
+
+            The `baseDuration` can also be understood as the best possible duration.
+        co2Emission:
+          $ref: '#/components/schemas/Co2Emission'
+          description: |
+            Estimated CO2 emission for this section of route. It is calculated based on `engineType` and `iceConsumption`.
+            Unit is kilograms.
+        consumption:
+          $ref: '#/components/schemas/Energy'
+          description: Estimated net energy consumption (in kWh) including charge at charging station if applicable.
+        duration:
+          $ref: '#/components/schemas/Duration'
+        iceConsumption:
+          $ref: '#/components/schemas/FuelConsumption'
+          description: 'Estimated fuel consumption  (in liters for diesel, petrol, LPG, in kilograms for CNG) by internal-combustion-engine (ICE) vehicles.'
+        length:
+          $ref: '#/components/schemas/Distance'
+        tolls:
+          $ref: '#/components/schemas/TollSummary'
+          description: |
+            Summary of tolls to be paid for this section of the route (if any), grouped as requested in the `tolls` parameter.
+            This element only appears in the response if at least one grouping criteria was requested.
+        typicalDuration:
+          allOf:
+            - $ref: '#/components/schemas/Duration'
+          description: |
+            Duration (in seconds) under typical traffic conditions.
+
+            In particular, dynamic traffic information is not taken into account. Instead,
+            speeds that are typical for the given time of day/day of week based on historical
+            traffic are used to calculate this duration.
+      required:
+        - duration
+        - length
+    VehicleTransport:
+      description: Information about a transport
+      properties:
+        mode:
+          $ref: '#/components/schemas/VehicleMode'
+      required:
+        - mode
+    VehicleTravelSummary:
+      description: Total value of key attributes for a route section.
+      properties:
+        baseDuration:
+          allOf:
+            - $ref: '#/components/schemas/Duration'
+          description: |
+            Duration (in seconds) ignoring time-aware information.
+
+            In particular, dynamic traffic information is not taken into account. Only average
+            free-flow speeds based on historical traffic are used to calculate this duration.
+
+            The `baseDuration` can also be understood as the best possible duration.
+        co2Emission:
+          $ref: '#/components/schemas/Co2Emission'
+        consumption:
+          $ref: '#/components/schemas/Energy'
+          description: |
+            Estimated net energy consumption (in kWh) for the travel only.
+            Does not include any charging at stations.
+        duration:
+          $ref: '#/components/schemas/Duration'
+        iceConsumption:
+          $ref: '#/components/schemas/FuelConsumption'
+          description: 'Estimated fuel consumption (in liters for diesel, petrol, LPG, in kilograms for CNG) by internal-combustion-engine (ICE) vehicles.'
+        length:
+          $ref: '#/components/schemas/Distance'
+        mlDuration:
+          allOf:
+            - $ref: '#/components/schemas/Duration'
+          description: |
+            Duration (in seconds) based on the region-specific machine learning model.
+
+            `mlDuration` is calculated for each route section of the route.
+            If a section of the route is not supported, `mlDuration` is not present in the summary of that section and a notice with the reason is provided.
+            `mlDuration` is only calculated for the entire section. The sum of span durations is not equivalent to `mlDuration`.
+            **Limitations:** only valid for `transportMode=car` or `transportMode=taxi`.
+        tolls:
+          $ref: '#/components/schemas/TollSummary'
+          description: |
+            Summary of tolls to be paid for this section of the route (if any), grouped as requested in the `tolls` parameter.
+            This element only appears in the response if at least one grouping criteria was requested.
+        typicalDuration:
+          allOf:
+            - $ref: '#/components/schemas/Duration'
+          description: |
+            Duration (in seconds) under typical traffic conditions.
+
+            In particular, dynamic traffic information is not taken into account. Instead,
+            speeds that are typical for the given time of day/day of week based on historical
+            traffic are used to calculate this duration.
+      required:
+        - duration
+        - length
+    VehicleType:
+      description: |
+        Specifies the type of the vehicle
+
+        * `straightTruck`: a truck on a single frame with a permanently attached cargo area. **Note:**
+        default value when truck routing mode is used. **Limitations:** only valid for `transportMode=truck`.
+        * `tractor`: a towing vehicle that can pull one or more semi-trailers (aka semi-truck).
+        **Limitations:** only valid for `transportMode=truck`.
+      enum:
+        - straightTruck
+        - tractor
+      type: string
+    VersionResponse:
+      description: Returns the versions of the service components.
+      properties:
+        apiVersion:
+          description: The current version of the API.
+          type: string
+        dataVersions:
+          description: Returns the versions of data sets used by the service.
+          items:
+            $ref: '#/components/schemas/DataVersion'
+          type: array
+        serviceVersion:
+          description: The current version of the service.
+          type: string
+      required:
+        - apiVersion
+    ViolatedTransportMode:
+      allOf:
+        - $ref: '#/components/schemas/BaseNoticeDetail'
+      description: |
+        Contains details about violated transport mode on this road, e.g., trucks being generally forbidden.
+    WalkAttributes:
+      description: |
+        Extensible enum: `stairs` `park` `indoor` `open` `noThrough` `tollRoad` `...`  
+        WalkAttributes are applied to a span of a route section and describe walk-related attribute
+        flags.
+
+        * `stairs`: This part of the route is using stairs.
+        * `park`: This part of the route is located inside a park.
+        * `indoor`: This part of the route is located inside a venue.
+        * `open`: This part of the route is open to walking.
+        * `noThrough`: This part of the route can only be traversed if origin, destination or any via waypoint is located there.
+        * `tollRoad`: This part of the route is restricted with a fee (or toll).
+      type: string
+      x-extensible-enum:
+        - stairs
+        - park
+        - indoor
+        - open
+        - noThrough
+        - tollRoad
+    WebLink:
+      description: The URL address to an external resource.
+      properties:
+        href:
+          $ref: '#/components/schemas/Uri'
+        hrefText:
+          description: |
+            The interactive (or clickable) portion of the text. If not present (default), the entire content of the text attribute will be considered.
+          type: string
+        id:
+          description: Unique identifier for the web link. It is used to deduplicate links defined in multiple sections.
+          type: string
+        text:
+          description: Text describing the url address (e.g. The example website).
+          type: string
+      required:
+        - id
+        - text
+    WebLinkWithDeviceType:
+      description: The URL address to an external resource.
+      properties:
+        deviceType:
+          description: |
+            Extensible enum: `web` `ios` `android` `...`  
+            Device type for which the link is intended
+          type: string
+          x-extensible-enum:
+            - web
+            - ios
+            - android
+        href:
+          $ref: '#/components/schemas/Uri'
+        hrefText:
+          description: |
+            The interactive (or clickable) portion of the text. If not present (default), the entire content of the text attribute will be considered.
+          type: string
+        id:
+          description: Unique identifier for the web link. It is used to deduplicate links defined in multiple sections.
+          type: string
+        text:
+          description: Text describing the url address (e.g. The example website).
+          type: string
+      required:
+        - id
+        - text
+    WheelchairAccessibility:
+      default: unknown
+      description: |
+        Defines accessibility for people with a disability and who use a wheelchair.
+
+        * `unknown` - Information is not available.
+        * `yes` - Full unrestricted accessibility.
+        * `limited` - Accessibility is limited, not everywhere or require assistance.
+        * `no` - No accessibility.
+      enum:
+        - unknown
+        - 'yes'
+        - limited
+        - 'no'
+      type: string
+  securitySchemes:
+    ApiKey:
+      description: |
+        A key generated specifically to authenticate API requests. For more information on how to get an API key, see https://developer.here.com/documentation/identity-access-management/dev_guide/index.html.
+      in: query
+      name: apiKey
+      type: apiKey
+    Bearer:
+      bearerFormat: JWT
+      description: |
+        A token obtained from a separate endpoint using client credentials and an OAuth 1.0a HMAC-SHA256 signed request.
+        For more information on how to get a bearer token, see https://developer.here.com/documentation/identity-access-management/dev_guide/index.html.
+      scheme: bearer
+      type: http

@@ -1,0 +1,535 @@
+{
+  "here.com:intermodal-routing": {
+    "added": "2023-03-13T18:30:49.000Z",
+    "preferred": "8.0.1",
+    "versions": {
+      "8.0.1": {
+        "added": "2023-03-13T18:30:49.000Z",
+        "info": {
+          "description": "Intermodal Routing is a REST API that offers an innovative and smart routing\nexperience in urban areas to navigate between a given pair of locations.\nThis is possible when the consolidated public transit offer is intertwined\nwith external mobility services dynamically scattered in urban areas.\n",
+          "license": {
+            "name": "HERE Documentation License",
+            "url": "https://legal.here.com/en-gb/terms/documentation-license"
+          },
+          "termsOfService": "http://developer.here.com/terms-conditions",
+          "title": "Intermodal Routing",
+          "version": "8.0.1",
+          "x-apisguru-categories": [
+            "location"
+          ],
+          "x-document-meta-data": {
+            "copyright": "© 2022 HERE Europe B.V.",
+            "date-created": "2022-12-22T15:10:20+00:00",
+            "document-id": "df1124f9-1f8e-46d2-8298-d1a999a00e30"
+          },
+          "x-logo": {
+            "backgroundColor": "#FFFFFF",
+            "url": "https://mobidatalab.github.io/mdl-catalog-api/v2/cache/logo/https_avatars.githubusercontent.com_u_2835506.png"
+          },
+          "x-origin": [
+            {
+              "format": "openapi",
+              "url": "https://developer.here.com/documentation/intermodal-routing/swagger/intermodal_api.yaml",
+              "version": "3.0"
+            }
+          ],
+          "x-preferred": true,
+          "x-providerName": "here.com",
+          "x-serviceName": "intermodal-routing"
+        },
+        "swaggerUrl": "https://mobidatalab.github.io/mdl-catalog-api/v2/specs/here.com/intermodal-routing/8.0.1/openapi.json",
+        "swaggerYamlUrl": "https://mobidatalab.github.io/mdl-catalog-api/v2/specs/here.com/intermodal-routing/8.0.1/openapi.yaml",
+        "updated": "2023-03-13T18:30:49.000Z"
+      }
+    }
+  },
+  "here.com:positioning": {
+    "added": "2023-03-13T18:30:49.000Z",
+    "preferred": "2.3.1",
+    "versions": {
+      "2.1.1": {
+        "added": "2023-03-13T18:30:49.000Z",
+        "info": {
+          "contact": {
+            "x-twitter": "HERE"
+          },
+          "description": "Positioning API accepts requests with radio network measurements and replies with corresponding location estimate. For more details and examples, see [Developer's Guide](https://developer.here.com/documentation/positioning). Cellular measurements are given in terms defined in 3GPP and 3GGP2 specifications, see the corresponsing documentation at http://www.3gpp.org.\n\nBreaking changes from v1:\n  - JSON fields\n    `altaccuracy`, `baselat`, `baselng`, `cellparams`, `pilotpower`, `pnoffset`, `powrx`, `rxlevel`,\n    have been deprecated and replaced with\n    `altAccuracy`, `baseLat`, `baseLng`, `cellParams`, `pilotPower`, `pnOffset`, `rss`, `rxLevel`\n    respectively.\n  - Dependent parameters combined as a subobject.\n    - CDMA, GSM, WCDMA, TD-SCDMA and LTE local identification parameters for serving cell moved under `localId` property.\n    - GSM neighbor global ID: `lac` and `cid` for neighbor cell moved under `globalIdentity` property.\n",
+          "license": {
+            "name": "HERE Documentation License",
+            "url": "https://legal.here.com/en-gb/terms/documentation-license",
+            "x-copyright": "Copyright (C) 2017-2021 HERE Europe B.V."
+          },
+          "termsOfService": "http://developer.here.com/terms-conditions",
+          "title": "HERE Network Positioning API v2",
+          "version": "2.1.1",
+          "x-apisguru-categories": [
+            "location"
+          ],
+          "x-comment": "This API definition uses custom keywords for specifying rules not defined in OAS 3.0.x. They convey machine-readable information on additional requirements on the request message and are used for request validation by Positioning servers.\nFollowing custom keywords are used:\n  - x-comment - text\n      For comments, to be only visible in the specification, not in documentation.\n  - x-anyRequired - array of property names\n      Requires at least one of listed properties in the object.\n  - x-dependencies - object mapping from dependent properties to their dependencies\n      Same as 'dependencies' keyword in JSON Schema\n\nAlso, custom formats are used:\n  - uuid - UUID, supported by Ajv library\n  - version - requires version in X.Y.Z or X.Y format,\n      where X is [0..255], Y is [0..255] and Z is [0..65535].\n  - eddystoneId - A combination of 10-byte Namespace component and a 6-byte Instance component, as base64 string\n  - iBeaconId - A combination of 16-byte UUID + 2-byte major + 2-byte minor, as base64 string\n",
+          "x-document-meta-data": {
+            "copyright": "© 2021 HERE Europe B.V.",
+            "date-created": "2021-04-01T13:14:37+00:00",
+            "document-id": "0dd4683d-c62d-4da6-915a-942de9c3fb4b"
+          },
+          "x-logo": {
+            "url": "https://mobidatalab.github.io/mdl-catalog-api/v2/cache/logo/https_avatars.githubusercontent.com_u_2835506.png"
+          },
+          "x-olp-service": {
+            "name": "positioning",
+            "version": "v2"
+          },
+          "x-origin": [
+            {
+              "format": "openapi",
+              "url": "https://developer.here.com/documentation/positioning-api/swagger/positioning-v2-external-spec.yaml",
+              "version": "3.0"
+            }
+          ],
+          "x-preferred": false,
+          "x-providerName": "here.com",
+          "x-serviceName": "positioning"
+        },
+        "swaggerUrl": "https://mobidatalab.github.io/mdl-catalog-api/v2/specs/here.com/positioning/2.1.1/openapi.json",
+        "swaggerYamlUrl": "https://mobidatalab.github.io/mdl-catalog-api/v2/specs/here.com/positioning/2.1.1/openapi.yaml",
+        "updated": "2023-03-13T18:30:49.000Z"
+      },
+      "2.3.1": {
+        "added": "2023-03-13T18:30:49.000Z",
+        "info": {
+          "description": "Positioning API accepts requests with radio network measurements and replies with corresponding location estimate. For more details and examples, see [Developer's Guide](https://developer.here.com/documentation/positioning). Cellular measurements are given in terms defined in 3GPP and 3GGP2 specifications, see the corresponding documentation at http://www.3gpp.org.\n\nBreaking changes from v1:\n  - JSON fields\n    `altaccuracy`, `baselat`, `baselng`, `cellparams`, `pilotpower`, `pnoffset`, `powrx`, `rxlevel`,\n    have been deprecated and replaced with\n    `altAccuracy`, `baseLat`, `baseLng`, `cellParams`, `pilotPower`, `pnOffset`, `rss`, `rxLevel`\n    respectively.\n  - Dependent parameters combined as a subobject.\n    - CDMA, GSM, WCDMA, TD-SCDMA and LTE local identification parameters for serving cell moved under `localId` property.\n    - GSM neighbor global ID: `lac` and `cid` for neighbor cell moved under `globalIdentity` property.\n",
+          "license": {
+            "name": "HERE Documentation License",
+            "url": "https://legal.here.com/en-gb/terms/documentation-license",
+            "x-copyright": "Copyright (C) 2017-2022 HERE Europe B.V."
+          },
+          "termsOfService": "http://developer.here.com/terms-conditions",
+          "title": "HERE Network Positioning API v2",
+          "version": "2.3.1",
+          "x-apisguru-categories": [
+            "location"
+          ],
+          "x-comment": "This API definition uses custom keywords for specifying rules not defined in OAS 3.0.x. They convey machine-readable information on additional requirements on the request message and are used for request validation by Positioning servers.\nFollowing custom keywords are used:\n  - x-comment - text\n      For comments, to be only visible in the specification, not in documentation.\n  - x-anyRequired - array of property names\n      Requires at least one of listed properties in the object.\n  - x-dependencies - object mapping from dependent properties to their dependencies\n      Same as 'dependencies' keyword in JSON Schema\n\nAlso, custom formats are used:\n  - uuid - UUID, supported by Ajv library\n  - regex - RegExp, supported by Ajv library\n  - version - requires version in X.Y.Z or X.Y format,\n      where X is [0..255], Y is [0..255] and Z is [0..65535].\n",
+          "x-document-meta-data": {
+            "copyright": "© 2022 HERE Europe B.V.",
+            "date-created": "2022-12-08T10:31:54+00:00",
+            "document-id": "3c5d25c8-a0f8-4b0a-8aef-b8d7285af342"
+          },
+          "x-logo": {
+            "backgroundColor": "#FFFFFF",
+            "url": "https://mobidatalab.github.io/mdl-catalog-api/v2/cache/logo/https_avatars.githubusercontent.com_u_2835506.png"
+          },
+          "x-olp-service": {
+            "name": "positioning",
+            "version": "v2"
+          },
+          "x-origin": [
+            {
+              "format": "openapi",
+              "url": "https://developer.here.com/documentation/positioning-api/swagger/positioning-v2-external-spec.yaml",
+              "version": "3.0"
+            }
+          ],
+          "x-preferred": true,
+          "x-providerName": "here.com",
+          "x-serviceName": "positioning"
+        },
+        "swaggerUrl": "https://mobidatalab.github.io/mdl-catalog-api/v2/specs/here.com/positioning/2.3.1/openapi.json",
+        "swaggerYamlUrl": "https://mobidatalab.github.io/mdl-catalog-api/v2/specs/here.com/positioning/2.3.1/openapi.yaml",
+        "updated": "2023-03-13T18:30:49.000Z"
+      }
+    }
+  },
+  "here.com:routing": {
+    "added": "2023-03-13T18:30:49.000Z",
+    "preferred": "8.58.3",
+    "versions": {
+      "8.58.3": {
+        "added": "2023-03-13T18:30:49.000Z",
+        "info": {
+          "description": "A location service providing customizable route calculations for a variety of vehicle types as well as pedestrian modes.",
+          "license": {
+            "name": "HERE Documentation License",
+            "url": "https://legal.here.com/en-gb/terms/documentation-license"
+          },
+          "termsOfService": "http://developer.here.com/terms-conditions",
+          "title": "Routing API v8",
+          "version": "8.58.3",
+          "x-apisguru-categories": [
+            "location"
+          ],
+          "x-document-meta-data": {
+            "copyright": "© 2023 HERE Europe B.V.",
+            "date-created": "2023-02-21T15:56:22+00:00",
+            "document-id": "290a7d22-6810-4e1b-8ba5-a35537f64a94"
+          },
+          "x-logo": {
+            "backgroundColor": "#FFFFFF",
+            "url": "https://mobidatalab.github.io/mdl-catalog-api/v2/cache/logo/https_avatars.githubusercontent.com_u_2835506.png"
+          },
+          "x-origin": [
+            {
+              "format": "openapi",
+              "url": "https://developer.here.com/documentation/routing-api/swagger/v8.yaml",
+              "version": "3.0"
+            }
+          ],
+          "x-preferred": true,
+          "x-providerName": "here.com",
+          "x-serviceName": "routing"
+        },
+        "swaggerUrl": "https://mobidatalab.github.io/mdl-catalog-api/v2/specs/here.com/routing/8.58.3/openapi.json",
+        "swaggerYamlUrl": "https://mobidatalab.github.io/mdl-catalog-api/v2/specs/here.com/routing/8.58.3/openapi.yaml",
+        "updated": "2023-03-13T18:30:49.000Z"
+      }
+    }
+  },
+  "here.com:routing-intermodal": {
+    "added": "2023-03-13T18:30:49.000Z",
+    "preferred": "8.0.1",
+    "versions": {
+      "8.0.1": {
+        "added": "2023-03-13T18:30:49.000Z",
+        "info": {
+          "description": "Intermodal Routing is a REST API that offers an innovative and smart routing\nexperience in urban areas to navigate between a given pair of locations.\nThis is possible when the consolidated public transit offer is intertwined\nwith external mobility services dynamically scattered in urban areas.\n",
+          "license": {
+            "name": "HERE Documentation License",
+            "url": "https://legal.here.com/en-gb/terms/documentation-license"
+          },
+          "termsOfService": "http://developer.here.com/terms-conditions",
+          "title": "Intermodal Routing",
+          "version": "8.0.1",
+          "x-apisguru-categories": [
+            "location"
+          ],
+          "x-document-meta-data": {
+            "copyright": "© 2022 HERE Europe B.V.",
+            "date-created": "2022-12-22T15:10:20+00:00",
+            "document-id": "df1124f9-1f8e-46d2-8298-d1a999a00e30"
+          },
+          "x-logo": {
+            "backgroundColor": "#FFFFFF",
+            "url": "https://mobidatalab.github.io/mdl-catalog-api/v2/cache/logo/https_avatars.githubusercontent.com_u_2835506.png"
+          },
+          "x-origin": [
+            {
+              "format": "openapi",
+              "url": "https://developer.here.com/documentation/intermodal-routing/swagger/intermodal_api.yaml",
+              "version": "3.0"
+            }
+          ],
+          "x-preferred": true,
+          "x-providerName": "here.com",
+          "x-serviceName": "routing-intermodal"
+        },
+        "swaggerUrl": "https://mobidatalab.github.io/mdl-catalog-api/v2/specs/here.com/routing-intermodal/8.0.1/openapi.json",
+        "swaggerYamlUrl": "https://mobidatalab.github.io/mdl-catalog-api/v2/specs/here.com/routing-intermodal/8.0.1/openapi.yaml",
+        "updated": "2023-03-13T18:30:49.000Z"
+      }
+    }
+  },
+  "here.com:tracking": {
+    "added": "2023-03-13T18:30:49.000Z",
+    "preferred": "2.1.58",
+    "versions": {
+      "2.1.58": {
+        "added": "2023-03-13T18:30:49.000Z",
+        "info": {
+          "contact": {
+            "x-twitter": "HERE"
+          },
+          "description": "HERE Tracking is a cloud product designed to address location tracking problems for a wide range of Location IoT industry verticals.\n\nHERE Tracking also includes end-user mobile and web applications that can be used to demonstrate the product.",
+          "license": {
+            "name": "HERE Documentation License",
+            "url": "https://legal.here.com/en-gb/terms/documentation-license"
+          },
+          "title": "HERE Tracking",
+          "version": "2.1.58",
+          "x-apisguru-categories": [
+            "location"
+          ],
+          "x-document-meta-data": {
+            "copyright": "© 2021 HERE Europe B.V.",
+            "date-created": "2021-03-23T07:09:46+00:00",
+            "document-id": "2570a397-343f-4e48-a977-7768ea75c130"
+          },
+          "x-logo": {
+            "url": "https://mobidatalab.github.io/mdl-catalog-api/v2/cache/logo/https_avatars.githubusercontent.com_u_2835506.png"
+          },
+          "x-origin": [
+            {
+              "format": "openapi",
+              "url": "https://developer.here.com/documentation/tracking/swagger/swagger.json",
+              "version": "3.0"
+            }
+          ],
+          "x-preferred": true,
+          "x-providerName": "here.com",
+          "x-serviceName": "tracking"
+        },
+        "swaggerUrl": "https://mobidatalab.github.io/mdl-catalog-api/v2/specs/here.com/tracking/2.1.58/openapi.json",
+        "swaggerYamlUrl": "https://mobidatalab.github.io/mdl-catalog-api/v2/specs/here.com/tracking/2.1.58/openapi.yaml",
+        "updated": "2023-03-13T18:30:49.000Z"
+      }
+    }
+  },
+  "here.com:traffic": {
+    "added": "2023-03-13T18:30:49.000Z",
+    "preferred": "7.2.0",
+    "versions": {
+      "7.2.0": {
+        "added": "2023-03-13T18:30:49.000Z",
+        "info": {
+          "description": "The HERE Traffic API is a REST API that provides traffic flow and incidents information.",
+          "license": {
+            "name": "HERE Documentation License",
+            "url": "https://legal.here.com/en-gb/terms/documentation-license"
+          },
+          "termsOfService": "http://developer.here.com/terms-conditions",
+          "title": "Traffic API v7",
+          "version": "7.2.0",
+          "x-apisguru-categories": [
+            "location"
+          ],
+          "x-document-meta-data": {
+            "copyright": "© 2023 HERE Europe B.V.",
+            "date-created": "2023-02-28T16:09:10+00:00",
+            "document-id": "0befb769-5605-4b81-8107-9e6aee9904fa"
+          },
+          "x-logo": {
+            "backgroundColor": "#FFFFFF",
+            "url": "https://mobidatalab.github.io/mdl-catalog-api/v2/cache/logo/https_avatars.githubusercontent.com_u_2835506.png"
+          },
+          "x-origin": [
+            {
+              "format": "openapi",
+              "url": "https://developer.here.com/documentation/traffic-api/swagger/traffic-v7-openapi.yml",
+              "version": "3.0"
+            }
+          ],
+          "x-preferred": true,
+          "x-providerName": "here.com",
+          "x-serviceName": "traffic"
+        },
+        "swaggerUrl": "https://mobidatalab.github.io/mdl-catalog-api/v2/specs/here.com/traffic/7.2.0/openapi.json",
+        "swaggerYamlUrl": "https://mobidatalab.github.io/mdl-catalog-api/v2/specs/here.com/traffic/7.2.0/openapi.yaml",
+        "updated": "2023-03-13T18:30:49.000Z"
+      }
+    }
+  },
+  "here.com:transit": {
+    "added": "2023-03-13T18:30:49.000Z",
+    "preferred": "8.0.1",
+    "versions": {
+      "8.0.1": {
+        "added": "2023-03-13T18:30:49.000Z",
+        "info": {
+          "description": "Public Transit is a set of three REST APIs that provides public transit\nrouting information and public transit stations information available within\nan area or for a given station.\n",
+          "license": {
+            "name": "HERE Documentation License",
+            "url": "https://legal.here.com/en-gb/terms/documentation-license"
+          },
+          "termsOfService": "http://developer.here.com/terms-conditions",
+          "title": "Public Transit",
+          "version": "8.0.1",
+          "x-apisguru-categories": [
+            "location"
+          ],
+          "x-document-meta-data": {
+            "copyright": "© 2022 HERE Europe B.V.",
+            "date-created": "2022-12-22T15:09:49+00:00",
+            "document-id": "06f47a61-0fdf-43c0-9d84-88066d6fa2c6"
+          },
+          "x-logo": {
+            "backgroundColor": "#FFFFFF",
+            "url": "https://mobidatalab.github.io/mdl-catalog-api/v2/cache/logo/https_avatars.githubusercontent.com_u_2835506.png"
+          },
+          "x-origin": [
+            {
+              "format": "openapi",
+              "url": "https://developer.here.com/documentation/public-transit/swagger/transit_api.yaml",
+              "version": "3.0"
+            }
+          ],
+          "x-preferred": true,
+          "x-providerName": "here.com",
+          "x-serviceName": "transit"
+        },
+        "swaggerUrl": "https://mobidatalab.github.io/mdl-catalog-api/v2/specs/here.com/transit/8.0.1/openapi.json",
+        "swaggerYamlUrl": "https://mobidatalab.github.io/mdl-catalog-api/v2/specs/here.com/transit/8.0.1/openapi.yaml",
+        "updated": "2023-03-13T18:30:49.000Z"
+      }
+    }
+  },
+  "here.com:vectortiles": {
+    "added": "2023-03-13T18:30:49.000Z",
+    "preferred": "2.2.0",
+    "versions": {
+      "2.2.0": {
+        "added": "2023-03-13T18:30:49.000Z",
+        "info": {
+          "description": "The Vector Tile API allows you to request tiles containing vector data using content from the HERE platform. Our vector tiles use Web Mercator projection and follow the Vector Tile Specification. This format contains geometries, such as points and lines, that define polygons, labels, such as road names or city names, and other kinds of data that are typically passed to a renderer to draw a map. The tiles are optimized to be visualized as 512 screen pixels per tile. The Vector Tile API supports the standard [HTTP status codes](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4)\n## CORS Support\nThe server supports [CORS](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing). The following headers are included in every response.\n```http\nAccess-Control-Allow-Headers: Authorization, Origin, Referer, User-Agent, If-None-Match\nAccess-Control-Allow-Methods: GET, OPTIONS\nAccess-Control-Allow-Origin: *\n``` ",
+          "license": {
+            "name": "HERE Documentation License",
+            "url": "https://legal.here.com/en-gb/terms/documentation-license"
+          },
+          "termsOfService": "http://developer.here.com/terms-conditions",
+          "title": "Vector Tile",
+          "version": "2.2.0",
+          "x-apisguru-categories": [
+            "location"
+          ],
+          "x-document-meta-data": {
+            "copyright": "© 2023 HERE Europe B.V.",
+            "date-created": "2023-02-07T12:25:54+00:00",
+            "document-id": "6719e6cc-5a07-45ff-b783-08f4a778f97d"
+          },
+          "x-logo": {
+            "backgroundColor": "#FFFFFF",
+            "url": "https://mobidatalab.github.io/mdl-catalog-api/v2/cache/logo/https_avatars.githubusercontent.com_u_2835506.png"
+          },
+          "x-olp-service": {
+            "name": "Vector Tile API",
+            "version": "v2"
+          },
+          "x-origin": [
+            {
+              "format": "openapi",
+              "url": "https://developer.here.com/documentation/vector-tiles-api/swagger/vectortiles-v2-openapi.yml",
+              "version": "3.0"
+            }
+          ],
+          "x-preferred": true,
+          "x-providerName": "here.com",
+          "x-serviceName": "vectortiles"
+        },
+        "swaggerUrl": "https://mobidatalab.github.io/mdl-catalog-api/v2/specs/here.com/vectortiles/2.2.0/openapi.json",
+        "swaggerYamlUrl": "https://mobidatalab.github.io/mdl-catalog-api/v2/specs/here.com/vectortiles/2.2.0/openapi.yaml",
+        "updated": "2023-03-13T18:30:49.000Z"
+      }
+    }
+  },
+  "tomtom.com:maps": {
+    "added": "2023-03-13T18:30:49.000Z",
+    "preferred": "1.0.0",
+    "versions": {
+      "1.0.0": {
+        "added": "2023-03-13T18:30:49.000Z",
+        "info": {
+          "contact": {
+            "x-twitter": "TomTom"
+          },
+          "description": "The Maps API web services suite offers the following APIs:\n  - Raster\n  The Maps Raster API renders map data that is divided into gridded sections called tiles. Tiles are square images (png or jpg format) in various sizes which are available at 19 different zoom levels, ranging from 0 to 20. For zoom level 0, the entire earth is displayed on one single tile, while at zoom level 20, the world is divided into 2<sup>40</sup> tiles.\n  - Vector\n  Similar to Maps Raster API, the Maps Vector API serves data on different zoom level ranging from 0 to 22. For zoom level 0, the entire earth is displayed on one single tile, while at zoom level 22, the world is divided into 2<sup>44</sup> tiles.\n  The Maps Vector Service delivers geographic map data packaged in a vector representation of squared sections called vector tiles. Each tile includes pre-defined collections of map features (points, lines, road shapes, water polygons, building footprints, ect.) delivered in one of the specified vector formats. Format of the tile is formally described using protobuf schema.",
+          "title": "Maps",
+          "version": "1.0.0",
+          "x-apisguru-categories": [
+            "location"
+          ],
+          "x-logo": {
+            "url": "https://mobidatalab.github.io/mdl-catalog-api/v2/cache/logo/https_twitter.com_TomTom_profile_image.jpeg"
+          },
+          "x-origin": [
+            {
+              "converter": {
+                "url": "https://github.com/lucybot/api-spec-converter",
+                "version": "2.7.31"
+              },
+              "format": "openapi",
+              "url": "https://developer.tomtom.com/system/files/swagger_models/maps_api_0.yaml",
+              "version": "3.0"
+            }
+          ],
+          "x-preferred": true,
+          "x-providerName": "tomtom.com",
+          "x-serviceName": "maps"
+        },
+        "swaggerUrl": "https://mobidatalab.github.io/mdl-catalog-api/v2/specs/tomtom.com/maps/1.0.0/openapi.json",
+        "swaggerYamlUrl": "https://mobidatalab.github.io/mdl-catalog-api/v2/specs/tomtom.com/maps/1.0.0/openapi.yaml",
+        "updated": "2023-03-13T18:30:49.000Z"
+      }
+    }
+  },
+  "tomtom.com:routing": {
+    "added": "2023-03-13T18:30:49.000Z",
+    "preferred": "1.0.0",
+    "versions": {
+      "1.0.0": {
+        "added": "2023-03-13T18:30:49.000Z",
+        "info": {
+          "contact": {
+            "name": "Contact Us",
+            "url": "https://developer.tomtom.com/contact-us",
+            "x-twitter": "TomTom"
+          },
+          "description": "Routing consists of the following service:\n<b>Calculate Route</b>\nCalculates a route between an origin and a destination, passing through waypoints (if specified). Additional routing parameters like traffic, avoidance conditions, departure/arrival time etc. can be taken into account.\n<b>Calculate Reachable Range</b>\nCalculates a set of locations that can be reached from the origin point, subject to the available fuel or energy budget that is specified in the request.",
+          "title": "Routing",
+          "version": "1.0.0",
+          "x-apisguru-categories": [
+            "location"
+          ],
+          "x-logo": {
+            "url": "https://mobidatalab.github.io/mdl-catalog-api/v2/cache/logo/https_twitter.com_TomTom_profile_image.jpeg"
+          },
+          "x-origin": [
+            {
+              "converter": {
+                "url": "https://github.com/lucybot/api-spec-converter",
+                "version": "2.7.31"
+              },
+              "format": "openapi",
+              "url": "https://developer.tomtom.com/system/files/swagger_models/routing_api.yaml",
+              "version": "3.0"
+            }
+          ],
+          "x-preferred": true,
+          "x-providerName": "tomtom.com",
+          "x-serviceName": "routing"
+        },
+        "swaggerUrl": "https://mobidatalab.github.io/mdl-catalog-api/v2/specs/tomtom.com/routing/1.0.0/openapi.json",
+        "swaggerYamlUrl": "https://mobidatalab.github.io/mdl-catalog-api/v2/specs/tomtom.com/routing/1.0.0/openapi.yaml",
+        "updated": "2023-03-13T18:30:49.000Z"
+      }
+    }
+  },
+  "tomtom.com:search": {
+    "added": "2023-03-13T18:30:49.000Z",
+    "preferred": "1.0.0",
+    "versions": {
+      "1.0.0": {
+        "added": "2023-03-13T18:30:49.000Z",
+        "info": {
+          "contact": {
+            "name": "Contact Us",
+            "url": "https://developer.tomtom.com/contact-us",
+            "x-twitter": "TomTom"
+          },
+          "description": "Search API is a RESTful API that allows developers to run a single line fuzzy search for addresses and POIs. Search API returns the latitude/longitude of a specific address, cross street, geographic feature, or point of interest (POI).",
+          "title": "Search",
+          "version": "1.0.0",
+          "x-apisguru-categories": [
+            "location"
+          ],
+          "x-logo": {
+            "url": "https://mobidatalab.github.io/mdl-catalog-api/v2/cache/logo/https_twitter.com_TomTom_profile_image.jpeg"
+          },
+          "x-origin": [
+            {
+              "converter": {
+                "url": "https://github.com/lucybot/api-spec-converter",
+                "version": "2.7.31"
+              },
+              "format": "openapi",
+              "url": "https://developer.tomtom.com/system/files/swagger_models/search_api.yaml",
+              "version": "3.0"
+            }
+          ],
+          "x-preferred": true,
+          "x-providerName": "tomtom.com",
+          "x-serviceName": "search"
+        },
+        "swaggerUrl": "https://mobidatalab.github.io/mdl-catalog-api/v2/specs/tomtom.com/search/1.0.0/openapi.json",
+        "swaggerYamlUrl": "https://mobidatalab.github.io/mdl-catalog-api/v2/specs/tomtom.com/search/1.0.0/openapi.yaml",
+        "updated": "2023-03-13T18:30:49.000Z"
+      }
+    }
+  }
+}

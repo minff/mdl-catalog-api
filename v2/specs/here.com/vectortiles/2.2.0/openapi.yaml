@@ -1,0 +1,659 @@
+openapi: 3.0.2
+servers:
+  - description: Production
+    url: 'https://vector.hereapi.com/v2/vectortiles'
+    variables: {}
+info:
+  description: |-
+    The Vector Tile API allows you to request tiles containing vector data using content from the HERE platform. Our vector tiles use Web Mercator projection and follow the Vector Tile Specification. This format contains geometries, such as points and lines, that define polygons, labels, such as road names or city names, and other kinds of data that are typically passed to a renderer to draw a map. The tiles are optimized to be visualized as 512 screen pixels per tile. The Vector Tile API supports the standard [HTTP status codes](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4)
+    ## CORS Support
+    The server supports [CORS](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing). The following headers are included in every response.
+    ```http
+    Access-Control-Allow-Headers: Authorization, Origin, Referer, User-Agent, If-None-Match
+    Access-Control-Allow-Methods: GET, OPTIONS
+    Access-Control-Allow-Origin: *
+    ``` 
+  license:
+    name: HERE Documentation License
+    url: 'https://legal.here.com/en-gb/terms/documentation-license'
+  termsOfService: 'http://developer.here.com/terms-conditions'
+  title: Vector Tile
+  version: 2.2.0
+  x-apisguru-categories:
+    - location
+  x-document-meta-data:
+    copyright: © 2023 HERE Europe B.V.
+    date-created: '2023-02-07T12:25:54+00:00'
+    document-id: 6719e6cc-5a07-45ff-b783-08f4a778f97d
+  x-logo:
+    backgroundColor: '#FFFFFF'
+    url: 'https://mobidatalab.github.io/mdl-catalog-api/v2/cache/logo/https_avatars.githubusercontent.com_u_2835506.png'
+  x-olp-service:
+    name: Vector Tile API
+    version: v2
+  x-origin:
+    - format: openapi
+      url: 'https://developer.here.com/documentation/vector-tiles-api/swagger/vectortiles-v2-openapi.yml'
+      version: '3.0'
+  x-preferred: true
+  x-providerName: here.com
+  x-serviceName: vectortiles
+security:
+  - BearerTokenAuth: []
+  - apiKeyAuth: []
+paths:
+  /copyright:
+    get:
+      description: Returns the copyright.
+      operationId: getCopyright
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CopyrightSchema'
+          description: OK - Information about the copyright.
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+      summary: Returns the copyright
+  /docs/layers/json:
+    get:
+      description: Returns OMV-2 layers documentation.
+      operationId: getDocs
+      responses:
+        '200':
+          description: OK - Documentation returned.
+      security: []
+      summary: Returns OMV-2 layers documentation.
+  /info:
+    get:
+      description: Returns the map version. This version is valid only for 24h
+      operationId: getInfo
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InfoSchema'
+          description: OK - Information about the catalog and map version returned.
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+      summary: Returns the map version. This version is valid only for 24h
+  /languages:
+    get:
+      description: Returns the list of available map languages per warp layer.
+      operationId: getLanguages
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LanguagesSchema'
+          description: OK - List of languages per warp layer.
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+      summary: Returns the map languages.
+  /openapi:
+    get:
+      description: Returns open api specifications of v2.
+      responses:
+        '200':
+          content:
+            application/x-yaml:
+              schema:
+                type: string
+          description: OK - Returns api specifications of a particular version.
+        '404':
+          description: Requested open spec file is not available.
+      security: []
+      summary: Returns open api specifications of v2.
+  /proto:
+    get:
+      description: Returns a list of available protocol buffer formats.
+      operationId: listProto
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProtoSchema'
+          description: OK - Procol buffer format list retrieved.
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+      summary: Returns a list of available protocol buffer formats.
+  '/proto/{name}':
+    get:
+      description: Returns the specified protocol buffer file format.
+      operationId: getProto
+      parameters:
+        - description: Specifies the name of the requested protocol buffer format file.
+          example: vector_tile.proto
+          in: path
+          name: name
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: OK - Protocol buffer format file retrieved.
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          description: Requested protocol buffer format file is not available.
+      summary: Returns the specified protocol buffer file format.
+  /pviews:
+    get:
+      description: Returns the list of available political views.
+      operationId: getPoliticalViews
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PoliticalViewsSchema'
+          description: OK - List of political views
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+      summary: Returns the political views
+  '/{layer}/{projection}/{z}/{x}/{y}/{format}':
+    get:
+      description: Retrieves the protocol buffer encoded binary tile.
+      operationId: getTile
+      parameters:
+        - description: |
+            Specifies the layers available in the tile. The access to each layer is determined by the contract of the user.
+             * base - includes base layer
+             * core - includes everything form `base` and additional data for some countries (for example: Japan)
+          example: base
+          in: path
+          name: layer
+          required: true
+          schema:
+            enum:
+              - base
+              - core
+            type: string
+        - description: |
+            Specifies the tile projection.
+             * mc - Mercator Projection
+          example: mc
+          in: path
+          name: projection
+          required: true
+          schema:
+            enum:
+              - mc
+            type: string
+        - description: |
+            Specifies the tile Zoom level. Accepted values range from 0-17.
+             * minimum - 0
+
+             * maximum - 17
+          example: 11
+          in: path
+          name: z
+          required: true
+          schema:
+            maximum: 17
+            minimum: 0
+            type: integer
+        - description: |
+            Specifies the X coordinate index. This parameter is dependent upon the tile Zoom level.
+             * minimum - 0
+
+             * maximum - 2^z-1 (depends on the Zoom level)
+          example: 1100
+          in: path
+          name: x
+          required: true
+          schema:
+            minimum: 0
+            type: integer
+        - description: |
+            Specifies the Y coordinate index. This parameter is dependent upon the tile Zoom level.
+             * minimum - 0
+
+             * maximum - 2^z-1 (depends on the Zoom level)
+          example: 671
+          in: path
+          name: 'y'
+          required: true
+          schema:
+            minimum: 0
+            type: integer
+        - description: |
+            Specifies the tile format.
+             * omv - Optimized Map for Visualization (follows Map Vector Tile open specification)
+          example: omv
+          in: path
+          name: format
+          required: true
+          schema:
+            enum:
+              - omv
+            type: string
+        - description: Specifies the map version to be used. The map version can be retrieved by querying /info
+          in: query
+          name: mv
+          required: false
+          schema:
+            type: string
+        - description: |-
+            Specifies comma separated list of layer names to be excluded from the resulting Map Vector Tile.<br> Should follow: (-LAYER_1,-LAYER_2,...), Examples:
+             * (-roads) to remove just roads,
+             * (-roads,-water,-buildings) to remove roads, water areas and buildings
+          examples:
+            multipleValues:
+              summary: '?datasets=(-roads,-water,-buildings)'
+              value: '(-roads,-water,-buildings)'
+            singleValue:
+              summary: '?datasets=(-roads)'
+              value: (-roads)
+          in: query
+          name: datasets
+          required: false
+          schema:
+            type: string
+        - description: Specifies an optional entity tag of the resource cached in the client.
+          example: '12345'
+          in: header
+          name: if-none-match
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/x-protobuf:
+              schema:
+                description: The requested tile in protobuf binary format.
+                format: binary
+                type: string
+          description: OK - Binary tile successfully retrieved.
+          headers:
+            ETag:
+              description: Entity tag. Version of the provided tile.
+              schema:
+                type: string
+        '204':
+          description: Tile data is not available in data (at all or for requested tile version) or no features in requested tile.
+        '304':
+          description: The resource cached in the client (identified by the if-none-match) header has not changed.
+        '400':
+          content:
+            application/json:
+              schema:
+                properties:
+                  action:
+                    description: Actionable instructions for the API consumer
+                    example: Correct input data and retry request
+                    type: string
+                  cause:
+                    description: The cause of the error
+                    example: The input data in question does not meet validation rules
+                    type: string
+                  code:
+                    description: Service specific error code
+                    example: E202101
+                    type: string
+                  correlationId:
+                    description: 'Trace ID associated with this request, for future use'
+                    example: 4199533b-6290-41db-8d79-edf4f4019a74
+                    type: string
+                  status:
+                    description: HTTP Status Code
+                    example: 400
+                    type: integer
+                  title:
+                    description: Error message
+                    example: Input data failed validation
+                    type: string
+                type: object
+          description: |
+            Possible messages due to request URI validation error.
+            * Layer 'some' is invalid.
+            * Format 'wrong' format is invalid. Accepted formats are - omv.
+            * Projection 'na' is invalid. Accepted projection are - mc.
+            * Zoom level 100 is invalid. Accepted zoom levels are - [1-17].
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+      summary: Retrieves the protocol buffer encoded binary tile.
+components:
+  responses:
+    UnauthorizedError:
+      content:
+        application/json:
+          schema:
+            properties:
+              error:
+                enum:
+                  - Unauthorized
+                type: string
+              error_description:
+                description: Access is denied due to invalid credentials.
+                type: string
+            type: object
+      description: Access token is missing or invalid.
+  schemas:
+    CopyrightSchema:
+      properties:
+        base:
+          items:
+            properties:
+              alt:
+                description: Verbose copyright text of the label to display by mouse over label or info menu entry.
+                example: copyright IGN 2009 - BD TOPO
+                type: string
+              boxes:
+                description: A collection of areas that belong to this copyright
+                items:
+                  description: 'The bounding boxes define areas where specific copyrights are valid. A bounding box is defined by `bottom` (latitude), `left` (longitude) and `top` (latitude), `right` (longitude).'
+                  example:
+                    - 15.6985
+                    - -61.9309
+                    - 16.5953
+                    - -61.0013
+                  items:
+                    format: float
+                    type: number
+                  type: array
+                type: array
+              label:
+                description: Copyright text to display after the copyright symbol on the map.
+                example: IGN
+                type: string
+              maxLevel:
+                description: Maximum zoom level for the specified copyright label.
+                example: '20'
+                type: integer
+              minLevel:
+                description: Minimum zoom level for the specified copyright label.
+                example: '11'
+                type: integer
+            type: object
+          type: array
+        core:
+          items:
+            properties:
+              alt:
+                description: Verbose copyright text of the label to display by mouse over label or info menu entry.
+                example: 'Copyright GeoTechnologies, Inc.'
+                type: string
+              boxes:
+                description: A collection of areas that belong to this copyright
+                items:
+                  description: 'The bounding boxes define areas where specific copyrights are valid. A bounding box is defined by `bottom` (latitude), `left` (longitude) and `top` (latitude), `right` (longitude).'
+                  example:
+                    - 11.28
+                    - 104.67
+                    - 56.47
+                    - 168.92
+                  items:
+                    format: float
+                    type: number
+                  type: array
+                type: array
+              label:
+                description: Copyright text to display after the copyright symbol on the map.
+                example: 'GeoTechnologies, Inc.'
+                type: string
+              maxLevel:
+                description: Maximum zoom level for the specified copyright label.
+                example: '5'
+                type: integer
+              minLevel:
+                description: Minimum zoom level for the specified copyright label.
+                example: '1'
+                type: integer
+            type: object
+          type: array
+      type: object
+    InfoSchema:
+      properties:
+        mapVersion:
+          description: 'The current encoded map version. Lasts for 24 hours. After that period, this value should be refreshed.'
+          example: in337jp128
+          type: string
+        softwareVersion:
+          description: The version of HERE Vector Tiles Service.
+          example: 1.1.274
+          type: string
+      type: object
+    LanguagesSchema:
+      properties:
+        base:
+          items:
+            description: Indicates which languages the map supports on this layer.
+            example:
+              - ar
+              - as
+              - az
+              - be
+              - bg
+              - bn
+              - bs
+              - ca
+              - cs
+              - cy
+              - da
+              - de
+              - el
+              - en
+              - es
+              - et
+              - eu
+              - fi
+              - fo
+              - fr
+              - ga
+              - gl
+              - gn
+              - gu
+              - he
+              - hi
+              - hr
+              - hu
+              - hy
+              - id
+              - is
+              - it
+              - ja
+              - ka
+              - kk
+              - km
+              - kn
+              - ko
+              - ky
+              - lt
+              - lv
+              - mk
+              - ml
+              - mr
+              - ms
+              - mt
+              - my
+              - nl
+              - 'no'
+              - or
+              - pa
+              - pl
+              - pt
+              - ro
+              - ru
+              - sk
+              - sl
+              - sq
+              - sr
+              - sv
+              - ta
+              - te
+              - th
+              - tr
+              - uk
+              - uz
+              - vi
+              - zh
+              - zh-Hant
+            type: string
+          type: array
+        core:
+          items:
+            description: Indicates which languages the map supports on this layer.
+            example:
+              - ar
+              - as
+              - az
+              - be
+              - bg
+              - bn
+              - bs
+              - ca
+              - cs
+              - cy
+              - da
+              - de
+              - el
+              - en
+              - es
+              - et
+              - eu
+              - fi
+              - fo
+              - fr
+              - ga
+              - gl
+              - gn
+              - gu
+              - he
+              - hi
+              - hr
+              - hu
+              - hy
+              - id
+              - is
+              - it
+              - ja
+              - ka
+              - kk
+              - km
+              - kn
+              - ko
+              - ky
+              - lt
+              - lv
+              - mk
+              - ml
+              - mr
+              - ms
+              - mt
+              - my
+              - nl
+              - 'no'
+              - or
+              - pa
+              - pl
+              - pt
+              - ro
+              - ru
+              - sk
+              - sl
+              - sq
+              - sr
+              - sv
+              - ta
+              - te
+              - th
+              - tr
+              - uk
+              - uz
+              - vi
+              - zh
+              - zh-Hant
+            type: string
+          type: array
+      type: object
+    PoliticalViewsSchema:
+      properties:
+        base:
+          items:
+            description: Indicates which country has disputed territories.
+            example:
+              - ab
+              - ar
+              - cy
+              - eg
+              - gr
+              - in
+              - ke
+              - ma
+              - os
+              - pk
+              - ps
+              - rs
+              - ru
+              - sd
+              - sr
+              - sy
+              - tr
+              - tz
+              - uy
+            type: string
+          type: array
+        core:
+          items:
+            description: Indicates which country has disputed territories.
+            example:
+              - ab
+              - ar
+              - cy
+              - eg
+              - gr
+              - in
+              - ke
+              - ma
+              - os
+              - pk
+              - ps
+              - rs
+              - ru
+              - sd
+              - sr
+              - sy
+              - tr
+              - tz
+              - uy
+            type: string
+          type: array
+      type: object
+    ProtoSchema:
+      items:
+        $ref: '#/components/schemas/ProtoSchemaItem'
+      type: array
+    ProtoSchemaItem:
+      properties:
+        description:
+          description: A textual description of the format.
+          example: OMV format
+          type: string
+        name:
+          description: The name of the file to be retrieved in a subsequent call.
+          example: vector_tile.proto
+          type: string
+      type: object
+  securitySchemes:
+    BearerTokenAuth:
+      bearerFormat: JWT
+      description: |
+        A token obtained from a separate endpoint using client credentials and an OAuth 1.0a HMAC-SHA256 signed request. For more information on how to get a bearer token, see https://developer.here.com/documentation/identity-access-management/dev_guide/index.html.
+      scheme: bearer
+      type: http
+    apiKeyAuth:
+      description: |
+        A key generated specifically to authenticate API requests. For more information on how to get an API key, see https://developer.here.com/documentation/identity-access-management/dev_guide/index.html.
+      in: query
+      name: apiKey
+      type: apiKey

@@ -1,0 +1,3807 @@
+{
+  "openapi": "3.0.2",
+  "servers": [
+    {
+      "description": "All Public Transit services, namely Routing, Next Departures, and Station Search.",
+      "url": "https://transit.hereapi.com/v8"
+    }
+  ],
+  "info": {
+    "description": "Public Transit is a set of three REST APIs that provides public transit\nrouting information and public transit stations information available within\nan area or for a given station.\n",
+    "license": {
+      "name": "HERE Documentation License",
+      "url": "https://legal.here.com/en-gb/terms/documentation-license"
+    },
+    "termsOfService": "http://developer.here.com/terms-conditions",
+    "title": "Public Transit",
+    "version": "8.0.1",
+    "x-apisguru-categories": [
+      "location"
+    ],
+    "x-document-meta-data": {
+      "copyright": "© 2022 HERE Europe B.V.",
+      "date-created": "2022-12-22T15:09:49+00:00",
+      "document-id": "06f47a61-0fdf-43c0-9d84-88066d6fa2c6"
+    },
+    "x-logo": {
+      "backgroundColor": "#FFFFFF",
+      "url": "https://mobidatalab.github.io/mdl-catalog-api/v2/cache/logo/https_avatars.githubusercontent.com_u_2835506.png"
+    },
+    "x-origin": [
+      {
+        "format": "openapi",
+        "url": "https://developer.here.com/documentation/public-transit/swagger/transit_api.yaml",
+        "version": "3.0"
+      }
+    ],
+    "x-preferred": true,
+    "x-providerName": "here.com",
+    "x-serviceName": "transit"
+  },
+  "security": [
+    {
+      "Bearer": []
+    },
+    {
+      "ApiKey": []
+    }
+  ],
+  "paths": {
+    "/departures": {
+      "get": {
+        "description": "Lists public transit departures.\nDiscovers subsequent departures using structured or topological queries.\nThe service accepts two types of queries as shown in the table below:\n\n| Query | Parameter | Description |\n|-------|-----------|-------------|\n| Departures by IDs | `ids` | takes a comma-separated list of station/stop identifiers |\n| Departures by Location | `in` | takes a pair of coordinates to define the center and a radius to define the extent of a circular area where to search for departures |\n\nSelect a query from `one of` the options above to visualize the request parameters.\n",
+        "operationId": "getDepartures",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/boardOptions"
+          },
+          {
+            "$ref": "#/components/parameters/boardTime"
+          },
+          {
+            "$ref": "#/components/parameters/transitModes"
+          },
+          {
+            "$ref": "#/components/parameters/maxPerBoard"
+          },
+          {
+            "$ref": "#/components/parameters/maxPerTransport"
+          },
+          {
+            "$ref": "#/components/parameters/boardSort"
+          },
+          {
+            "$ref": "#/components/parameters/timespan"
+          },
+          {
+            "$ref": "#/components/parameters/lang"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StationBoardResponse"
+                }
+              }
+            },
+            "description": "API response in case of success",
+            "headers": {
+              "X-Correlation-Id": {
+                "$ref": "#/components/headers/X-Correlation-Id"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400ErrorResponse"
+          },
+          "401": {
+            "$ref": "#/components/responses/401ErrorResponse"
+          },
+          "403": {
+            "$ref": "#/components/responses/403ErrorResponse"
+          },
+          "500": {
+            "$ref": "#/components/responses/500ErrorResponse"
+          },
+          "502": {
+            "$ref": "#/components/responses/502ErrorResponse"
+          },
+          "503": {
+            "$ref": "#/components/responses/503ErrorResponse"
+          },
+          "504": {
+            "$ref": "#/components/responses/504ErrorResponse"
+          }
+        },
+        "summary": "Departures",
+        "tags": [
+          "Next Departures"
+        ]
+      }
+    },
+    "/health": {
+      "get": {
+        "description": "Returns the health status of the service",
+        "operationId": "getHealth",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/HealthResponseOk"
+          },
+          "default": {
+            "$ref": "#/components/responses/HealthResponseFail"
+          }
+        },
+        "security": [],
+        "summary": "Health",
+        "tags": [
+          "Routing",
+          "Next Departures",
+          "Station Search"
+        ]
+      }
+    },
+    "/routes": {
+      "get": {
+        "description": "Lists public transit routes.\nThe service supports several use cases as follows:\n\n  * define routes based on arrival or departure times.\n  * filter specific transit modes, such as rail and metro only.\n  * plan routes hours or days in advance.\n  * set a maximum distance for the walk to the nearest transit stop/station or the speed of the walk.\n  * define how many changes or transfers the journey may include.\n  * request turn-by-turn navigation.\n  * request route polyline in order to view the route over a map.\n",
+        "operationId": "getRoutes",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/origin"
+          },
+          {
+            "$ref": "#/components/parameters/destination"
+          },
+          {
+            "$ref": "#/components/parameters/lang"
+          },
+          {
+            "$ref": "#/components/parameters/units"
+          },
+          {
+            "$ref": "#/components/parameters/departureTime"
+          },
+          {
+            "$ref": "#/components/parameters/arrivalTime"
+          },
+          {
+            "$ref": "#/components/parameters/alternatives"
+          },
+          {
+            "$ref": "#/components/parameters/changes"
+          },
+          {
+            "$ref": "#/components/parameters/transitModes"
+          },
+          {
+            "$ref": "#/components/parameters/pedestrianSpeed"
+          },
+          {
+            "$ref": "#/components/parameters/pedestrianMaxDistance"
+          },
+          {
+            "$ref": "#/components/parameters/transitReturn"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransitRouteResponse"
+                }
+              }
+            },
+            "description": "API response in case of success",
+            "headers": {
+              "X-Correlation-Id": {
+                "$ref": "#/components/headers/X-Correlation-Id"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400ErrorResponse"
+          },
+          "401": {
+            "$ref": "#/components/responses/401ErrorResponse"
+          },
+          "403": {
+            "$ref": "#/components/responses/403ErrorResponse"
+          },
+          "500": {
+            "$ref": "#/components/responses/500ErrorResponse"
+          },
+          "502": {
+            "$ref": "#/components/responses/502ErrorResponse"
+          },
+          "503": {
+            "$ref": "#/components/responses/503ErrorResponse"
+          },
+          "504": {
+            "$ref": "#/components/responses/504ErrorResponse"
+          }
+        },
+        "servers": [
+          {
+            "description": "Public Transit Routing service only.",
+            "url": "https://transit.router.hereapi.com/v8"
+          },
+          {
+            "description": "All Public Transit services, namely Routing, Next Departures, and Station Search.",
+            "url": "https://transit.hereapi.com/v8"
+          }
+        ],
+        "summary": "Routes",
+        "tags": [
+          "Routing"
+        ]
+      }
+    },
+    "/stations": {
+      "get": {
+        "description": "Lists public transit stations.\nDiscovers stations using structured or topological queries.\nThe service accepts three types of queries as shown in the table below:\n\n| Query | Parameter | Description |\n|-------|-----------|-------------|\n| Stations by IDs | `ids` | Takes a comma-separated list of station/stop identifiers. |\n| Stations by location | `in` | Takes a pair of coordinates to define the center and a radius to define the extent of a circular area where to search for departures. |\n| Stations by name and location | `name` and `in` | Takes the station name or part of the name to search for. It is composed of one or more space-separated words and does not support stopwords. |\n\nSelect a query from `one of` the options above to visualize the request parameters.\n",
+        "operationId": "getStations",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/stationOptions"
+          },
+          {
+            "$ref": "#/components/parameters/placesReturn"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StationsInfoResponse"
+                }
+              }
+            },
+            "description": "API response in case of success",
+            "headers": {
+              "X-Correlation-Id": {
+                "$ref": "#/components/headers/X-Correlation-Id"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400ErrorResponse"
+          },
+          "401": {
+            "$ref": "#/components/responses/401ErrorResponse"
+          },
+          "403": {
+            "$ref": "#/components/responses/403ErrorResponse"
+          },
+          "500": {
+            "$ref": "#/components/responses/500ErrorResponse"
+          },
+          "502": {
+            "$ref": "#/components/responses/502ErrorResponse"
+          },
+          "503": {
+            "$ref": "#/components/responses/503ErrorResponse"
+          },
+          "504": {
+            "$ref": "#/components/responses/504ErrorResponse"
+          }
+        },
+        "summary": "Stations",
+        "tags": [
+          "Station Search"
+        ]
+      }
+    },
+    "/version": {
+      "get": {
+        "description": "Returns the version of the service",
+        "operationId": "getVersion",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/VersionResponseOk"
+          },
+          "500": {
+            "$ref": "#/components/responses/500ErrorResponse"
+          },
+          "502": {
+            "$ref": "#/components/responses/502ErrorResponse"
+          },
+          "503": {
+            "$ref": "#/components/responses/503ErrorResponse"
+          },
+          "504": {
+            "$ref": "#/components/responses/504ErrorResponse"
+          }
+        },
+        "security": [],
+        "summary": "Version",
+        "tags": [
+          "Routing",
+          "Next Departures",
+          "Station Search"
+        ]
+      }
+    }
+  },
+  "components": {
+    "examples": {
+      "400errorResponseExample": {
+        "value": {
+          "action": "",
+          "cause": "Bad request",
+          "code": "E600000",
+          "correlationId": "",
+          "status": 400,
+          "title": "failed with reason: missing field `destination`"
+        }
+      },
+      "401errorResponseExample": {
+        "value": {
+          "error": "Unauthorized",
+          "error_description": "No credentials found"
+        }
+      },
+      "403errorResponseExample": {
+        "value": {
+          "error": "Forbidden",
+          "error_description": "These credentials do not authorize access."
+        }
+      },
+      "500errorResponseExample": {
+        "value": {
+          "action": "",
+          "cause": "Internal Server Error",
+          "code": "E600103",
+          "correlationId": "",
+          "status": 500,
+          "title": "failed with reason: internal server error"
+        }
+      },
+      "502errorResponseExample": {
+        "value": {
+          "action": "",
+          "cause": "Bad Gateway",
+          "code": "E600002",
+          "correlationId": "",
+          "status": 502,
+          "title": "failed with reason: bad gateway"
+        }
+      },
+      "503errorResponseExample": {
+        "value": {
+          "action": "",
+          "cause": "Service Unavailable",
+          "code": "E600001",
+          "correlationId": "",
+          "status": 503,
+          "title": "failed with reason: service unavailable"
+        }
+      },
+      "504errorResponseExample": {
+        "value": {
+          "action": "",
+          "cause": "Gateway Timeout",
+          "code": "E600000",
+          "correlationId": "",
+          "status": 504,
+          "title": "failed with reason: gateway timeout"
+        }
+      }
+    },
+    "headers": {
+      "X-Correlation-Id": {
+        "description": "Auto-generated id that univocally identifies the request.",
+        "example": "4199533b-6290-41db-8d79-edf4f4019a74",
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "parameters": {
+      "alternatives": {
+        "description": "Number of alternative routes to return aside from the optimal route.",
+        "in": "query",
+        "name": "alternatives",
+        "required": false,
+        "schema": {
+          "default": 0,
+          "maximum": 5,
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "arrivalTime": {
+        "allowReserved": true,
+        "description": "Specifies the time of arrival as defined by either `date-time` or `full-date` `T` `partial-time` in `RFC 3339`, section 5.6 (for example, `2019-06-24T01:23:45`).\nThe requested time is converted to the local time at destination. When the optional timezone offset is\nnot specified, time is assumed to be local.\nAll `Time` values in the response are returned in the timezone of each location.\n\nNote : The following features do not support the arrivalTime parameter:\n* EV Routing\n* Route Handle\n* Route Import\n",
+        "in": "query",
+        "name": "arrivalTime",
+        "required": false,
+        "schema": {
+          "$ref": "#/components/schemas/Time"
+        }
+      },
+      "boardOptions": {
+        "description": "Board options",
+        "explode": true,
+        "in": "query",
+        "name": "boardOptions",
+        "schema": {
+          "oneOf": [
+            {
+              "$ref": "#/components/schemas/BoardByIds"
+            },
+            {
+              "$ref": "#/components/schemas/BoardByLocation"
+            }
+          ],
+          "type": "object"
+        },
+        "style": "form"
+      },
+      "boardSort": {
+        "description": "Define how the departures are sorted. By default, the departures are returned sorted by scheduled time.\nWhen `sort=transport`, the departures are sorted first by transport and then by scheduled time.\n\n* `sort=time`: means sorted by time.\n* `sort=transport`: means that we sort by `name`, `headsign`, `mode` and `time` in this order.\n",
+        "in": "query",
+        "name": "sort",
+        "schema": {
+          "default": "time",
+          "enum": [
+            "time",
+            "transport"
+          ],
+          "type": "string"
+        }
+      },
+      "boardTime": {
+        "description": "Specifies the time of earliest departure in `RFC 3339`, section 5.6 as defined by either `date-time` or `full-date` \"T\" `partial-time` (for example, `2019-06-24T01:23:45`).\nThe requested time is converted to local time at each location. When the optional timezone offset is\nnot specified, time is assumed to be local. If `time` is not specified, current time at departure place will be used.\nAll `Time` values in the response are returned in the timezone of each location.\n",
+        "in": "query",
+        "name": "time",
+        "required": false,
+        "schema": {
+          "$ref": "#/components/schemas/Time"
+        }
+      },
+      "changes": {
+        "description": "Maximum number of changes or transfers allowed in a route. Unlimited number of changes is permitted when not set.\n",
+        "in": "query",
+        "name": "changes",
+        "schema": {
+          "maximum": 6,
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "departureTime": {
+        "allowReserved": true,
+        "description": "Specifies the time of departure as defined by either `date-time` or `full-date` `T` `partial-time` in `RFC 3339`, section 5.6 (for example, `2019-06-24T01:23:45`).\nThe requested time is converted to the local time at origin. When the optional timezone offset is\nnot specified, time is assumed to be local. If neither `departureTime` or `arrivalTime` are specified, current time at departure location will be used.\nAll `Time` values in the response are returned in the timezone of each location.\n",
+        "in": "query",
+        "name": "departureTime",
+        "required": false,
+        "schema": {
+          "$ref": "#/components/schemas/Time"
+        }
+      },
+      "destination": {
+        "description": "Trip destination WGS-84 compliant coordinates.\n\nFormat: `{lat},{lng}[;placeName={name}]`\n\nThe optional `placeName` parameter can be used to customize the\n  name of the destination place and will affect the generated actions descriptions.\n\n",
+        "in": "query",
+        "name": "destination",
+        "required": true,
+        "schema": {
+          "$ref": "#/components/schemas/LocationString"
+        }
+      },
+      "lang": {
+        "description": "Specifies the preferred language of the response. The value should comply with the [IETF BCP 47](https://www.rfc-editor.org/rfc/bcp/bcp47.txt).\n",
+        "in": "query",
+        "name": "lang",
+        "schema": {
+          "default": "en-US",
+          "type": "string"
+        }
+      },
+      "maxPerBoard": {
+        "description": "The maximum number of subsequent departures per station board the response is to include.",
+        "in": "query",
+        "name": "maxPerBoard",
+        "schema": {
+          "default": 5,
+          "maximum": 50,
+          "minimum": 1,
+          "type": "integer"
+        }
+      },
+      "maxPerTransport": {
+        "description": "The maximum number of subsequent departures per transport returned in the response. A transport is identified by its name, direction and mode. When not set, all departures are returned, otherwise the first `maxPerTransport` departures for each transport in chronological order are returned.\n",
+        "in": "query",
+        "name": "maxPerTransport",
+        "schema": {
+          "default": null,
+          "maximum": 10,
+          "minimum": 1,
+          "nullable": true,
+          "type": "integer"
+        }
+      },
+      "origin": {
+        "description": "Trip origin WGS-84 compliant coordinates.\n\nFormat: `{lat},{lng}[;placeName={name}]`\n\nThe optional `placeName` parameter can be used to customize\n  the name of the origin place and will affect the generated actions descriptions.\n\n",
+        "in": "query",
+        "name": "origin",
+        "required": true,
+        "schema": {
+          "$ref": "#/components/schemas/LocationString"
+        }
+      },
+      "pedestrianMaxDistance": {
+        "description": "Maximum allowed walking distance in meters (e.g. when looking for nearest stations).",
+        "in": "query",
+        "name": "pedestrian[maxDistance]",
+        "schema": {
+          "default": 2000,
+          "maximum": 6000,
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "pedestrianSpeed": {
+        "description": "Walking speed in meters per second. Influences the duration of walking segments from origin to a station, from a station to destination and in-between the stations (e.g. if transfer is needed).\n",
+        "in": "query",
+        "name": "pedestrian[speed]",
+        "schema": {
+          "$ref": "#/components/schemas/PedestrianSpeed"
+        }
+      },
+      "placesReturn": {
+        "description": "Defines which place attributes are included.\n\n * `transport` - List of transports.\n * `accessPoints` - List of access points.\n",
+        "explode": false,
+        "in": "query",
+        "name": "return",
+        "schema": {
+          "$ref": "#/components/schemas/PlacesReturn"
+        },
+        "style": "form"
+      },
+      "stationOptions": {
+        "description": "Station filter",
+        "explode": true,
+        "in": "query",
+        "name": "stationOptions",
+        "schema": {
+          "oneOf": [
+            {
+              "$ref": "#/components/schemas/PlacesByIds"
+            },
+            {
+              "$ref": "#/components/schemas/PlacesByLocation"
+            },
+            {
+              "$ref": "#/components/schemas/PlacesByName"
+            }
+          ],
+          "type": "object"
+        },
+        "style": "form"
+      },
+      "timespan": {
+        "description": "Limit the subsequent departures to the defined time window and starting from the time provided in the request. When not set, this filter is not applied and a maximum of 24 hours of departures can be returned. The filter will remove all departures outside the interval defined by time and time span.\n",
+        "in": "query",
+        "name": "timespan",
+        "schema": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/Duration"
+            },
+            {
+              "default": null,
+              "maximum": 1440,
+              "minimum": 1,
+              "nullable": true,
+              "type": "integer"
+            }
+          ]
+        }
+      },
+      "transitModes": {
+        "description": "Transit mode filter used to determine which modes of transit to include in the response.\nBy default, all supported transit modes are permitted.\n\nSupported modes: `highSpeedTrain` `intercityTrain` `interRegionalTrain` `regionalTrain` `cityTrain`\n`bus` `ferry` `subway` `lightRail` `privateBus` `inclined` `aerial` `busRapid` `monorail`\n`flight` `spaceship`\n\nThis parameter also support an exclusion list: It's sufficient to specify each mode to exclude by prefixing it with `-`.\nMixing of inclusive and exclusive transit modes is not allowed.\n\nexamples:\n  * `subway,bus`. Returns only subways and busses.\n  * `-subway,-bus`. Returns all modes except subways and busses.\n",
+        "explode": false,
+        "in": "query",
+        "name": "modes",
+        "schema": {
+          "$ref": "#/components/schemas/TransitModesFilter"
+        },
+        "style": "form"
+      },
+      "transitReturn": {
+        "description": "Defines which section attributes are included.\n\n * `intermediate` - List of intermediate stops within a section of the route. If\n   enabled, the response includes `intermediateStops` attribute. Each intermediate stop includes\n   stop/station names, WGS-84 geocoordinates, and the departure times at the stops.\n * `fares` - List of fares/tickets to cover a section of the route.\n * `polyline` - Polyline for the route in\n   [Flexible Polyline](https://github.com/heremaps/flexible-polyline/blob/master/README.md)\n   Encoding.\n * `actions` - Actions (such as maneuvers or tasks) that must be taken to complete the section.\n * `travelSummary` - Include summary for the travel portion of the section.\n * `incidents` - Include a list of all incidents applicable to each section.\n * `bookingLinks` - Include a list of links to book a ride for a section of the route.\n",
+        "explode": false,
+        "in": "query",
+        "name": "return",
+        "schema": {
+          "items": {
+            "enum": [
+              "intermediate",
+              "fares",
+              "polyline",
+              "actions",
+              "travelSummary",
+              "incidents",
+              "bookingLinks"
+            ],
+            "type": "string"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "style": "form"
+      },
+      "units": {
+        "description": "Units of measurement used, for example, in guidance instructions. The default is `metric`.",
+        "in": "query",
+        "name": "units",
+        "schema": {
+          "$ref": "#/components/schemas/Units"
+        }
+      }
+    },
+    "responses": {
+      "400ErrorResponse": {
+        "content": {
+          "application/json": {
+            "examples": {
+              "errorResponseExample": {
+                "$ref": "#/components/examples/400errorResponseExample"
+              }
+            },
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              ]
+            }
+          }
+        },
+        "description": "API response in case of bad request.",
+        "headers": {
+          "X-Correlation-Id": {
+            "$ref": "#/components/headers/X-Correlation-Id"
+          }
+        }
+      },
+      "401ErrorResponse": {
+        "content": {
+          "application/json": {
+            "examples": {
+              "errorResponseExample": {
+                "$ref": "#/components/examples/401errorResponseExample"
+              }
+            },
+            "schema": {
+              "$ref": "#/components/schemas/AuthErrorResponseSchema"
+            }
+          }
+        },
+        "description": "API response in case of unauthorized access."
+      },
+      "403ErrorResponse": {
+        "content": {
+          "application/json": {
+            "examples": {
+              "errorResponseExample": {
+                "$ref": "#/components/examples/403errorResponseExample"
+              }
+            },
+            "schema": {
+              "$ref": "#/components/schemas/AuthErrorResponseSchema"
+            }
+          }
+        },
+        "description": "API response in case of forbidden access."
+      },
+      "500ErrorResponse": {
+        "content": {
+          "application/json": {
+            "examples": {
+              "errorResponseExample": {
+                "$ref": "#/components/examples/500errorResponseExample"
+              }
+            },
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              ]
+            }
+          }
+        },
+        "description": "API response in case of internal server error.",
+        "headers": {
+          "X-Correlation-Id": {
+            "$ref": "#/components/headers/X-Correlation-Id"
+          }
+        }
+      },
+      "502ErrorResponse": {
+        "content": {
+          "application/json": {
+            "examples": {
+              "errorResponseExample": {
+                "$ref": "#/components/examples/502errorResponseExample"
+              }
+            },
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              ]
+            }
+          }
+        },
+        "description": "API response in case of bad gateway.",
+        "headers": {
+          "X-Correlation-Id": {
+            "$ref": "#/components/headers/X-Correlation-Id"
+          }
+        }
+      },
+      "503ErrorResponse": {
+        "content": {
+          "application/json": {
+            "examples": {
+              "errorResponseExample": {
+                "$ref": "#/components/examples/503errorResponseExample"
+              }
+            },
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              ]
+            }
+          }
+        },
+        "description": "API response in case of service unavailable.",
+        "headers": {
+          "X-Correlation-Id": {
+            "$ref": "#/components/headers/X-Correlation-Id"
+          }
+        }
+      },
+      "504ErrorResponse": {
+        "content": {
+          "application/json": {
+            "examples": {
+              "errorResponseExample": {
+                "$ref": "#/components/examples/504errorResponseExample"
+              }
+            },
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              ]
+            }
+          }
+        },
+        "description": "API response in case of gateway timeout.",
+        "headers": {
+          "X-Correlation-Id": {
+            "$ref": "#/components/headers/X-Correlation-Id"
+          }
+        }
+      },
+      "HealthResponseFail": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/HealthResponseFailSchema"
+            }
+          },
+          "text/plain": {}
+        },
+        "description": "API response in case of failure."
+      },
+      "HealthResponseOk": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/HealthResponseOKSchema"
+            }
+          }
+        },
+        "description": "API response in case of success."
+      },
+      "VersionResponseOk": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/VersionResponse"
+                }
+              ]
+            }
+          }
+        },
+        "description": "API response in case of success."
+      }
+    },
+    "schemas": {
+      "AccessAttributes": {
+        "description": "Extensible enum: `open` `noThrough` `tollRoad` `...`  \n`AccessAttributes` is applied to a span of a route section and describes access flags of a street.\n\n* `open`: A part of the route that can be traversed.\n* `noThrough`: A part of the route that can only be traversed if origin, destination or any via waypoint is located there.\n* `tollRoad`: Access to this part of the route is restricted with a fee (or toll).\n\nAs it is possible that new access attributes are supported in the future, unknown access attributes should be ignored.\n",
+        "type": "string",
+        "x-extensible-enum": [
+          "open",
+          "noThrough",
+          "tollRoad"
+        ]
+      },
+      "AccessPointPlace": {
+        "description": "Access point to a venue/station",
+        "properties": {
+          "location": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Location"
+              }
+            ],
+            "description": "The position of this location\n\nThis position was used in route calculation. It may be different to the original position provided in the request.\n"
+          },
+          "name": {
+            "description": "Location name",
+            "type": "string"
+          },
+          "originalLocation": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Location"
+              }
+            ],
+            "description": "If present, the original position of this location provided in the request."
+          },
+          "type": {
+            "description": "Place type. Each place type can have extra attributes.\n\n**NOTE:** The list of possible place types could be extended in the future.\nThe client application is expected to handle such a case gracefully.\n",
+            "type": "string"
+          },
+          "waypoint": {
+            "description": "If present, this place corresponds to the waypoint in the request with the same index.",
+            "type": "integer"
+          },
+          "wheelchairAccessible": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/WheelchairAccessibility"
+              }
+            ],
+            "description": "Information about accessibility for people with a disability and who use a wheelchair.\n\n* `unknown` - Accessibility information is not available.\n* `yes` - Access point is wheelchair accessible.\n* `limited` - Accessibility is limited or assistance is required.\n* `no` - No accessible path from the access point to platforms.\n"
+          }
+        },
+        "required": [
+          "type",
+          "location"
+        ]
+      },
+      "Agency": {
+        "description": "Contains information about a particular agency.",
+        "properties": {
+          "id": {
+            "description": "Unique code of the agency. Specifies if the same agency is used on different sections of the same route.",
+            "type": "string"
+          },
+          "name": {
+            "description": "Human readable name of the owner of the transport service.",
+            "type": "string"
+          },
+          "website": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Uri"
+              }
+            ],
+            "description": "Link to the agency's website."
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ]
+      },
+      "ArriveAction": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/OffsetAction"
+          }
+        ]
+      },
+      "Attribution": {
+        "description": "The URL address to an external resource.",
+        "properties": {
+          "href": {
+            "$ref": "#/components/schemas/Uri"
+          },
+          "hrefText": {
+            "description": "The interactive (or clickable) portion of the text. If not present (default), the entire content of the text attribute will be considered.\n",
+            "type": "string"
+          },
+          "id": {
+            "description": "Unique identifier for the web link. It is used to deduplicate links defined in multiple sections.",
+            "type": "string"
+          },
+          "text": {
+            "description": "Text describing the url address (e.g. The example website).",
+            "type": "string"
+          },
+          "type": {
+            "$ref": "#/components/schemas/AttributionLinkType"
+          }
+        },
+        "required": [
+          "id",
+          "text"
+        ]
+      },
+      "AttributionLinkType": {
+        "description": "Attribution link type.\n\n* `disclaimer` - Page with further legal information from the agency.\n* `tariff` - Page with information on the tariff.\n",
+        "enum": [
+          "disclaimer",
+          "tariff"
+        ],
+        "required": [
+          "type"
+        ],
+        "type": "string"
+      },
+      "AuthErrorResponseSchema": {
+        "properties": {
+          "error": {
+            "description": "Human-readable error",
+            "type": "string"
+          },
+          "error_description": {
+            "description": "Human-readable error description",
+            "type": "string"
+          }
+        }
+      },
+      "BaseAction": {
+        "description": "An action to be performed between sections or during a section.",
+        "properties": {
+          "action": {
+            "description": "The type of the action.\n\n**NOTE:** The list of possible actions may be extended in the future. The client application should handle such a case gracefully.\n",
+            "type": "string"
+          },
+          "duration": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Duration"
+              }
+            ],
+            "description": "Estimated duration of this action (in seconds). Actions last until the next action, or the end of the route in case of the last one."
+          },
+          "instruction": {
+            "description": "Description of the action (e.g. Turn left onto Minna St.).",
+            "type": "string"
+          }
+        },
+        "required": [
+          "action",
+          "duration"
+        ]
+      },
+      "BaseNoticeDetail": {
+        "properties": {
+          "cause": {
+            "description": "Cause of the notice",
+            "type": "string"
+          },
+          "title": {
+            "description": "Detail title",
+            "type": "string"
+          },
+          "type": {
+            "description": "Detail type. Each type of detail might contain extra attributes.\n\n**NOTE:** The list of possible detail types may be extended in the future.\nThe client application is expected to handle such a case gracefully.\n",
+            "type": "string"
+          }
+        },
+        "required": [
+          "type"
+        ]
+      },
+      "BasePlace": {
+        "properties": {
+          "location": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Location"
+              }
+            ],
+            "description": "The position of this location\n\nThis position was used in route calculation. It may be different to the original position provided in the request.\n"
+          },
+          "name": {
+            "description": "Location name",
+            "type": "string"
+          },
+          "originalLocation": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Location"
+              }
+            ],
+            "description": "If present, the original position of this location provided in the request."
+          },
+          "type": {
+            "description": "Place type. Each place type can have extra attributes.\n\n**NOTE:** The list of possible place types could be extended in the future.\nThe client application is expected to handle such a case gracefully.\n",
+            "type": "string"
+          },
+          "waypoint": {
+            "description": "If present, this place corresponds to the waypoint in the request with the same index.",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "type",
+          "location"
+        ]
+      },
+      "BaseSummary": {
+        "description": "Total value of key attributes for a route section.",
+        "properties": {
+          "duration": {
+            "$ref": "#/components/schemas/Duration"
+          },
+          "length": {
+            "$ref": "#/components/schemas/Distance"
+          }
+        },
+        "required": [
+          "duration",
+          "length"
+        ]
+      },
+      "BoardAction": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseAction"
+          }
+        ],
+        "description": "An action to board a ferry."
+      },
+      "BoardByIds": {
+        "properties": {
+          "ids": {
+            "description": "Specifies a comma separated list of station IDs. A maximum of 50 station identifiers are allowed in a single query\n",
+            "maxLength": 1000,
+            "type": "string"
+          }
+        },
+        "required": [
+          "ids"
+        ],
+        "title": "Query departures by IDs"
+      },
+      "BoardByLocation": {
+        "properties": {
+          "in": {
+            "$ref": "#/components/schemas/InCircle"
+          },
+          "maxPlaces": {
+            "default": 5,
+            "description": "The maximum number of stations the response should include.",
+            "maximum": 50,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "in"
+        ],
+        "title": "Query departures by Location"
+      },
+      "ChargingConnectorAttributes": {
+        "description": "Details of the connector that is suggested to be used in the section's `postAction` for charging.",
+        "properties": {
+          "connectorType": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ChargingConnectorType"
+              }
+            ],
+            "description": "Suggested connector for charging at this station"
+          },
+          "current": {
+            "description": "Current of the suggested connector in Amperes.",
+            "type": "number"
+          },
+          "power": {
+            "description": "Power supplied by the suggested connector in kW.",
+            "type": "number"
+          },
+          "supplyType": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ChargingSupplyType"
+              }
+            ],
+            "description": "Supply type of the suggested connector.\n"
+          },
+          "voltage": {
+            "description": "Voltage of the suggested connector in Volts.",
+            "type": "number"
+          }
+        },
+        "required": [
+          "power",
+          "supplyType",
+          "connectorType"
+        ]
+      },
+      "ChargingConnectorType": {
+        "description": "Extensible enum: `iec62196Type1Combo` `iec62196Type2Combo` `chademo` `tesla` `...`  \nCurrently supported connector types are:\n* `iec62196Type1Combo`:  Type 1 Combo connector, commonly called \"SAE J1772\"\n* `iec62196Type2Combo`:  Type 2 Combo connector, commonly called \"Mennekes\"\n* `chademo`: CHAdeMO connector\n* `tesla`: Tesla connector\n",
+        "type": "string",
+        "x-extensible-enum": [
+          "iec62196Type1Combo",
+          "iec62196Type2Combo",
+          "chademo",
+          "tesla"
+        ]
+      },
+      "ChargingStationBrand": {
+        "description": "Information regarding the charging station brand",
+        "properties": {
+          "hrn": {
+            "description": "Charging station brand unique ID.\nIf specified in `ev[preferredBrands]` parameter\nthen it would apply preference to adding stations of the given brand.\n\n**NOTE:** As of now it is generated as a brand name hash.\nIt will be changed to HRN (HERE Resource Name) in the future.\n",
+            "type": "string"
+          },
+          "name": {
+            "description": "Charging station brand name",
+            "type": "string"
+          }
+        }
+      },
+      "ChargingStationPlace": {
+        "description": "A charging station",
+        "properties": {
+          "brand": {
+            "$ref": "#/components/schemas/ChargingStationBrand"
+          },
+          "connectorAttributes": {
+            "$ref": "#/components/schemas/ChargingConnectorAttributes"
+          },
+          "id": {
+            "description": "Identifier of this charging station",
+            "type": "string"
+          },
+          "location": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Location"
+              }
+            ],
+            "description": "The position of this location\n\nThis position was used in route calculation. It may be different to the original position provided in the request.\n"
+          },
+          "name": {
+            "description": "Human readable name of this charging station",
+            "type": "string"
+          },
+          "originalLocation": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Location"
+              }
+            ],
+            "description": "If present, the original position of this location provided in the request."
+          },
+          "type": {
+            "description": "Place type. Each place type can have extra attributes.\n\n**NOTE:** The list of possible place types could be extended in the future.\nThe client application is expected to handle such a case gracefully.\n",
+            "type": "string"
+          },
+          "waypoint": {
+            "description": "If present, this place corresponds to the waypoint in the request with the same index.",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "type",
+          "location"
+        ]
+      },
+      "ChargingSupplyType": {
+        "description": "Extensible enum: `acSingle` `acThree` `dc` `...`  \nCurrently possible values are:\n\n* `acSingle` : Single phase Alternating Current supply\n* `acThree`: Three phase Alternating Current supply\n* `dc`: Direct Current supply\n",
+        "type": "string",
+        "x-extensible-enum": [
+          "acSingle",
+          "acThree",
+          "dc"
+        ]
+      },
+      "Color": {
+        "example": "#FF0000",
+        "pattern": "#[0-9A-Fa-f]{6}",
+        "type": "string"
+      },
+      "ContinueAction": {
+        "description": "An action to be performed at or during a specific portion of a section.\n\n* `depart`: departure maneuver, such as \"Start at\"\n* `arrive`: arrival maneuver, such as \"Arrive at\"\n* `continue`: continue maneuver, such as \"Continue on\"\n",
+        "properties": {
+          "action": {
+            "description": "The type of the action.\n\n**NOTE:** The list of possible actions may be extended in the future. The client application should handle such a case gracefully.\n",
+            "type": "string"
+          },
+          "currentRoad": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/RoadInfo"
+              }
+            ],
+            "description": "Attributes of the current road"
+          },
+          "duration": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Duration"
+              }
+            ],
+            "description": "Estimated duration of this action (in seconds). Actions last until the next action, or the end of the route in case of the last one."
+          },
+          "exitSign": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ExitInfo"
+              }
+            ],
+            "description": "Attributes of the road exit"
+          },
+          "instruction": {
+            "description": "Description of the action (e.g. Turn left onto Minna St.).",
+            "type": "string"
+          },
+          "intersectionName": {
+            "description": "Name of the intersection where the turn takes place, if available.",
+            "items": {
+              "$ref": "#/components/schemas/LocalizedString"
+            },
+            "type": "array"
+          },
+          "length": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Distance"
+              }
+            ],
+            "description": "Estimated length of this action (in meters). Actions extend until the next action, or the end of the route in case of the last one."
+          },
+          "nextRoad": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/RoadInfo"
+              }
+            ],
+            "description": "Attributes of the next road"
+          },
+          "offset": {
+            "description": "Offset of a coordinate in the section's polyline.",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "action",
+          "duration"
+        ]
+      },
+      "CountryCode": {
+        "description": "ISO-3166-1 alpha-3 code",
+        "example": "FRA",
+        "type": "string"
+      },
+      "DataVersion": {
+        "description": "Version of a specific data set",
+        "properties": {
+          "name": {
+            "description": "Identifies a data set, for example, a HRN, or a service specific identifier",
+            "type": "string"
+          },
+          "version": {
+            "description": "The current version of this data set",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "version"
+        ]
+      },
+      "DeboardAction": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseAction"
+          }
+        ],
+        "description": "An action to disembark a ferry."
+      },
+      "DepartAction": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/OffsetAction"
+          }
+        ]
+      },
+      "DepartureDelay": {
+        "description": "The accumulated delay in seconds from the scheduled time of the event.",
+        "type": "integer"
+      },
+      "DepartureDetails": {
+        "description": "Defines a departure where the departure stop is implicit (e.g. station board departures)",
+        "properties": {
+          "agency": {
+            "$ref": "#/components/schemas/Agency"
+          },
+          "delay": {
+            "$ref": "#/components/schemas/DepartureDelay"
+          },
+          "platform": {
+            "$ref": "#/components/schemas/DeparturePlatform"
+          },
+          "status": {
+            "$ref": "#/components/schemas/DepartureStatus"
+          },
+          "time": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Time"
+              }
+            ],
+            "description": "Expected time of the departure of the event. Format is **RFC 3339**, section 5.6 as defined by `date-time`."
+          },
+          "transport": {
+            "$ref": "#/components/schemas/TransitTransport"
+          }
+        },
+        "required": [
+          "time",
+          "transport"
+        ]
+      },
+      "DeparturePlatform": {
+        "description": "Platform name or number for the departure.",
+        "type": "string"
+      },
+      "DepartureStatus": {
+        "default": "scheduled",
+        "description": "Extensible enum: `scheduled` `cancelled` `additional` `replaced` `...`  \nStatus of the departure\n\n* `scheduled`: A trip that is running as planned in the schedule.\n* `cancelled`: A trip that existed in the schedule but was removed.\n* `additional`: An extra trip that was added in addition to a running schedule, for example, to respond to sudden passenger load.\n* `replaced`: A trip that was in the schedule but is removed and replaced with `additional` trip, for example, to replace a broken vehicle or handle detour.\n",
+        "type": "string",
+        "x-extensible-enum": [
+          "scheduled",
+          "cancelled",
+          "additional",
+          "replaced"
+        ]
+      },
+      "Distance": {
+        "description": "Distance in meters.",
+        "minimum": 0,
+        "type": "integer"
+      },
+      "DockingStationPlace": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BasePlace"
+          }
+        ],
+        "description": "A place represents a docking station for rented vehicles."
+      },
+      "Duration": {
+        "description": "Duration in seconds.",
+        "type": "integer"
+      },
+      "DynamicSpeedInfo": {
+        "description": "Describes dynamic speed information, such as traffic speed, estimated speed without traffic, and turn time.\n",
+        "properties": {
+          "baseSpeed": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Speed"
+              }
+            ],
+            "description": "Estimated speed without considering any traffic-related constraints."
+          },
+          "trafficSpeed": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Speed"
+              }
+            ],
+            "description": "Traffic-enabled speed, which is the estimated speed considering traffic-relevant constraints.\n"
+          },
+          "turnTime": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Duration"
+              }
+            ],
+            "description": "Turn time estimate considering traffic and transport mode needed for turning from this segment into the next.\n"
+          }
+        },
+        "required": [
+          "trafficSpeed",
+          "baseSpeed",
+          "turnTime"
+        ]
+      },
+      "ErrorResponse": {
+        "description": "Response in case of error",
+        "properties": {
+          "action": {
+            "description": "Human-readable description of the action that can be taken to correct the error",
+            "example": "Request a valid id",
+            "type": "string"
+          },
+          "cause": {
+            "description": "Human-readable explanation for the error",
+            "example": "The input data in question does not comply with validation rules",
+            "type": "string"
+          },
+          "code": {
+            "description": "Error code.\n\nAll error codes start with \"`E60`\".\n",
+            "example": "E600101",
+            "type": "string"
+          },
+          "correlationId": {
+            "description": "Auto-generated id that univocally identifies the request",
+            "example": "4199533b-6290-41db-8d79-edf4f4019a74",
+            "type": "string"
+          },
+          "status": {
+            "description": "HTTP status code",
+            "example": 400,
+            "type": "integer"
+          },
+          "title": {
+            "description": "Human-readable error description",
+            "example": "Input data failed validation",
+            "type": "string"
+          }
+        },
+        "required": [
+          "title",
+          "status",
+          "code",
+          "cause",
+          "action",
+          "correlationId"
+        ]
+      },
+      "ExitAction": {
+        "description": "An action to leave a roundabout or highway.\n\n* `exit`: exit maneuver, such as \"Take the left exit to\"\n* `roundaboutExit`: roundabout exit maneuver, such as \"Take the third exit of the roundabout onto\"\n",
+        "properties": {
+          "action": {
+            "description": "The type of the action.\n\n**NOTE:** The list of possible actions may be extended in the future. The client application should handle such a case gracefully.\n",
+            "type": "string"
+          },
+          "currentRoad": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/RoadInfo"
+              }
+            ],
+            "description": "Attributes of the current road"
+          },
+          "direction": {
+            "$ref": "#/components/schemas/TurnActionDirection"
+          },
+          "duration": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Duration"
+              }
+            ],
+            "description": "Estimated duration of this action (in seconds). Actions last until the next action, or the end of the route in case of the last one."
+          },
+          "exit": {
+            "default": 1,
+            "description": "Which exit to take next.",
+            "maximum": 12,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "exitSign": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ExitInfo"
+              }
+            ],
+            "description": "Attributes of the road exit"
+          },
+          "instruction": {
+            "description": "Description of the action (e.g. Turn left onto Minna St.).",
+            "type": "string"
+          },
+          "intersectionName": {
+            "description": "Name of the intersection where the turn takes place, if available.",
+            "items": {
+              "$ref": "#/components/schemas/LocalizedString"
+            },
+            "type": "array"
+          },
+          "length": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Distance"
+              }
+            ],
+            "description": "Estimated length of this action (in meters). Actions extend until the next action, or the end of the route in case of the last one."
+          },
+          "nextRoad": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/RoadInfo"
+              }
+            ],
+            "description": "Attributes of the next road"
+          },
+          "offset": {
+            "description": "Offset of a coordinate in the section's polyline.",
+            "type": "integer"
+          },
+          "severity": {
+            "$ref": "#/components/schemas/TurnActionSeverity"
+          }
+        },
+        "required": [
+          "action",
+          "duration"
+        ]
+      },
+      "ExitInfo": {
+        "description": "Exit information attached to an offset action",
+        "example": {
+          "exit": {
+            "number": [
+              {
+                "language": "de",
+                "value": "15"
+              }
+            ]
+          }
+        },
+        "properties": {
+          "number": {
+            "description": "Number of the exit (e.g. '18')",
+            "items": {
+              "$ref": "#/components/schemas/LocalizedString"
+            },
+            "type": "array"
+          }
+        }
+      },
+      "Fare": {
+        "description": "`Fare` type contains information about a single fare or ticket needed for this section of the route.",
+        "properties": {
+          "convertedPrice": {
+            "$ref": "#/components/schemas/FarePrice"
+          },
+          "id": {
+            "description": "Unique Fare id. Used to deduplicate fares that apply to multiple sections",
+            "type": "string"
+          },
+          "name": {
+            "description": "Name of a fare",
+            "type": "string"
+          },
+          "pass": {
+            "$ref": "#/components/schemas/FarePass"
+          },
+          "paymentMethods": {
+            "description": "Specifies the payment methods for which this fare is valid.\n",
+            "items": {
+              "$ref": "#/components/schemas/PaymentMethod"
+            },
+            "minItems": 1,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "price": {
+            "$ref": "#/components/schemas/FarePrice"
+          },
+          "reason": {
+            "$ref": "#/components/schemas/FareReason",
+            "default": "ride"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "price"
+        ]
+      },
+      "FarePass": {
+        "description": "Specifies whether this `Fare` is a multi-travel pass, and its characteristics",
+        "properties": {
+          "returnJourney": {
+            "description": "This pass includes the fare for the return journey.",
+            "type": "boolean"
+          },
+          "seniorPass": {
+            "description": "This pass is valid only if presented by a senior person.",
+            "type": "boolean"
+          },
+          "transfers": {
+            "description": "Indicates if transfers are permitted with this pass, and if so, how many.",
+            "type": "integer"
+          },
+          "travels": {
+            "description": "This pass allows for the specified number of travels.",
+            "type": "integer"
+          },
+          "validityPeriod": {
+            "$ref": "#/components/schemas/FarePassValidityPeriod"
+          }
+        }
+      },
+      "FarePassValidityPeriod": {
+        "description": "Specifies a temporal validity period for a pass",
+        "properties": {
+          "count": {
+            "description": "Required if period is `minutes`, days` or `months`, it specifies how many of these units are covered by the pass.",
+            "type": "integer"
+          },
+          "period": {
+            "description": "Extensible enum: `annual` `extendedAnnual` `minutes` `days` `months` `...`  \nSpecifies one of the following validity periods:\n  - `annual`: pass is valid from Jan 1 to Dec 31\n  - `extendedAnnual`: pass is valid from Jan 1 to Jan 31 of the following year\n  - `minutes`: pass is valid for a specified number of minutes See `unit`.\n  - `days`: pass is valid for a specified number of days. See `unit`.\n  - `months`: pass is valid for a specified number of months. See `unit`.\n",
+            "type": "string",
+            "x-extensible-enum": [
+              "annual",
+              "extendedAnnual",
+              "minutes",
+              "days",
+              "months"
+            ]
+          }
+        },
+        "required": [
+          "period"
+        ]
+      },
+      "FarePrice": {
+        "description": "Price of a fare",
+        "discriminator": {
+          "mapping": {
+            "range": "#/components/schemas/RangePrice",
+            "value": "#/components/schemas/SinglePrice"
+          },
+          "propertyName": "type"
+        },
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/SinglePrice"
+          },
+          {
+            "$ref": "#/components/schemas/RangePrice"
+          }
+        ]
+      },
+      "FareReason": {
+        "description": "Extensible enum: `ride` `parking` `...`  \nReason for the cost described in this `Fare` element.\n",
+        "type": "string",
+        "x-extensible-enum": [
+          "ride",
+          "parking"
+        ]
+      },
+      "FunctionalClass": {
+        "description": "Functional class is used to classify roads depending on the speed, importance and\nconnectivity of the road.\n\n* `1`: Roads allow for high volume, maximum speed traffic movement between and through major\n  metropolitan areas.\n* `2`: Roads are used to channel traffic to functional class 1 roads for travel between and\n  through cities in the shortest amount of time.\n* `3`: Roads that intersect functional class 2 roads and provide a high volume of traffic\n  movement at a lower level of mobility than functional class 2 roads.\n* `4`: Roads that provide for a high volume of traffic movement at moderate speeds between\n  neighbourhoods.\n* `5`: Roads with volume and traffic movement below the level of any other functional class.\n",
+        "format": "int32",
+        "maximum": 5,
+        "minimum": 1,
+        "type": "integer"
+      },
+      "HealthResponseFailSchema": {
+        "description": "Returns the health of the service",
+        "properties": {
+          "status": {
+            "description": "Health status of the service:\n\n* `ok` - the service is operating normally\n* `fail` - the service is currently encountering a failure\n",
+            "enum": [
+              "fail"
+            ],
+            "type": "string"
+          }
+        }
+      },
+      "HealthResponseOKSchema": {
+        "description": "Returns the health of the service",
+        "properties": {
+          "status": {
+            "description": "Health status of the service:\n\n* `ok` - the service is operating normally\n* `fail` - the service is currently encountering a failure\n",
+            "enum": [
+              "ok"
+            ],
+            "type": "string"
+          }
+        }
+      },
+      "InCircle": {
+        "description": "Specifies the center point and the optional radius of your search.\nFormat `{lat},{lng}[;r={radius}]`, where `radius=500` meters by default.\n",
+        "example": "24.5,16.8;r=500",
+        "pattern": "[-+]?\\d*\\.?\\d+,[-+]?\\d*\\.?\\d+(;r=\\d+)?",
+        "type": "string"
+      },
+      "KeepAction": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/TurnAction"
+          }
+        ]
+      },
+      "LocalizedString": {
+        "description": "String with optional language code.",
+        "example": {
+          "language": "de",
+          "value": "Invalidenstraße"
+        },
+        "properties": {
+          "language": {
+            "description": "Language in BCP47 format",
+            "type": "string"
+          },
+          "value": {
+            "description": "String written in the language specified in the language property.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "value"
+        ]
+      },
+      "Location": {
+        "description": "Location on the Earth",
+        "example": {
+          "lat": 52.531677,
+          "lng": 13.381777
+        },
+        "properties": {
+          "elv": {
+            "description": "Ellipsoid(geodetic) height in meters. Difference between the WGS84 ellipsoid and a point on the Earth’s surface.\nNote: Similar elevation can be obtained from a GPS receiver.\n",
+            "example": 512.5,
+            "type": "number"
+          },
+          "lat": {
+            "description": "Location of a point on the Earth north or south of the equator in decimal degrees.",
+            "example": 52.531677,
+            "format": "double",
+            "type": "number"
+          },
+          "lng": {
+            "description": "Location of a place on the Earth east or west of the prime meridian in decimal degrees.",
+            "example": 13.381777,
+            "format": "double",
+            "type": "number"
+          }
+        },
+        "required": [
+          "lat",
+          "lng"
+        ]
+      },
+      "LocationString": {
+        "example": "52.5251,13.3694",
+        "type": "string"
+      },
+      "MaxSpeed": {
+        "description": "Speed in meters per second, or \"unlimited\" indicating that the speed is unlimited, e.g., on a German autobahn",
+        "oneOf": [
+          {
+            "minimum": 0,
+            "type": "number"
+          },
+          {
+            "enum": [
+              "unlimited"
+            ],
+            "type": "string"
+          }
+        ]
+      },
+      "Notice": {
+        "description": "A notice contains important notifications.",
+        "properties": {
+          "code": {
+            "description": "Notice code.",
+            "example": "noRouteFound",
+            "type": "string"
+          },
+          "details": {
+            "description": "Additional details about the notice",
+            "items": {
+              "$ref": "#/components/schemas/BaseNoticeDetail"
+            },
+            "type": "array"
+          },
+          "severity": {
+            "$ref": "#/components/schemas/NoticeSeverity"
+          },
+          "title": {
+            "description": "Human-readable notice description.",
+            "example": "No route found",
+            "type": "string"
+          }
+        },
+        "required": [
+          "code"
+        ]
+      },
+      "NoticeSeverity": {
+        "description": "Describes the impact a notice has on the resource to which the notice is attached.\n* critical - The notice must not be ignored, even if the type of notice is not known to the user. Any associated resource (e.g., route section) must not be used without further evaluation.\n* info - The notice is for informative purposes, but does not affect usability of the route.\n",
+        "enum": [
+          "critical",
+          "info"
+        ],
+        "type": "string"
+      },
+      "OffsetAction": {
+        "description": "An action to be performed at or during a specific portion of a section.\n\n* `depart`: departure maneuver, such as \"Start at\"\n* `arrive`: arrival maneuver, such as \"Arrive at\"\n* `continue`: continue maneuver, such as \"Continue on\"\n",
+        "properties": {
+          "action": {
+            "description": "The type of the action.\n\n**NOTE:** The list of possible actions may be extended in the future. The client application should handle such a case gracefully.\n",
+            "type": "string"
+          },
+          "currentRoad": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/RoadInfo"
+              }
+            ],
+            "description": "Attributes of the current road"
+          },
+          "duration": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Duration"
+              }
+            ],
+            "description": "Estimated duration of this action (in seconds). Actions last until the next action, or the end of the route in case of the last one."
+          },
+          "exitSign": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ExitInfo"
+              }
+            ],
+            "description": "Attributes of the road exit"
+          },
+          "instruction": {
+            "description": "Description of the action (e.g. Turn left onto Minna St.).",
+            "type": "string"
+          },
+          "length": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Distance"
+              }
+            ],
+            "description": "Estimated length of this action (in meters). Actions extend until the next action, or the end of the route in case of the last one."
+          },
+          "nextRoad": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/RoadInfo"
+              }
+            ],
+            "description": "Attributes of the next road"
+          },
+          "offset": {
+            "description": "Offset of a coordinate in the section's polyline.",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "action",
+          "duration"
+        ]
+      },
+      "ParkingLotPlace": {
+        "description": "A parking lot",
+        "properties": {
+          "attributes": {
+            "description": "Attributes of a parking lot.",
+            "items": {
+              "$ref": "#/components/schemas/ParkingLotPlaceType"
+            },
+            "type": "array"
+          },
+          "id": {
+            "description": "Identifier of this parking lot",
+            "type": "string"
+          },
+          "location": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Location"
+              }
+            ],
+            "description": "The position of this location\n\nThis position was used in route calculation. It may be different to the original position provided in the request.\n"
+          },
+          "name": {
+            "description": "Location name",
+            "type": "string"
+          },
+          "originalLocation": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Location"
+              }
+            ],
+            "description": "If present, the original position of this location provided in the request."
+          },
+          "rates": {
+            "description": "List of possible parking rates for this facility. Different rates can apply depending on the day, time of the day or parking duration.\n",
+            "items": {
+              "$ref": "#/components/schemas/TimeRestrictedPrice"
+            },
+            "type": "array"
+          },
+          "type": {
+            "description": "Place type. Each place type can have extra attributes.\n\n**NOTE:** The list of possible place types could be extended in the future.\nThe client application is expected to handle such a case gracefully.\n",
+            "type": "string"
+          },
+          "waypoint": {
+            "description": "If present, this place corresponds to the waypoint in the request with the same index.",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "type",
+          "location"
+        ]
+      },
+      "ParkingLotPlaceType": {
+        "description": "Extensible enum: `parkAndRide` `...`  \nCurrently possible values are:\n\n* `parkAndRide` - this parking lot is of type \"Park and Ride\",\n  such as it is a parking specifically designed to allow transition between car and transit.\n",
+        "type": "string",
+        "x-extensible-enum": [
+          "parkAndRide"
+        ]
+      },
+      "PartialTime": {
+        "description": "**RFC 3339**, section 5.6 as defined by `partial-time`.",
+        "example": 30600,
+        "pattern": "^[012]\\d:[0-5]\\d:[0-6]\\d(\\.\\d+)?$",
+        "type": "string"
+      },
+      "Passthrough": {
+        "description": "Describes a location and time the section is passing through.",
+        "properties": {
+          "offset": {
+            "description": "Passthrough offsets are the coordinate index in the polyline.",
+            "type": "number"
+          },
+          "place": {
+            "$ref": "#/components/schemas/Place"
+          }
+        },
+        "required": [
+          "place"
+        ]
+      },
+      "PaymentMethod": {
+        "description": "Extensible enum: `cash` `bankCard` `creditCard` `passSubscription` `transponder` `videoToll` `cashExact` `travelCard` `...`  \nRecognized methods of payment.\n",
+        "type": "string",
+        "x-extensible-enum": [
+          "cash",
+          "bankCard",
+          "creditCard",
+          "passSubscription",
+          "transponder",
+          "videoToll",
+          "cashExact",
+          "travelCard"
+        ]
+      },
+      "PedestrianAction": {
+        "description": "Action attached to a pedestrian section.",
+        "discriminator": {
+          "mapping": {
+            "arrive": "#/components/schemas/ArriveAction",
+            "continue": "#/components/schemas/ContinueAction",
+            "depart": "#/components/schemas/DepartAction",
+            "exit": "#/components/schemas/ExitAction",
+            "keep": "#/components/schemas/KeepAction",
+            "ramp": "#/components/schemas/RampAction",
+            "roundaboutEnter": "#/components/schemas/RoundaboutEnterAction",
+            "roundaboutExit": "#/components/schemas/RoundaboutExitAction",
+            "roundaboutPass": "#/components/schemas/RoundaboutPassAction",
+            "turn": "#/components/schemas/TurnAction",
+            "uTurn": "#/components/schemas/UTurnAction"
+          },
+          "propertyName": "action"
+        },
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/DepartAction"
+          },
+          {
+            "$ref": "#/components/schemas/ArriveAction"
+          },
+          {
+            "$ref": "#/components/schemas/ContinueAction"
+          },
+          {
+            "$ref": "#/components/schemas/RampAction"
+          },
+          {
+            "$ref": "#/components/schemas/ExitAction"
+          },
+          {
+            "$ref": "#/components/schemas/RoundaboutPassAction"
+          },
+          {
+            "$ref": "#/components/schemas/RoundaboutEnterAction"
+          },
+          {
+            "$ref": "#/components/schemas/RoundaboutExitAction"
+          },
+          {
+            "$ref": "#/components/schemas/UTurnAction"
+          },
+          {
+            "$ref": "#/components/schemas/TurnAction"
+          },
+          {
+            "$ref": "#/components/schemas/KeepAction"
+          }
+        ]
+      },
+      "PedestrianDeparture": {
+        "description": "Departure of pedestrian",
+        "properties": {
+          "place": {
+            "$ref": "#/components/schemas/PedestrianPlace"
+          },
+          "time": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Time"
+              }
+            ],
+            "description": "Expected time of departure of the event. Format is **RFC 3339**, section 5.6 as defined by `date-time`."
+          }
+        },
+        "required": [
+          "place"
+        ]
+      },
+      "PedestrianMode": {
+        "default": "pedestrian",
+        "description": "Extensible enum: `pedestrian` `...`  \nPedestrian mode of transport.\n\nSince the supported pedestrian modes may be extended in the future, the pedestrian mode should be hidden when an unknown mode is encountered.\n",
+        "type": "string",
+        "x-extensible-enum": [
+          "pedestrian"
+        ]
+      },
+      "PedestrianNotice": {
+        "description": "A notice contains important notifications.",
+        "properties": {
+          "code": {
+            "description": "Extensible enum: `simplePolyline` `pedestrianOptionViolated` `violatedAvoidTunnel` `violatedAvoidDirtRoad` `...`  \nCurrently known codes (non-exhaustive: this list could be extended for new situations):\n\n| Code      | Description  | Severity |\n| --------- | ------- | ----            |\n| simplePolyline | An accurate polyline is not available for this section. The returned polyline has been generated from departure and arrival places | info |\n| pedestrianOptionViolated | This section violates the parameter `pedestrian[speed]` or `pedestrian[maxDistance]` | critical |\n| violatedAvoidTunnel | Route did not manage to avoid user preference | critical |\n| violatedAvoidDirtRoad | Route did not manage to avoid user preference | critical |\n",
+            "example": "violatedAvoidTunnel",
+            "type": "string",
+            "x-extensible-enum": [
+              "simplePolyline",
+              "pedestrianOptionViolated",
+              "violatedAvoidTunnel",
+              "violatedAvoidDirtRoad"
+            ]
+          },
+          "details": {
+            "description": "Additional details about the notice",
+            "items": {
+              "$ref": "#/components/schemas/BaseNoticeDetail"
+            },
+            "type": "array"
+          },
+          "severity": {
+            "$ref": "#/components/schemas/NoticeSeverity"
+          },
+          "title": {
+            "description": "Human-readable notice description.",
+            "example": "Violated avoid tunnel",
+            "type": "string"
+          }
+        },
+        "required": [
+          "code"
+        ]
+      },
+      "PedestrianPlace": {
+        "description": "Place used in pedestrian routing",
+        "discriminator": {
+          "mapping": {
+            "accessPoint": "#/components/schemas/AccessPointPlace",
+            "chargingStation": "#/components/schemas/ChargingStationPlace",
+            "dockingStation": "#/components/schemas/DockingStationPlace",
+            "parkingLot": "#/components/schemas/ParkingLotPlace",
+            "place": "#/components/schemas/Place",
+            "station": "#/components/schemas/StationPlace"
+          },
+          "propertyName": "type"
+        },
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/Place"
+          },
+          {
+            "$ref": "#/components/schemas/StationPlace"
+          },
+          {
+            "$ref": "#/components/schemas/AccessPointPlace"
+          },
+          {
+            "$ref": "#/components/schemas/ParkingLotPlace"
+          },
+          {
+            "$ref": "#/components/schemas/ChargingStationPlace"
+          },
+          {
+            "$ref": "#/components/schemas/DockingStationPlace"
+          }
+        ]
+      },
+      "PedestrianPostAction": {
+        "discriminator": {
+          "mapping": {
+            "wait": "#/components/schemas/OffsetAction"
+          },
+          "propertyName": "action"
+        },
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/OffsetAction"
+          }
+        ]
+      },
+      "PedestrianSection": {
+        "description": "Represent a section of a route",
+        "properties": {
+          "actions": {
+            "description": "Actions to be performed at or during a specific portion of a section.\n\nAction offsets are the coordinate index in the polyline.\n\n*NOTE:* currentRoad and nextRoad are not populated for actions.\n",
+            "items": {
+              "$ref": "#/components/schemas/PedestrianAction"
+            },
+            "type": "array"
+          },
+          "arrival": {
+            "$ref": "#/components/schemas/PedestrianDeparture"
+          },
+          "departure": {
+            "$ref": "#/components/schemas/PedestrianDeparture"
+          },
+          "id": {
+            "description": "Unique identifier of the section",
+            "type": "string"
+          },
+          "language": {
+            "description": "Language of the localized strings in the section, if any, in BCP47 format.",
+            "type": "string"
+          },
+          "notices": {
+            "description": "Contains a list of issues related to this section of the route.\n",
+            "items": {
+              "$ref": "#/components/schemas/PedestrianNotice"
+            },
+            "type": "array"
+          },
+          "passthrough": {
+            "description": "List of via waypoints this section is passing through.\n\nEach via waypoint of the request that is a `passThrough=true` waypoint, appears as a\n`Passthrough` in the response. It appears in the section that starts with the closest\nnon-passthrough via specified before it or origin.\n\nThe passthrough vias appear in this list in the order they are traversed. They are\ntraversed in the order they are specified in the request.\n",
+            "items": {
+              "$ref": "#/components/schemas/Passthrough"
+            },
+            "type": "array"
+          },
+          "polyline": {
+            "$ref": "#/components/schemas/Polyline"
+          },
+          "postActions": {
+            "description": "Actions that must be done after `arrival`.",
+            "items": {
+              "$ref": "#/components/schemas/PedestrianPostAction"
+            },
+            "type": "array"
+          },
+          "preActions": {
+            "description": "Actions that must be done prior to `departure`.",
+            "items": {
+              "$ref": "#/components/schemas/BaseAction"
+            },
+            "type": "array"
+          },
+          "refReplacements": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "Dictionary of placeholders to replacement strings for the compact representation of map entity references.\n",
+            "type": "object"
+          },
+          "spans": {
+            "description": "Spans attached to a `Section` describing pedestrian content.\n",
+            "items": {
+              "$ref": "#/components/schemas/PedestrianSpan"
+            },
+            "type": "array"
+          },
+          "summary": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PedestrianSummary"
+              }
+            ],
+            "description": "Total value of key attributes (e.g. duration, length) summed up for the entire section, including `preActions`, `postActions`,\nand the travel portion of the section.\n"
+          },
+          "transport": {
+            "$ref": "#/components/schemas/PedestrianTransport"
+          },
+          "travelSummary": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/BaseSummary"
+              }
+            ],
+            "description": "Total value of key attributes (e.g., duration, length) summed up for just the travel portion of the section,\nbetween `departure` and `arrival`. `preActions` and `postActions` are excluded.\n"
+          },
+          "turnByTurnActions": {
+            "description": "Actions for turn by turn guidance during the travel portion of the section, i.e., between `departure` and `arrival`.",
+            "items": {
+              "$ref": "#/components/schemas/OffsetAction"
+            },
+            "type": "array"
+          },
+          "type": {
+            "description": "Section type used by the client to identify what extension to the BaseSection are available.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "departure",
+          "arrival",
+          "transport"
+        ]
+      },
+      "PedestrianSpan": {
+        "description": "Span attached to a `Section` describing pedestrian content.\n",
+        "properties": {
+          "baseDuration": {
+            "$ref": "#/components/schemas/Duration",
+            "description": "Duration of this span (in seconds) ignoring time-aware information.\n\nFor pedestrian mode, the reported time is currently equal to that in `duration`.\n"
+          },
+          "carAttributes": {
+            "description": "Car specific `AccessAttributes`.\n\n`AccessAttributes` is applied to a span of a route section and describes access flags of a street.\n* `open`:  A part of the route that is open to cars.\n* `noThrough`:  A part of the route that can only be traversed if origin, destination or any via waypoint is located there.\n* `tollRoad`: Access to this part of the route is restricted with a fee (or toll).\n\nAs it is possible that new access attributes are supported in the future, unknown access attributes should be ignored.\n",
+            "items": {
+              "$ref": "#/components/schemas/AccessAttributes"
+            },
+            "type": "array"
+          },
+          "countryCode": {
+            "$ref": "#/components/schemas/CountryCode"
+          },
+          "duration": {
+            "$ref": "#/components/schemas/Duration",
+            "description": "Duration of the span."
+          },
+          "dynamicSpeedInfo": {
+            "$ref": "#/components/schemas/DynamicSpeedInfo"
+          },
+          "functionalClass": {
+            "$ref": "#/components/schemas/FunctionalClass"
+          },
+          "incidents": {
+            "description": "A list of indices into the incident array of the parent section.\nReferences all incidents that apply to the span.\n",
+            "items": {
+              "type": "integer"
+            },
+            "type": "array"
+          },
+          "length": {
+            "$ref": "#/components/schemas/Distance",
+            "description": "Length of the span.\n"
+          },
+          "maxSpeed": {
+            "$ref": "#/components/schemas/MaxSpeed"
+          },
+          "names": {
+            "description": "Designated name for the span (e.g. a street name or a transport name)",
+            "items": {
+              "$ref": "#/components/schemas/LocalizedString"
+            },
+            "type": "array"
+          },
+          "offset": {
+            "description": "Offset of a coordinate in the section's polyline.\n",
+            "format": "int32",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "routeNumbers": {
+            "description": "Designated route name or number of the span (e.g. 'M25')",
+            "items": {
+              "$ref": "#/components/schemas/LocalizedString"
+            },
+            "type": "array"
+          },
+          "scooterAttributes": {
+            "description": "Scooter specific `AccessAttributes`.\n\n`AccessAttributes` is applied to a span of a route section and describes access flags of a street.\n* `open`: This part of the route is open to scooters.\n\nAs it is possible that new access attributes are supported in the future, unknown access attributes should be ignored.\n",
+            "items": {
+              "$ref": "#/components/schemas/AccessAttributes"
+            },
+            "type": "array"
+          },
+          "segmentId": {
+            "deprecated": true,
+            "description": "**NOTE:** Attribute segmentId is deprecated. Use segmentRef instead.\n\nThe directed topology segment id including prefix (e.g '+here:cm:segment:').\n\nThe id consists of two parts.\n* The direction ('+' or '-')\n* followed by the topology segment id (a unique identifier within the HERE platform catalogs).\n\nThe direction specifies whether the route is using the segment in its canonical direction ('+' aka traveling along the geometry's direction), or against it ('-' aka traveling against the geometry's direction).\n",
+            "type": "string"
+          },
+          "segmentRef": {
+            "description": "A reference to the HMC topology segment used in this span.\n\nThe standard representation of a segment reference has the following structure:\n{catalogHrn}:{catalogVersion}:({layerId})?:{tileId}:{segmentId}(#{direction}({startOffset}..{endOffset})?)?\n\nThe individual parts are:\n* catalogHrn: The HERE Resource Name that identifies the source catalog of the segment, example: hrn:here:data::olp-here:rib-2\n* catalogVersion: The catalog version\n* layerId (optional): The layer inside the catalog where the segment can be found, example: topology-geometry\n* tileId: The HERE tile key of the partition/tile where the segment is located in the given version of the catalog. This can be on a lower level than the actual segment is stored at (for example, the provided tile ID can be on level 14, despite topology-geometry partitions being tiled at level 12). The level of a HERE tile key is indicated by the position of the highest set bit in binary representation. Since the HERE tile key represents a morton code of the x and y portion of the Tile ID, the level 12 tile ID can be retrieved from the level 14 tile ID by removing the 4 least significant bits (or 2 bits per level) or 1 hexadecimal digit. For example, the level 14 tile 377894441 is included in the level 12 tile 23618402 (377894441<sub>10</sub> = 16863629<sub>16</sub> &rightarrow; 1686362<sub>16</sub> = 23618402<sub>10</sub>)\n* segmentId: The identifier of the referenced topology segment inside the catalog, example: here:cm:segment:84905195\n* direction (optional): Either '*' for undirected or bidirectional, '+' for positive direction, '-' for negative direction, or '?' for unknown direction (not used by the routing service)\n* startOffset/endOffset (optional): The start- and end offset are non-negative numbers between 0 and 1, representing the start and end of the referenced range using a proportion of the length of the segment. 0 represents the start and 1 the end of the segment, relative to the indicated direction (or positive direction in case of undirected segments). Example: 0.7..1\n\nExample of a segment reference in standard representation:\nhrn:here:data::olp-here:rib-2:1363::377894441:here:cm:segment:84905195#+0.7..1\n\nThe segment references can also be provided in a compact representation, to reduce the response size. In the compact representation, some parts are replaced by placeholders, which can be resolved using the refReplacements dictionary in the parent section.\nThe placeholder format is ```\\$\\d+``` and needs to be surrounded by colons or string start/end. It can be captured with the following regular expression: ```(^|:)\\$\\d+(:|$)/``` .\n\nExample of the segment reference previously mentioned in compact representation:\n$0:377894441:$1:84905195#+0.7..1\nWith the corresponding refReplacements:\n\"refReplacements\": {\n  \"0\": \"hrn:here:data::olp-here:rib-2:1363:\",\n  \"1\": \"here:cm:segment\"\n}\n",
+            "type": "string"
+          },
+          "speedLimit": {
+            "$ref": "#/components/schemas/Speed",
+            "description": "**NOTE:** Attribute speedLimit is deprecated. Use maxSpeed instead.\n"
+          },
+          "stateCode": {
+            "$ref": "#/components/schemas/StateCode"
+          },
+          "streetAttributes": {
+            "description": "`StreetAttributes` is applied to a span of a route section and describes attribute flags of a street.\n* `rightDrivingSide`: Do vehicles have to drive on the right-hand side of the road or the left-hand side.\n* `dirtRoad`: This part of the route has an un-paved surface.\n* `tunnel`: This part of the route is a tunnel.\n* `bridge`: This part of the route is a bridge.\n* `ramp`: This part of the route is a ramp (usually connecting to/from/between highways).\n* `motorway`: This part of the route is a controlled access road (usually highways with motorway sign).\n* `roundabout`: This part of the route is a roundabout.\n* `underConstruction`: This part of the route is under construction.\n* `dividedRoad`: This part of the route uses a road with a physical or legal divider in the middle.\n* `privateRoad`: This part of the route uses a privately owned road.\n* `controlledAccessHighway`: This part of the route is a either controlled access or limited access road or both.\n\nAs it is possible that new street attributes are supported in the future, unknown street attributes should be ignored.\n",
+            "items": {
+              "$ref": "#/components/schemas/StreetAttributes"
+            },
+            "type": "array"
+          },
+          "truckAttributes": {
+            "description": "Truck specific `AccessAttributes`.\n\n`AccessAttributes` is applied to a span of a route section and describes access flags of a street.\n* `open`: This part of the route is open to trucks.\n* `noThrough`: This part of the route can only be traversed if origin, destination or any via waypoint is located there.\n* `tollRoad`: This part of the route is restricted with a fee (or toll).\n\nAs it is possible that new access attributes are supported in the future, unknown access attributes should be ignored.\n",
+            "items": {
+              "$ref": "#/components/schemas/AccessAttributes"
+            },
+            "type": "array"
+          },
+          "typicalDuration": {
+            "$ref": "#/components/schemas/Duration",
+            "description": "Duration of this span (in seconds) under typical traffic conditions.\n\nFor pedestrian mode, the reported time is currently equal to that in `duration`.\n"
+          },
+          "walkAttributes": {
+            "description": "Accessibility and walk-related attribute flags.\n\n* `stairs`: This part of the route is a staircase.\n* `park`: This part of the route is in a park.\n* `indoor`: This part of the route is inside a venue.\n* `open`: This part of the route is open to walking.\n* `noThrough`: This part of the route can only be traversed if origin, destination or any via waypoint is located there.\n* `tollRoad`: Access to this part of the route is restricted with a fee (or toll).\n\nAs it is possible that new attributes are supported in the future, unknown attributes should be ignored.\n",
+            "items": {
+              "$ref": "#/components/schemas/WalkAttributes"
+            },
+            "type": "array"
+          }
+        }
+      },
+      "PedestrianSpeed": {
+        "default": 1,
+        "description": "Pedestrian speed in meters per second",
+        "maximum": 2,
+        "minimum": 0.5,
+        "type": "number"
+      },
+      "PedestrianSummary": {
+        "description": "Total value of key attributes for a route section.",
+        "properties": {
+          "baseDuration": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Duration"
+              }
+            ],
+            "description": "Duration (in seconds) ignoring time-aware information.\n\nFor pedestrian mode, the reported time is currently equal to that in `duration`.\n"
+          },
+          "duration": {
+            "$ref": "#/components/schemas/Duration"
+          },
+          "length": {
+            "$ref": "#/components/schemas/Distance"
+          }
+        },
+        "required": [
+          "duration",
+          "length"
+        ]
+      },
+      "PedestrianTransport": {
+        "description": "Information about a transport",
+        "properties": {
+          "mode": {
+            "$ref": "#/components/schemas/PedestrianMode"
+          }
+        },
+        "required": [
+          "mode"
+        ]
+      },
+      "Place": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BasePlace"
+          }
+        ],
+        "description": "A place represents a generic location relevant for the route."
+      },
+      "PlacesByIds": {
+        "properties": {
+          "ids": {
+            "description": "Specifies a comma separated list of station IDs. A maximum of 50 station identifiers are allowed in a single query\n",
+            "maxLength": 1000,
+            "type": "string"
+          }
+        },
+        "required": [
+          "ids"
+        ],
+        "title": "Query stations by IDs"
+      },
+      "PlacesByLocation": {
+        "properties": {
+          "in": {
+            "$ref": "#/components/schemas/InCircle"
+          },
+          "maxPlaces": {
+            "default": 5,
+            "description": "The maximum number of stations/stops included in the response.",
+            "maximum": 50,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "modesInPlace": {
+            "description": "Format: `mode1,mode2,...`\n\nFilter the list of stations returned in the response depending on the Transit modes available.\n\nStations where at least one of the specified modes exists will get returned.\nBy default, all supported transit modes are permitted.\n\nSupported modes: `highSpeedTrain` `intercityTrain` `interRegionalTrain` `regionalTrain` `cityTrain`\n`bus` `ferry` `subway` `lightRail` `privateBus` `inclined` `aerial` `busRapid` `monorail`\n`flight` `spaceship`\n\nThis parameter also support an exclusion list: It's sufficient to specify each mode to exclude by prefixing it with `-`.\nMixing of inclusive and exclusive transit modes is not allowed.\n\nexamples:\n  * `subway,bus`. Returns only stations having subways and busses.\n  * `-subway,-bus`. Returns all stations except the one having just subways or busses.\n",
+            "type": "string"
+          }
+        },
+        "required": [
+          "in"
+        ],
+        "title": "Query stations by Location"
+      },
+      "PlacesByName": {
+        "properties": {
+          "in": {
+            "$ref": "#/components/schemas/InCircle"
+          },
+          "maxPlaces": {
+            "default": 5,
+            "description": "The maximum number of stations/stops included in the response.",
+            "maximum": 25,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "method": {
+            "description": "Specifies if the match is `fuzzy` or `strict`.\nThe default value is fuzzy.\n\n`fuzzy` - search for a station with the name similar to one of the names requested\n`strict` - search for a station with the name exactly matching one of the names requested or containing it as a part\n\nFor example, if the station name in the request is \"maurer\", then if the method is `fuzzy` the response\ncontains \"AMBOY AVE AT MAURER RD\" and \"LAUREL HILL BL/48 ST\". If the method is `strict`\nthe response contains \"AMBOY AVE AT MAURER RD\" but not \"LAUREL HILL BL/48 ST\".\n",
+            "enum": [
+              "fuzzy",
+              "strict"
+            ],
+            "type": "string"
+          },
+          "modesInPlace": {
+            "description": "Format: `mode1,mode2,...`\n\nFilter the list of stations returned in the response depending on the Transit modes available.\n\nStations where at least one of the specified modes exists will get returned.\nBy default, all supported transit modes are permitted.\n\nSupported modes: `highSpeedTrain` `intercityTrain` `interRegionalTrain` `regionalTrain` `cityTrain`\n`bus` `ferry` `subway` `lightRail` `privateBus` `inclined` `aerial` `busRapid` `monorail`\n`flight` `spaceship`\n\nThis parameter also support an exclusion list: It's sufficient to specify each mode to exclude by prefixing it with `-`.\nMixing of inclusive and exclusive transit modes is not allowed.\n\nexamples:\n  * `subway,bus`. Returns only stations having subways and busses.\n  * `-subway,-bus`. Returns all stations except the one having just subways or busses.\n",
+            "type": "string"
+          },
+          "name": {
+            "description": "The station name or part of the name to search for.\nIt is composed of one or more space separated words.\n",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "in"
+        ],
+        "title": "Query stations by Name and Location"
+      },
+      "PlacesReturn": {
+        "description": "Enables transport information in the response.",
+        "items": {
+          "enum": [
+            "transport",
+            "accessPoints"
+          ],
+          "type": "string"
+        },
+        "type": "array"
+      },
+      "Polyline": {
+        "description": "Line string in [Flexible Polyline](https://github.com/heremaps/flexible-polyline) format.",
+        "example": "A05xgKuy2xCx9B7vUl0OhnR54EqSzpEl-HxjD3pBiGnyGi2CvwFsgD3nD4vB6e",
+        "type": "string"
+      },
+      "RampAction": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/TurnAction"
+          }
+        ]
+      },
+      "RangePrice": {
+        "properties": {
+          "currency": {
+            "description": "Local currency of the price compliant to ISO 4217",
+            "type": "string"
+          },
+          "estimated": {
+            "default": false,
+            "description": "Attribute value is `true` if the fare price is estimated, `false` if it is an exact value.",
+            "type": "boolean"
+          },
+          "maximum": {
+            "description": "Maximum price",
+            "type": "number"
+          },
+          "minimum": {
+            "description": "Minimum price",
+            "type": "number"
+          },
+          "type": {
+            "description": "Type of price represented by this object. The API customer is responsible for correctly visualizing\nthe pricing model. As it is possible to extend the supported price types in the future,\nthe price information should be hidden when an unknown type is encountered.\n\nAvailable price types are:\n\n  * `value` - A single value.\n  * `range` - A range value that includes a minimum and maximum price.\n",
+            "type": "string"
+          },
+          "unit": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Duration"
+              }
+            ],
+            "description": "When set, the price is paid for a specific duration.\n\nExamples:\n  * `\"unit\": 3600` - price for one hour\n  * `\"unit\": 28800` - price for 8 hours\n  * `\"unit\": 86400` - price for one day\n"
+          }
+        },
+        "required": [
+          "type",
+          "currency",
+          "minimum",
+          "maximum"
+        ]
+      },
+      "RoadInfo": {
+        "description": "Road information attached to an offset action",
+        "example": {
+          "fennstrasse": {
+            "name": [
+              {
+                "language": "de",
+                "value": "Fennstraße"
+              }
+            ],
+            "number": [
+              {
+                "language": "de",
+                "value": "B96"
+              }
+            ],
+            "toward": [
+              {
+                "language": "de",
+                "value": "Reinickendorf"
+              }
+            ],
+            "type": "street"
+          }
+        },
+        "properties": {
+          "name": {
+            "description": "Name of the road\n\nIf the road has multiple names, each name will be a separate entry in the array.\nThe road names can be in multiple languages. If a preferred language was provided,\nand names in that language are available, they will be prioritized in the array.\nOtherwise the default name of the street is prioritized.\n",
+            "items": {
+              "$ref": "#/components/schemas/LocalizedString"
+            },
+            "type": "array"
+          },
+          "number": {
+            "description": "Route name or number (e.g. 'M25')",
+            "items": {
+              "$ref": "#/components/schemas/LocalizedString"
+            },
+            "type": "array"
+          },
+          "toward": {
+            "description": "Names of destinations on sign which can be reached when going in that direction",
+            "items": {
+              "$ref": "#/components/schemas/LocalizedString"
+            },
+            "type": "array"
+          },
+          "type": {
+            "$ref": "#/components/schemas/RoadInfoType"
+          }
+        }
+      },
+      "RoadInfoType": {
+        "default": "urban",
+        "description": "Type of the road (rural, urban, highway)",
+        "enum": [
+          "rural",
+          "urban",
+          "highway"
+        ],
+        "type": "string"
+      },
+      "RoundaboutEnterAction": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/TurnAction"
+          }
+        ]
+      },
+      "RoundaboutExitAction": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ExitAction"
+          }
+        ]
+      },
+      "RoundaboutPassAction": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/TurnAction"
+          }
+        ]
+      },
+      "RouteLabel": {
+        "oneOf": [
+          {
+            "description": "Designated name of the road (e.g. a street name or a transport name)",
+            "properties": {
+              "name": {
+                "$ref": "#/components/schemas/LocalizedString"
+              }
+            }
+          },
+          {
+            "description": "Designated route name or number of the road (e.g. 'M25')",
+            "properties": {
+              "routeNumber": {
+                "$ref": "#/components/schemas/LocalizedString"
+              }
+            }
+          }
+        ]
+      },
+      "SinglePrice": {
+        "properties": {
+          "currency": {
+            "description": "Local currency of the price compliant to ISO 4217",
+            "type": "string"
+          },
+          "estimated": {
+            "default": false,
+            "description": "Attribute value is `true` if the fare price is estimated, `false` if it is an exact value.",
+            "type": "boolean"
+          },
+          "type": {
+            "description": "Type of price represented by this object. The API customer is responsible for correctly visualizing\nthe pricing model. As it is possible to extend the supported price types in the future,\nthe price information should be hidden when an unknown type is encountered.\n\nAvailable price types are:\n\n  * `value` - A single value.\n  * `range` - A range value that includes a minimum and maximum price.\n",
+            "type": "string"
+          },
+          "unit": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Duration"
+              }
+            ],
+            "description": "When set, the price is paid for a specific duration.\n\nExamples:\n  * `\"unit\": 3600` - price for one hour\n  * `\"unit\": 28800` - price for 8 hours\n  * `\"unit\": 86400` - price for one day\n"
+          },
+          "value": {
+            "description": "The price value",
+            "type": "number"
+          }
+        },
+        "required": [
+          "type",
+          "currency",
+          "value"
+        ]
+      },
+      "Speed": {
+        "description": "Speed in meters per second",
+        "minimum": 0,
+        "type": "number"
+      },
+      "StateCode": {
+        "description": "ISO-3166-2 code.\nUsed for identifying the principal subdivisions (e.g., provinces or states) of a country with some `CountryCode`.\nMade of up to three alphanumeric characters.\n\nPreferably used in conjunction with the `CountryCode`.\nState code is available in the following countries:\n  - USA\n  - Canada\n  - Australia\n  - China\n  - India\n",
+        "type": "string"
+      },
+      "StationBoard": {
+        "description": "It contains a list of departures from this station.",
+        "properties": {
+          "attributions": {
+            "description": "List of required attributions to display.",
+            "items": {
+              "$ref": "#/components/schemas/Attribution"
+            },
+            "type": "array"
+          },
+          "departures": {
+            "description": "A list of departures.",
+            "items": {
+              "$ref": "#/components/schemas/DepartureDetails"
+            },
+            "type": "array"
+          },
+          "place": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/StationPlace"
+              }
+            ],
+            "description": "Information about a station or stop."
+          }
+        },
+        "required": [
+          "place",
+          "departures"
+        ]
+      },
+      "StationBoardResponse": {
+        "description": "Station board response.",
+        "properties": {
+          "boards": {
+            "description": "A list of subsequent station board departures.",
+            "items": {
+              "$ref": "#/components/schemas/StationBoard"
+            },
+            "type": "array"
+          },
+          "notices": {
+            "description": "Contains a list of issues related to this response.\nFollows a list of possible notice codes:\n\n* `unknownStations`: The response is incomplete as one or more of the given station IDs were not found.\n* `noDeparturesFound`: No departures information is available given current input parameters\n",
+            "items": {
+              "$ref": "#/components/schemas/Notice"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "boards"
+        ]
+      },
+      "StationInfo": {
+        "description": "It contains transit service information for this station.",
+        "properties": {
+          "accessPoints": {
+            "description": "A list of access points",
+            "items": {
+              "$ref": "#/components/schemas/AccessPointPlace"
+            },
+            "type": "array"
+          },
+          "notices": {
+            "description": "Contains a list of issues related to this station.\n\nFollows a list of possible notice codes:\n\n* `noDepartureInfo`: Departure information is unavailable or inaccurate for this station/stop.\n",
+            "items": {
+              "$ref": "#/components/schemas/Notice"
+            },
+            "type": "array"
+          },
+          "place": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/StationPlace"
+              }
+            ],
+            "description": "Information about a station or stop."
+          },
+          "transports": {
+            "description": "A list of transit services.",
+            "items": {
+              "$ref": "#/components/schemas/TransitTransport"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "place"
+        ]
+      },
+      "StationPlace": {
+        "description": "A station",
+        "properties": {
+          "code": {
+            "description": "Short text or a number that identifies the place for riders.",
+            "type": "string"
+          },
+          "id": {
+            "description": "Identifier of this station",
+            "type": "string"
+          },
+          "location": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Location"
+              }
+            ],
+            "description": "The position of this location\n\nThis position was used in route calculation. It may be different to the original position provided in the request.\n"
+          },
+          "name": {
+            "description": "Location name",
+            "type": "string"
+          },
+          "originalLocation": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Location"
+              }
+            ],
+            "description": "If present, the original position of this location provided in the request."
+          },
+          "platform": {
+            "description": "Platform name or number for the departure.",
+            "type": "string"
+          },
+          "type": {
+            "description": "Place type. Each place type can have extra attributes.\n\n**NOTE:** The list of possible place types could be extended in the future.\nThe client application is expected to handle such a case gracefully.\n",
+            "type": "string"
+          },
+          "waypoint": {
+            "description": "If present, this place corresponds to the waypoint in the request with the same index.",
+            "type": "integer"
+          },
+          "wheelchairAccessible": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/WheelchairAccessibility"
+              }
+            ],
+            "description": "Information about accessibility for people with a disability and who use a wheelchair.\n\n* `unknown` - Accessibility information is not available.\n* `yes` - There exists some accessible path from outside the station to the specific stop/platform.\n* `limited` - Accessibility is limited or assistance is required.\n* `no` - There exists no accessible path from outside the station to the specific stop/platform.\n"
+          }
+        },
+        "required": [
+          "type",
+          "location"
+        ]
+      },
+      "StationsInfoResponse": {
+        "description": "Station info response.",
+        "properties": {
+          "notices": {
+            "description": "Contains a list of issues related to this response.\n\nFollows a list of possible notice codes:\n\n* `unknownStations`: The response is incomplete as one or more of the given station IDs were not found.\n* `noStationsFound`: No stations information is available given current input parameters\n",
+            "items": {
+              "$ref": "#/components/schemas/Notice"
+            },
+            "type": "array"
+          },
+          "stations": {
+            "description": "A list of stations.",
+            "items": {
+              "$ref": "#/components/schemas/StationInfo"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "stations"
+        ]
+      },
+      "StreetAttributes": {
+        "description": "Extensible enum: `rightDrivingSide` `dirtRoad` `tunnel` `bridge` `ramp` `controlledAccess` `roundabout` `underConstruction` `dividedRoad` `privateRoad` `...`  \n`StreetAttributes` is applied to a span of a route section and describes attribute flags of a street.\n* `rightDrivingSide`: Do vehicles have to drive on the right-hand side of the road or the left-hand side.\n* `dirtRoad`: This part of the route has an un-paved surface.\n* `tunnel`: This part of the route is a tunnel.\n* `bridge`: This part of the route is a bridge.\n* `ramp`: This part of the route is a ramp (usually connecting to/from/between highways).\n* `motorway`: This part of the route is a controlled access road (usually highways with motorway sign).\n* `roundabout`: This part of the route is a roundabout.\n* `underConstruction`: This part of the route is under construction.\n* `dividedRoad`: This part of the route uses a road with a physical or legal divider in the middle.\n* `privateRoad`: This part of the route uses a privately owned road.\n* `controlledAccessHighway`: This part of the route is a either controlled access or limited access road or both.\n\nAs it is possible that new street attributes are supported in the future, unknown street attributes should be ignored.\n",
+        "type": "string",
+        "x-extensible-enum": [
+          "rightDrivingSide",
+          "dirtRoad",
+          "tunnel",
+          "bridge",
+          "ramp",
+          "controlledAccess",
+          "roundabout",
+          "underConstruction",
+          "dividedRoad",
+          "privateRoad"
+        ]
+      },
+      "Time": {
+        "description": "**RFC 3339**, section 5.6 as defined by either `date-time` or `date-only` 'T' `partial-time` (ie no time-offset).",
+        "format": "date-time",
+        "type": "string"
+      },
+      "TimeRestrictedPrice": {
+        "properties": {
+          "currency": {
+            "description": "Local currency of the price compliant to ISO 4217",
+            "type": "string"
+          },
+          "days": {
+            "description": "This price applies only for the selected days",
+            "example": [
+              "sa",
+              "su"
+            ],
+            "items": {
+              "$ref": "#/components/schemas/TimeRestrictedWeekdays"
+            },
+            "type": "array"
+          },
+          "estimated": {
+            "default": false,
+            "description": "Attribute value is `true` if the fare price is estimated, `false` if it is an exact value.",
+            "type": "boolean"
+          },
+          "fromTime": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PartialTime"
+              }
+            ],
+            "description": "The price applies from this time of the day"
+          },
+          "maxDuration": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Duration"
+              }
+            ],
+            "description": "The price applies if the duration is less or equal to `maxDuration`",
+            "example": 3600
+          },
+          "minDuration": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Duration"
+              }
+            ],
+            "description": "The price applies if the duration is more or equal to `minDuration`",
+            "example": 1801
+          },
+          "toTime": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PartialTime"
+              }
+            ],
+            "description": "The price applies until this time of the day"
+          },
+          "type": {
+            "description": "Type of price represented by this object. The API customer is responsible for correctly visualizing\nthe pricing model. As it is possible to extend the supported price types in the future,\nthe price information should be hidden when an unknown type is encountered.\n\nAvailable price types are:\n\n  * `restricted` - A single price value valid for a specific time or duration\n",
+            "type": "string"
+          },
+          "unit": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Duration"
+              }
+            ],
+            "description": "When set, the price is paid for a specific duration.\n\nExamples:\n  * `\"unit\": 3600` - price for one hour\n  * `\"unit\": 28800` - price for 8 hours\n  * `\"unit\": 86400` - price for one day\n"
+          },
+          "value": {
+            "description": "The price value",
+            "type": "number"
+          }
+        },
+        "required": [
+          "type",
+          "currency",
+          "value"
+        ]
+      },
+      "TimeRestrictedWeekdays": {
+        "enum": [
+          "mo",
+          "tu",
+          "we",
+          "th",
+          "fr",
+          "sa",
+          "su"
+        ],
+        "type": "string"
+      },
+      "TransitDeparture": {
+        "description": "Transit departure",
+        "properties": {
+          "delay": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/DepartureDelay"
+              }
+            ],
+            "description": "The accumulated delay in seconds from the scheduled time of the event."
+          },
+          "place": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/StationPlace"
+              }
+            ],
+            "description": "Departure/arrival location"
+          },
+          "status": {
+            "$ref": "#/components/schemas/DepartureStatus"
+          },
+          "time": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Time"
+              }
+            ],
+            "description": "Expected time of departure of the event. Format is **RFC 3339**, section 5.6 as defined by `date-time`."
+          }
+        },
+        "required": [
+          "place"
+        ]
+      },
+      "TransitIncident": {
+        "description": "An incident describes disruptions on the transit network.\nDisruptions scale from delays to service cancellations.\n",
+        "properties": {
+          "description": {
+            "description": "A human readable description of the incident",
+            "example": "The subway is closed each night between 1 AM and 5 AM while we clean our trains and stations. We are running extra bus service overnight.",
+            "type": "string"
+          },
+          "effect": {
+            "$ref": "#/components/schemas/TransitIncidentEffect"
+          },
+          "summary": {
+            "description": "A human readable summary of the incident",
+            "example": "The subway is closed each night between 1 AM and 5 AM.",
+            "type": "string"
+          },
+          "type": {
+            "$ref": "#/components/schemas/TransitIncidentType"
+          },
+          "url": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Uri"
+              }
+            ],
+            "description": "Link to the original incident published at the agency website"
+          },
+          "validFrom": {
+            "$ref": "#/components/schemas/Time"
+          },
+          "validUntil": {
+            "$ref": "#/components/schemas/Time"
+          }
+        },
+        "required": [
+          "type",
+          "effect"
+        ]
+      },
+      "TransitIncidentEffect": {
+        "description": "Extensible enum: `cancelledService` `reducedService` `additionalService` `modifiedService` `delays` `detour` `stopMoved` `other` `...`  \nAn open list of possible incident effects.\nNote: Since new types are expected to appear, it is important to check for unknown types when parsing this value.\n",
+        "type": "string",
+        "x-extensible-enum": [
+          "cancelledService",
+          "reducedService",
+          "additionalService",
+          "modifiedService",
+          "delays",
+          "detour",
+          "stopMoved",
+          "other"
+        ]
+      },
+      "TransitIncidentType": {
+        "description": "Extensible enum: `technicalProblem` `strike` `demonstration` `accident` `holiday` `weather` `maintenance` `construction` `policeActivity` `medicalEmergency` `other` `...`  \nAn open list of possible incident causes / types.\nNote: Since new types are expected to appear, it is important to check for unknown types when parsing this value.\n",
+        "type": "string",
+        "x-extensible-enum": [
+          "technicalProblem",
+          "strike",
+          "demonstration",
+          "accident",
+          "holiday",
+          "weather",
+          "maintenance",
+          "construction",
+          "policeActivity",
+          "medicalEmergency",
+          "other"
+        ]
+      },
+      "TransitModeFlags": {
+        "description": "Extensible enum: `highSpeedTrain` `intercityTrain` `interRegionalTrain` `regionalTrain` `cityTrain` `bus` `ferry` `subway` `lightRail` `privateBus` `inclined` `aerial` `busRapid` `monorail` `flight` `spaceship` `-highSpeedTrain` `-intercityTrain` `-interRegionalTrain` `-regionalTrain` `-cityTrain` `-bus` `-ferry` `-subway` `-lightRail` `-privateBus` `-inclined` `-aerial` `-busRapid` `-monorail` `-flight` `-spaceship` `...`  \nTransit mode and excluded modes of transport\n",
+        "title": "Modes and excluded modes",
+        "type": "string",
+        "x-extensible-enum": [
+          "highSpeedTrain",
+          "intercityTrain",
+          "interRegionalTrain",
+          "regionalTrain",
+          "cityTrain",
+          "bus",
+          "ferry",
+          "subway",
+          "lightRail",
+          "privateBus",
+          "inclined",
+          "aerial",
+          "busRapid",
+          "monorail",
+          "flight",
+          "spaceship",
+          "-highSpeedTrain",
+          "-intercityTrain",
+          "-interRegionalTrain",
+          "-regionalTrain",
+          "-cityTrain",
+          "-bus",
+          "-ferry",
+          "-subway",
+          "-lightRail",
+          "-privateBus",
+          "-inclined",
+          "-aerial",
+          "-busRapid",
+          "-monorail",
+          "-flight",
+          "-spaceship"
+        ]
+      },
+      "TransitModeOutput": {
+        "description": "Extensible enum: `highSpeedTrain` `intercityTrain` `interRegionalTrain` `regionalTrain` `cityTrain` `bus` `ferry` `subway` `lightRail` `privateBus` `inclined` `aerial` `busRapid` `monorail` `carShuttleTrain` `flight` `spaceship` `...`  \nTransit mode of transport in the route response\n",
+        "title": "Modes",
+        "type": "string",
+        "x-extensible-enum": [
+          "highSpeedTrain",
+          "intercityTrain",
+          "interRegionalTrain",
+          "regionalTrain",
+          "cityTrain",
+          "bus",
+          "ferry",
+          "subway",
+          "lightRail",
+          "privateBus",
+          "inclined",
+          "aerial",
+          "busRapid",
+          "monorail",
+          "carShuttleTrain",
+          "flight",
+          "spaceship"
+        ]
+      },
+      "TransitModesFilter": {
+        "description": "Transit type filter used to determine which types of transit to include in the response. By default, all supported transit types are permitted. Mixing of inclusive and exclusive transit types is not allowed.\n",
+        "items": {
+          "$ref": "#/components/schemas/TransitModeFlags"
+        },
+        "type": "array",
+        "uniqueItems": true
+      },
+      "TransitNotice": {
+        "description": "A notice contains important notifications.",
+        "properties": {
+          "code": {
+            "description": "Extensible enum: `noSchedule` `noIntermediate` `unwantedMode` `scheduledTimes` `simplePolyline` `violatedAvoidFerry` `violatedAvoidTrainFerry` `...`  \nCurrently known codes (non-exhaustive: this list could be extended for new situations):\n\n| Code      | Description  | Severity |\n| ------            | ------- | ------- |\n| noSchedule | A timetable schedule is not available for the transit line in this section, and only the run frequency is available. As a result, departure/arrival times are approximated | info |\n| noIntermediate | Information about intermediate stops is not available for this transit line | info |\n| unwantedMode | This section contains a transport mode that was explicitly disabled. Mode filtering is not available in this area | info |\n| scheduledTimes | The times returned on this section are the scheduled times even though delay information are available | info |\n| simplePolyline | An accurate polyline is not available for this section. The returned polyline has been generated from departure and arrival places | info |\n| violatedAvoidFerry | Route did not manage to avoid user preference | critical |\n| violatedAvoidTrainFerry | Route did not manage to avoid user preference | critical |\n",
+            "example": "noSchedule",
+            "type": "string",
+            "x-extensible-enum": [
+              "noSchedule",
+              "noIntermediate",
+              "unwantedMode",
+              "scheduledTimes",
+              "simplePolyline",
+              "violatedAvoidFerry",
+              "violatedAvoidTrainFerry"
+            ]
+          },
+          "details": {
+            "description": "Additional details about the notice",
+            "items": {
+              "$ref": "#/components/schemas/BaseNoticeDetail"
+            },
+            "type": "array"
+          },
+          "severity": {
+            "$ref": "#/components/schemas/NoticeSeverity"
+          },
+          "title": {
+            "description": "Human-readable notice description.",
+            "example": "No schedule",
+            "type": "string"
+          }
+        },
+        "required": [
+          "code"
+        ]
+      },
+      "TransitPostAction": {
+        "discriminator": {
+          "mapping": {
+            "deboard": "#/components/schemas/DeboardAction"
+          },
+          "propertyName": "action"
+        },
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/DeboardAction"
+          }
+        ]
+      },
+      "TransitPreAction": {
+        "description": "An action that must be done prior to `departure`.",
+        "discriminator": {
+          "mapping": {
+            "board": "#/components/schemas/BoardAction"
+          },
+          "propertyName": "action"
+        },
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/BoardAction"
+          }
+        ]
+      },
+      "TransitRoute": {
+        "description": "A basic transit routing response. It may include transit and walk sections.",
+        "properties": {
+          "id": {
+            "description": "Unique identifier of the route",
+            "type": "string"
+          },
+          "notices": {
+            "description": "Contains a list of issues related to this route.\n\nFollows a list of possible notice codes:\n\n* `excessiveWaitingTime`: Commuter has to wait at a station much longer than usual.\n* `changeOptionViolated`: This route contains more changes than specified by the `changes` parameter.\n* `nonviableRoute`: Based on the real-time situation, one or more changes on the route\n  are not possible. This can happen if real-time re-routing is not available on this area.\n",
+            "items": {
+              "$ref": "#/components/schemas/Notice"
+            },
+            "type": "array"
+          },
+          "routeLabels": {
+            "description": "Contains a list of the most important names and route numbers on this route that differentiate it from other alternatives.\nThese names are used to make labels for the main and alternative routes, like \"route1 via A4,D10\", \"route2 via D11,5\"\nThe generated list is expected to be unique for each route in response (but it's not guaranteed)\n",
+            "items": {
+              "$ref": "#/components/schemas/RouteLabel"
+            },
+            "maxItems": 2,
+            "minItems": 0,
+            "type": "array"
+          },
+          "sections": {
+            "description": "A list of transit and pedestrian sections of the route.",
+            "items": {
+              "$ref": "#/components/schemas/TransitRouteSection"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "id",
+          "sections"
+        ]
+      },
+      "TransitRouteResponse": {
+        "description": "Returns a list of routes.",
+        "properties": {
+          "notices": {
+            "description": "Contains a list of issues related to this response.\nFollows a list of possible notice codes:\n\n* `noRouteFound`: Routing between origin and destination is not possible given current input parameters.\n* `noRoutesFound`: (Deprecated) For more information, see noRouteFound.\n* `noTransitRouteFound`: Transit routing between origin and destination is not possible given current input parameters (other types of routes are available).\n* `noCoverage`: Routing is not possible due to missing transit information at this time.\n* `noStationsFound`: Routing is not possible due to missing stations in a given range.\n* `noAllowedTransitModes`: All transit modes are excluded in the request.\n",
+            "items": {
+              "$ref": "#/components/schemas/Notice"
+            },
+            "type": "array"
+          },
+          "routes": {
+            "description": "List of possible routes.",
+            "items": {
+              "$ref": "#/components/schemas/TransitRoute"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "routes"
+        ]
+      },
+      "TransitRouteSection": {
+        "description": "A transit or pedestrian section of the route.",
+        "discriminator": {
+          "mapping": {
+            "pedestrian": "#/components/schemas/PedestrianSection",
+            "transit": "#/components/schemas/TransitSection"
+          },
+          "propertyName": "type"
+        },
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/PedestrianSection"
+          },
+          {
+            "$ref": "#/components/schemas/TransitSection"
+          }
+        ]
+      },
+      "TransitSection": {
+        "description": "A section of the route. It contains departure, arrival, and route information.",
+        "properties": {
+          "actions": {
+            "description": "Actions that must be done during the travel portion of the section, i.e., between `departure` and `arrival`.\n\n*NOTE:* currentRoad and nextRoad are not populated for actions.\n",
+            "items": {
+              "$ref": "#/components/schemas/OffsetAction"
+            },
+            "type": "array"
+          },
+          "agency": {
+            "$ref": "#/components/schemas/Agency"
+          },
+          "arrival": {
+            "$ref": "#/components/schemas/TransitDeparture"
+          },
+          "attributions": {
+            "description": "List of required attributions to display.",
+            "items": {
+              "$ref": "#/components/schemas/Attribution"
+            },
+            "type": "array"
+          },
+          "booking": {
+            "$ref": "#/components/schemas/WebLink",
+            "deprecated": true,
+            "description": "**NOTE:** Attribute booking is deprecated. Please, use bookingLinks instead of it.\n"
+          },
+          "bookingLinks": {
+            "description": "Links to external ticket booking services",
+            "items": {
+              "$ref": "#/components/schemas/WebLinkWithDeviceType"
+            },
+            "type": "array"
+          },
+          "departure": {
+            "$ref": "#/components/schemas/TransitDeparture"
+          },
+          "fares": {
+            "description": "List of tickets to pay for this section of the route",
+            "items": {
+              "$ref": "#/components/schemas/Fare"
+            },
+            "type": "array"
+          },
+          "id": {
+            "description": "Unique identifier of the section",
+            "type": "string"
+          },
+          "incidents": {
+            "description": "A list of all incidents that apply to the section.",
+            "items": {
+              "$ref": "#/components/schemas/TransitIncident"
+            },
+            "type": "array"
+          },
+          "intermediateStops": {
+            "description": "Intermediate stops between departure and destination of the transit line. It can be missing if this information is not available or not requested.\n",
+            "items": {
+              "$ref": "#/components/schemas/TransitStop"
+            },
+            "type": "array"
+          },
+          "language": {
+            "description": "Language of the localized strings in the section, if any, in BCP47 format.",
+            "type": "string"
+          },
+          "notices": {
+            "description": "Contains a list of issues related to this section of the route.\n",
+            "items": {
+              "$ref": "#/components/schemas/TransitNotice"
+            },
+            "type": "array"
+          },
+          "passthrough": {
+            "description": "List of via waypoints this section is passing through.\n\nEach via waypoint of the request that is a `passThrough=true` waypoint, appears as a\n`Passthrough` in the response. It appears in the section that starts with the closest\nnon-passthrough via specified before it or origin.\n\nThe passthrough vias appear in this list in the order they are traversed. They are\ntraversed in the order they are specified in the request.\n",
+            "items": {
+              "$ref": "#/components/schemas/Passthrough"
+            },
+            "type": "array"
+          },
+          "polyline": {
+            "$ref": "#/components/schemas/Polyline"
+          },
+          "postActions": {
+            "description": "Actions that must be done after `arrival`.",
+            "items": {
+              "$ref": "#/components/schemas/TransitPostAction"
+            },
+            "type": "array"
+          },
+          "preActions": {
+            "description": "Actions that must be done prior to `departure`.",
+            "items": {
+              "$ref": "#/components/schemas/TransitPreAction"
+            },
+            "type": "array"
+          },
+          "spans": {
+            "description": "Span attached to a `Section` describing transit content.\n",
+            "items": {
+              "$ref": "#/components/schemas/TransitSpan"
+            },
+            "type": "array"
+          },
+          "summary": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/BaseSummary"
+              }
+            ],
+            "description": "Total value of key attributes (e.g., duration, length) summed up for the entire section, including `preActions`, `postActions`,\nand the travel portion of the section.\n"
+          },
+          "transport": {
+            "$ref": "#/components/schemas/TransitTransport"
+          },
+          "travelSummary": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/BaseSummary"
+              }
+            ],
+            "description": "Total value of key attributes (e.g., duration, length) summed up for just the travel portion of the section,\nbetween `departure` and `arrival`. `preActions` and `postActions` are excluded.\n"
+          },
+          "turnByTurnActions": {
+            "description": "Actions for turn by turn guidance during the travel portion of the section, i.e., between `departure` and `arrival`.",
+            "items": {
+              "$ref": "#/components/schemas/OffsetAction"
+            },
+            "type": "array"
+          },
+          "type": {
+            "description": "Section type used by the client to identify what extension to the BaseSection are available.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "departure",
+          "arrival"
+        ]
+      },
+      "TransitSpan": {
+        "description": "Contains information attached to a contiguous part of a `Section`. The information may be\nattached along different dimensions of a section which are geometry (spatial), distance or\ntime.\n\nA section, if it uses spans, has an optional attribute `spans` which is an array of\nextended `Span` types.\n\nThe attributes of a span which should be returned in the response are\nconfigured by a request parameter.\n\nUse this type as a base for any span extension for sections that provide spans.\n",
+        "properties": {
+          "countryCode": {
+            "$ref": "#/components/schemas/CountryCode"
+          },
+          "duration": {
+            "$ref": "#/components/schemas/Duration",
+            "description": "Duration of the span."
+          },
+          "length": {
+            "$ref": "#/components/schemas/Distance",
+            "description": "Length of the span.\n"
+          },
+          "names": {
+            "description": "Designated name for the span (e.g. a street name or a transport name)",
+            "items": {
+              "$ref": "#/components/schemas/LocalizedString"
+            },
+            "type": "array"
+          },
+          "offset": {
+            "description": "Offset of a coordinate in the section's polyline.\n",
+            "format": "int32",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "refReplacements": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "Dictionary of placeholders to replacement strings for the compact representation of map entity references.\n\nThis attribute will not appear for HERE Public Transit v8 and HERE Intermodal Routing v8 requests\n",
+            "type": "object"
+          },
+          "segmentId": {
+            "deprecated": true,
+            "description": "**NOTE:** Attribute segmentId is deprecated. Use segmentRef instead.\n\nThe directed topology segment id including prefix (e.g '+here:cm:segment:').\n\nThe id consists of two parts.\n* The direction ('+' or '-')\n* followed by the topology segment id (a unique identifier within the HERE platform catalogs).\n\nThe direction specifies whether the route is using the segment in its canonical direction ('+' aka traveling along the geometry's direction), or against it ('-' aka traveling against the geometry's direction).\n\nThis attribute will not appear for HERE Public Transit v8 and HERE Intermodal Routing v8 requests\n",
+            "type": "string"
+          },
+          "segmentRef": {
+            "description": "A reference to the HMC topology segment used in this span.\n\nThe standard representation of a segment reference has the following structure:\n{catalogHrn}:{catalogVersion}:({layerId})?:{tileId}:{segmentId}(#{direction}({startOffset}..{endOffset})?)?\n\nThe individual parts are:\n* catalogHrn: The HERE Resource Name that identifies the source catalog of the segment, example: hrn:here:data::olp-here:rib-2\n* catalogVersion: The catalog version\n* layerId (optional): The layer inside the catalog where the segment can be found, example: topology-geometry\n* tileId: The HERE tile key of the partition/tile where the segment is located in the given version of the catalog. This can be on a lower level than the actual segment is stored at (for example, the provided tile ID can be on level 14, despite topology-geometry partitions being tiled at level 12). The level of a HERE tile key is indicated by the position of the highest set bit in binary representation. Since the HERE tile key represents a morton code of the x and y portion of the Tile ID, the level 12 tile ID can be retrieved from the level 14 tile ID by removing the 4 least significant bits (or 2 bits per level) or 1 hexadecimal digit. For example, the level 14 tile 377894441 is included in the level 12 tile 23618402 (377894441<sub>10</sub> = 16863629<sub>16</sub> &rightarrow; 1686362<sub>16</sub> = 23618402<sub>10</sub>)\n* segmentId: The identifier of the referenced topology segment inside the catalog, example: here:cm:segment:84905195\n* direction (optional): Either '*' for undirected or bidirectional, '+' for positive direction, '-' for negative direction, or '?' for unknown direction (not used by the routing service)\n* startOffset/endOffset (optional): The start- and end offset are non-negative numbers between 0 and 1, representing the start and end of the referenced range using a proportion of the length of the segment. 0 represents the start and 1 the end of the segment, relative to the indicated direction (or positive direction in case of undirected segments). Example: 0.7..1\n\nThis attribute will not appear for HERE Public Transit v8 and HERE Intermodal Routing v8 requests\n\nExample of a segment reference in standard representation:\nhrn:here:data::olp-here:rib-2:1363::377894441:here:cm:segment:84905195#+0.7..1\n\nThe segment references can also be provided in a compact representation, to reduce the response size. In the compact representation, some parts are replaced by placeholders, which can be resolved using the refReplacements dictionary in the parent section.\nThe placeholder format is ```\\$\\d+``` and needs to be surrounded by colons or string start/end. It can be captured with the following regular expression: ```(^|:)\\$\\d+(:|$)/``` .\n\nExample of the segment reference previously mentioned in compact representation:\n$0:377894441:$1:84905195#+0.7..1\nWith the corresponding refReplacements:\n\"refReplacements\": {\n  \"0\": \"hrn:here:data::olp-here:rib-2:1363:\",\n  \"1\": \"here:cm:segment\"\n}\n",
+            "type": "string"
+          },
+          "stateCode": {
+            "$ref": "#/components/schemas/StateCode"
+          }
+        }
+      },
+      "TransitStop": {
+        "description": "A transit stop of the route",
+        "properties": {
+          "attributes": {
+            "description": "**NOTE:** As it is possible that new attributes are supported in the future, unknown attributes should be ignored.\n",
+            "items": {
+              "$ref": "#/components/schemas/TransitStopAttributes"
+            },
+            "type": "array"
+          },
+          "departure": {
+            "$ref": "#/components/schemas/TransitDeparture"
+          },
+          "duration": {
+            "default": 0,
+            "description": "Stop duration. If not set the vehicle departs as soon as people are on board.",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "departure"
+        ]
+      },
+      "TransitStopAttributes": {
+        "description": "Extensible enum: `noEntry` `noExit` `...`  \nAttributes of a stop.\n\n* `noEntry`: The transport cannot be entered at the stop.\n* `noExit`: The transport cannot be exited at the stop.\n",
+        "type": "string",
+        "x-extensible-enum": [
+          "noEntry",
+          "noExit"
+        ]
+      },
+      "TransitTransport": {
+        "description": "Transit transport information.",
+        "properties": {
+          "category": {
+            "description": "Human readable transport category (such as Bus, Gondola, Tram, Train, ...)",
+            "type": "string"
+          },
+          "color": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Color"
+              }
+            ],
+            "description": "Color of the transport polyline and background for the transport name."
+          },
+          "headsign": {
+            "description": "Transit line headsign",
+            "type": "string"
+          },
+          "longName": {
+            "description": "Long name of a transit line.",
+            "example": "Pankow - Ruhleben",
+            "type": "string"
+          },
+          "mode": {
+            "$ref": "#/components/schemas/TransitModeOutput"
+          },
+          "name": {
+            "description": "Transit line name",
+            "example": "U2",
+            "type": "string"
+          },
+          "shortName": {
+            "description": "Short name of a transit line.",
+            "example": "U2",
+            "type": "string"
+          },
+          "textColor": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Color"
+              }
+            ],
+            "description": "Color of the transport name."
+          }
+        },
+        "required": [
+          "mode"
+        ]
+      },
+      "TurnAction": {
+        "description": "An action in which a direction change is made.\n\n* `ramp`: ramp maneuver, such as \"Take the left ramp onto\"\n* `roundaboutPass`: Going straight on a roundabout maneuver\n* `roundaboutEnter`: Arriving at a destination roundabout maneuver\n* `uTurn`: u-turn maneuver, such as \"Make a right U-turn at\"\n* `turn`: turn maneuver, such as \"Make a sharp right turn at\"\n* `keep`: a maneuver following a fork, such as \"Take the middle fork onto\"\n* `enterHighway`: a maneuver to enter a highway, used for turn-by-turn guidance only\n",
+        "properties": {
+          "action": {
+            "description": "The type of the action.\n\n**NOTE:** The list of possible actions may be extended in the future. The client application should handle such a case gracefully.\n",
+            "type": "string"
+          },
+          "currentRoad": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/RoadInfo"
+              }
+            ],
+            "description": "Attributes of the current road"
+          },
+          "direction": {
+            "$ref": "#/components/schemas/TurnActionDirection"
+          },
+          "duration": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Duration"
+              }
+            ],
+            "description": "Estimated duration of this action (in seconds). Actions last until the next action, or the end of the route in case of the last one."
+          },
+          "exitSign": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ExitInfo"
+              }
+            ],
+            "description": "Attributes of the road exit"
+          },
+          "instruction": {
+            "description": "Description of the action (e.g. Turn left onto Minna St.).",
+            "type": "string"
+          },
+          "intersectionName": {
+            "description": "Name of the intersection where the turn takes place, if available.",
+            "items": {
+              "$ref": "#/components/schemas/LocalizedString"
+            },
+            "type": "array"
+          },
+          "length": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Distance"
+              }
+            ],
+            "description": "Estimated length of this action (in meters). Actions extend until the next action, or the end of the route in case of the last one."
+          },
+          "nextRoad": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/RoadInfo"
+              }
+            ],
+            "description": "Attributes of the next road"
+          },
+          "offset": {
+            "description": "Offset of a coordinate in the section's polyline.",
+            "type": "integer"
+          },
+          "severity": {
+            "$ref": "#/components/schemas/TurnActionSeverity"
+          }
+        },
+        "required": [
+          "action",
+          "duration"
+        ]
+      },
+      "TurnActionDirection": {
+        "description": "Direction of the turn. `middle` is only used by the `keep` action.",
+        "enum": [
+          "middle",
+          "right",
+          "left"
+        ],
+        "type": "string"
+      },
+      "TurnActionSeverity": {
+        "description": "Tightness of the turn. Optional in the `turn` action, unused by other actions.\n\n* `light`: indicates making a light turn\n* `quite`: indicates making a regular turn\n* `heavy`: indicates making a heavy turn\n",
+        "enum": [
+          "light",
+          "quite",
+          "heavy"
+        ],
+        "type": "string"
+      },
+      "UTurnAction": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/TurnAction"
+          }
+        ]
+      },
+      "Units": {
+        "description": "Units of measurement used, for example, in guidance instructions. The default is `metric`.",
+        "enum": [
+          "metric",
+          "imperial"
+        ],
+        "type": "string"
+      },
+      "Uri": {
+        "description": "An URL address that links to a particular resource.",
+        "format": "uri",
+        "type": "string"
+      },
+      "VersionResponse": {
+        "description": "Returns the versions of the service components.",
+        "properties": {
+          "apiVersion": {
+            "description": "The current version of the API.",
+            "type": "string"
+          },
+          "dataVersions": {
+            "description": "Returns the versions of data sets used by the service.",
+            "items": {
+              "$ref": "#/components/schemas/DataVersion"
+            },
+            "type": "array"
+          },
+          "serviceVersion": {
+            "description": "The current version of the service.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "apiVersion"
+        ]
+      },
+      "WalkAttributes": {
+        "description": "Extensible enum: `stairs` `park` `indoor` `open` `noThrough` `tollRoad` `...`  \nWalkAttributes are applied to a span of a route section and describe walk-related attribute\nflags.\n\n* `stairs`: This part of the route is using stairs.\n* `park`: This part of the route is located inside a park.\n* `indoor`: This part of the route is located inside a venue.\n* `open`: This part of the route is open to walking.\n* `noThrough`: This part of the route can only be traversed if origin, destination or any via waypoint is located there.\n* `tollRoad`: This part of the route is restricted with a fee (or toll).\n",
+        "type": "string",
+        "x-extensible-enum": [
+          "stairs",
+          "park",
+          "indoor",
+          "open",
+          "noThrough",
+          "tollRoad"
+        ]
+      },
+      "WebLink": {
+        "description": "The URL address to an external resource.",
+        "properties": {
+          "href": {
+            "$ref": "#/components/schemas/Uri"
+          },
+          "hrefText": {
+            "description": "The interactive (or clickable) portion of the text. If not present (default), the entire content of the text attribute will be considered.\n",
+            "type": "string"
+          },
+          "id": {
+            "description": "Unique identifier for the web link. It is used to deduplicate links defined in multiple sections.",
+            "type": "string"
+          },
+          "text": {
+            "description": "Text describing the url address (e.g. The example website).",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "text"
+        ]
+      },
+      "WebLinkWithDeviceType": {
+        "description": "The URL address to an external resource.",
+        "properties": {
+          "deviceType": {
+            "description": "Extensible enum: `web` `ios` `android` `...`  \nDevice type for which the link is intended\n",
+            "type": "string",
+            "x-extensible-enum": [
+              "web",
+              "ios",
+              "android"
+            ]
+          },
+          "href": {
+            "$ref": "#/components/schemas/Uri"
+          },
+          "hrefText": {
+            "description": "The interactive (or clickable) portion of the text. If not present (default), the entire content of the text attribute will be considered.\n",
+            "type": "string"
+          },
+          "id": {
+            "description": "Unique identifier for the web link. It is used to deduplicate links defined in multiple sections.",
+            "type": "string"
+          },
+          "text": {
+            "description": "Text describing the url address (e.g. The example website).",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "text"
+        ]
+      },
+      "WheelchairAccessibility": {
+        "default": "unknown",
+        "description": "Defines accessibility for people with a disability and who use a wheelchair.\n\n* `unknown` - Information is not available.\n* `yes` - Full unrestricted accessibility.\n* `limited` - Accessibility is limited, not everywhere or require assistance.\n* `no` - No accessibility.\n",
+        "enum": [
+          "unknown",
+          "yes",
+          "limited",
+          "no"
+        ],
+        "type": "string"
+      }
+    },
+    "securitySchemes": {
+      "ApiKey": {
+        "description": "A key generated specifically to authenticate API requests. For more information on how to get an API key, see https://developer.here.com/documentation/identity-access-management/dev_guide/index.html.\n",
+        "in": "query",
+        "name": "apiKey",
+        "type": "apiKey"
+      },
+      "Bearer": {
+        "bearerFormat": "JWT",
+        "description": "A token obtained from a separate endpoint using client credentials and an OAuth 1.0a HMAC-SHA256 signed request.\nFor more information on how to get a bearer token, see https://developer.here.com/documentation/identity-access-management/dev_guide/index.html.\n",
+        "scheme": "bearer",
+        "type": "http"
+      }
+    }
+  }
+}

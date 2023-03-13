@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>APIs.guru OpenAPI directory RSS feed</title>
+    <link>https://mobidatalab.github.io/mdl-catalog-api/v2/list.rss</link>
+    <atom:link rel="self" href="https://mobidatalab.github.io/mdl-catalog-api/v2/list.rss" type="application/rss+xml"/>
+    <description>APIs.guru OpenAPI directory RSS feed</description>
+    <webMaster>huyminh.nguyen@here.com (Mike Ralphson)</webMaster>
+    <pubDate>Mon, 13 Mar 2023 18:33:15 GMT</pubDate>
+    <generator>openapi-directory https://github.com/apis-guru/openapi-directory</generator>
+    <item>
+      <title>Intermodal Routing</title>
+      <link>https://developer.here.com/documentation/intermodal-routing/swagger/intermodal_api.yaml</link>
+      <description>Intermodal Routing is a REST API that offers an innovative and smart routing</description>
+      <category>APIs</category>
+      <guid isPermaLink="false">here.com:intermodal-routing</guid>
+      <pubDate>Mon, 13 Mar 2023 18:30:49 GMT</pubDate>
+      <enclosure url="https://mobidatalab.github.io/mdl-catalog-api/v2/cache/logo/https_avatars.githubusercontent.com_u_2835506.png" length="15026" type="image/png"/>
+    </item>
+    <item>
+      <title>HERE Network Positioning API v2</title>
+      <link>https://developer.here.com/documentation/positioning-api/swagger/positioning-v2-external-spec.yaml</link>
+      <description>Positioning API accepts requests with radio network measurements and replies with corresponding location estimate. For more details and examples, see Developer&apos;s Guide. Cellular measurements are given in terms defined in 3GPP and 3GGP2 specifications, see the corresponding documentation at http://www.3gpp.org.</description>
+      <category>APIs</category>
+      <guid isPermaLink="false">here.com:positioning</guid>
+      <pubDate>Mon, 13 Mar 2023 18:30:49 GMT</pubDate>
+      <enclosure url="https://mobidatalab.github.io/mdl-catalog-api/v2/cache/logo/https_avatars.githubusercontent.com_u_2835506.png" length="15026" type="image/png"/>
+    </item>
+    <item>
+      <title>Routing API v8</title>
+      <link>https://developer.here.com/documentation/routing-api/swagger/v8.yaml</link>
+      <description>A location service providing customizable route calculations for a variety of vehicle types as well as pedestrian modes.</description>
+      <category>APIs</category>
+      <guid isPermaLink="false">here.com:routing</guid>
+      <pubDate>Mon, 13 Mar 2023 18:30:49 GMT</pubDate>
+      <enclosure url="https://mobidatalab.github.io/mdl-catalog-api/v2/cache/logo/https_avatars.githubusercontent.com_u_2835506.png" length="15026" type="image/png"/>
+    </item>
+    <item>
+      <title>Intermodal Routing</title>
+      <link>https://developer.here.com/documentation/intermodal-routing/swagger/intermodal_api.yaml</link>
+      <description>Intermodal Routing is a REST API that offers an innovative and smart routing</description>
+      <category>APIs</category>
+      <guid isPermaLink="false">here.com:routing-intermodal</guid>
+      <pubDate>Mon, 13 Mar 2023 18:30:49 GMT</pubDate>
+      <enclosure url="https://mobidatalab.github.io/mdl-catalog-api/v2/cache/logo/https_avatars.githubusercontent.com_u_2835506.png" length="15026" type="image/png"/>
+    </item>
+    <item>
+      <title>HERE Tracking</title>
+      <link>https://developer.here.com/documentation/tracking/swagger/swagger.json</link>
+      <description>HERE Tracking is a cloud product designed to address location tracking problems for a wide range of Location IoT industry verticals.</description>
+      <category>APIs</category>
+      <guid isPermaLink="false">here.com:tracking</guid>
+      <pubDate>Mon, 13 Mar 2023 18:30:49 GMT</pubDate>
+      <enclosure url="https://mobidatalab.github.io/mdl-catalog-api/v2/cache/logo/https_avatars.githubusercontent.com_u_2835506.png" length="15026" type="image/png"/>
+    </item>
+    <item>
+      <title>Traffic API v7</title>
+      <link>https://developer.here.com/documentation/traffic-api/swagger/traffic-v7-openapi.yml</link>
+      <description>The HERE Traffic API is a REST API that provides traffic flow and incidents information.</description>
+      <category>APIs</category>
+      <guid isPermaLink="false">here.com:traffic</guid>
+      <pubDate>Mon, 13 Mar 2023 18:30:49 GMT</pubDate>
+      <enclosure url="https://mobidatalab.github.io/mdl-catalog-api/v2/cache/logo/https_avatars.githubusercontent.com_u_2835506.png" length="15026" type="image/png"/>
+    </item>
+    <item>
+      <title>Public Transit</title>
+      <link>https://developer.here.com/documentation/public-transit/swagger/transit_api.yaml</link>
+      <description>Public Transit is a set of three REST APIs that provides public transit</description>
+      <category>APIs</category>
+      <guid isPermaLink="false">here.com:transit</guid>
+      <pubDate>Mon, 13 Mar 2023 18:30:49 GMT</pubDate>
+      <enclosure url="https://mobidatalab.github.io/mdl-catalog-api/v2/cache/logo/https_avatars.githubusercontent.com_u_2835506.png" length="15026" type="image/png"/>
+    </item>
+    <item>
+      <title>Vector Tile</title>
+      <link>https://developer.here.com/documentation/vector-tiles-api/swagger/vectortiles-v2-openapi.yml</link>
+      <description>The Vector Tile API allows you to request tiles containing vector data using content from the HERE platform. Our vector tiles use Web Mercator projection and follow the Vector Tile Specification. This format contains geometries, such as points and lines, that define polygons, labels, such as road names or city names, and other kinds of data that are typically passed to a renderer to draw a map. The tiles are optimized to be visualized as 512 screen pixels per tile. The Vector Tile API supports the standard HTTP status codes</description>
+      <category>APIs</category>
+      <guid isPermaLink="false">here.com:vectortiles</guid>
+      <pubDate>Mon, 13 Mar 2023 18:30:49 GMT</pubDate>
+      <enclosure url="https://mobidatalab.github.io/mdl-catalog-api/v2/cache/logo/https_avatars.githubusercontent.com_u_2835506.png" length="15026" type="image/png"/>
+    </item>
+    <item>
+      <title>Maps</title>
+      <link>https://developer.tomtom.com/system/files/swagger_models/maps_api_0.yaml</link>
+      <description>The Maps API web services suite offers the following APIs:</description>
+      <category>APIs</category>
+      <guid isPermaLink="false">tomtom.com:maps</guid>
+      <pubDate>Mon, 13 Mar 2023 18:30:49 GMT</pubDate>
+      <enclosure url="https://mobidatalab.github.io/mdl-catalog-api/v2/cache/logo/https_twitter.com_TomTom_profile_image.jpeg" length="15026" type="image/jpeg"/>
+    </item>
+    <item>
+      <title>Routing</title>
+      <link>https://developer.tomtom.com/system/files/swagger_models/routing_api.yaml</link>
+      <description>Routing consists of the following service:</description>
+      <category>APIs</category>
+      <guid isPermaLink="false">tomtom.com:routing</guid>
+      <pubDate>Mon, 13 Mar 2023 18:30:49 GMT</pubDate>
+      <enclosure url="https://mobidatalab.github.io/mdl-catalog-api/v2/cache/logo/https_twitter.com_TomTom_profile_image.jpeg" length="15026" type="image/jpeg"/>
+    </item>
+    <item>
+      <title>Search</title>
+      <link>https://developer.tomtom.com/system/files/swagger_models/search_api.yaml</link>
+      <description>Search API is a RESTful API that allows developers to run a single line fuzzy search for addresses and POIs. Search API returns the latitude/longitude of a specific address, cross street, geographic feature, or point of interest (POI).</description>
+      <category>APIs</category>
+      <guid isPermaLink="false">tomtom.com:search</guid>
+      <pubDate>Mon, 13 Mar 2023 18:30:49 GMT</pubDate>
+      <enclosure url="https://mobidatalab.github.io/mdl-catalog-api/v2/cache/logo/https_twitter.com_TomTom_profile_image.jpeg" length="15026" type="image/jpeg"/>
+    </item>
+  </channel>
+</rss>
